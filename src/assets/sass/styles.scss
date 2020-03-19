@@ -1,0 +1,34 @@
+@import "_common/config";
+@import "_common/function";
+@import "_common/mixin";
+@import "_common/keyframe";
+@import "_common/reset";
+
+/*--------------------------------------------------------------------------
+	styles
+--------------------------------------------------------------------------*/
+html,body{
+	overflow: hidden;
+	height: 100%;
+
+}
+#wrapper{
+	height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+	position: relative;
+}
+
+
+h1{
+	font-size: 2.4rem;
+	margin: 0 0 20px 10px;
+}
+
+canvas{
+	width: 512px;
+	height: 512px;
+	background: #000;
+}
+

@@ -1,7 +1,3 @@
-console.log("common");
+import * as days from "./days";
 
-// import source from '../../shader/default.vert';
-import source from '$shader/default.vert';
-console.log(source);
-
-
+global.days = days;

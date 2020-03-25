@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html lang="ja">
-
-<head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#">
+<head>
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="format-detection" content="telephone=no,address=no,email=no">
-	<title>サンプル</title>
+	<title>Day001</title>
 	<link rel="stylesheet" href="assets/css/styles.css" media="all">
 </head>
 
@@ -17,7 +16,14 @@
 			<canvas id="canvas"></canvas>
 		</div>
 	</div>
+
 	<script src="assets/js/scripts.js"></script>
-	<script>console.log(window.entries.Day001);</script>
+	<script>
+		let paths = location.href.split("/");
+		let path = paths.find(item => -1 < item.indexOf(".html"));
+		let fileName = path.replace(".html", "");
+		let className = fileName.charAt(0).toUpperCase() + fileName.slice(1);
+		new days[className]();
+	</script>
 </body>
 </html>

@@ -69,6 +69,7 @@ config.webpack = {
       alias: {
         $ink: path.resolve("./", "src/assets/js/libs/inkjs"),
         $scripts: path.resolve("./", "src/assets/js/scripts/scripts"),
+        $utils: path.resolve("./", "src/assets/js/scripts/utils"),
         $shader: path.resolve("./", "src/assets/shader"),
       }
     },
@@ -77,25 +78,6 @@ config.webpack = {
 			new ProvidePlugin({
 				Promise: "es6-promise",
 			}),
-			// ファイル連結
-			// new ConcatPlugin({
-			// 	uglify: false,
-			// 	sourceMap: false,
-			// 	name: "libs",
-			// 	outputPath: "./",
-			// 	fileName: "[name].js",
-			// 	filesToConcat: [
-			// 		// npm
-			// 		// "./node_modules/jquery/dist/jquery.min.js",
-			// 		// "./node_modules/velocity-animate/velocity.min.js",
-			// 		// libs
-			// 		`${config.src}assets/js/libs/core/**/*.js`,
-			// 		`${config.src}assets/js/libs/plugins/**/*.js`
-			// 	],
-			// 	attributes: {
-			// 		async: false
-			// 	}
-			// }),
 		],
 		optimization: {
 			minimizer: [

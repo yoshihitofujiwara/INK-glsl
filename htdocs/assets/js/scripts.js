@@ -8062,15 +8062,12 @@ function log() {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Day001; });
-/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! three */ "./node_modules/three/build/three.module.js");
-/* harmony import */ var $utils_RenderManager__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! $utils/RenderManager */ "./src/assets/js/scripts/utils/RenderManager.js");
-/* harmony import */ var $utils_ShaderPlaneMesh__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! $utils/ShaderPlaneMesh */ "./src/assets/js/scripts/utils/ShaderPlaneMesh.js");
-/* harmony import */ var $utils_debug__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! $utils/debug */ "./src/assets/js/scripts/utils/debug.js");
+/* harmony import */ var $utils_RenderManager__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! $utils/RenderManager */ "./src/assets/js/scripts/utils/RenderManager.js");
+/* harmony import */ var $utils_ShaderPlaneMesh__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! $utils/ShaderPlaneMesh */ "./src/assets/js/scripts/utils/ShaderPlaneMesh.js");
+/* harmony import */ var $utils_Debug__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! $utils/Debug */ "./src/assets/js/scripts/utils/Debug.js");
+/* harmony import */ var $shader_days_day001_frag__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! $shader/days/day001.frag */ "./src/assets/shader/days/day001.frag");
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-// console.log("scripts");
-// import source from '../../shader/default.vert';
-// console.log(source);
 
 
 
@@ -8079,10 +8076,11 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 var Day001 = function Day001() {
   _classCallCheck(this, Day001);
 
-  var debug = new $utils_debug__WEBPACK_IMPORTED_MODULE_3__["default"]();
-  var mesh = new $utils_ShaderPlaneMesh__WEBPACK_IMPORTED_MODULE_2__["default"](null, {// fragmentShader: fragmentShader
+  var debug = new $utils_Debug__WEBPACK_IMPORTED_MODULE_2__["default"]();
+  var mesh = new $utils_ShaderPlaneMesh__WEBPACK_IMPORTED_MODULE_1__["default"](null, {
+    fragmentShader: $shader_days_day001_frag__WEBPACK_IMPORTED_MODULE_3__["default"]
   });
-  this.renderManager = new $utils_RenderManager__WEBPACK_IMPORTED_MODULE_1__["default"](document.querySelector("#canvas"));
+  this.renderManager = new $utils_RenderManager__WEBPACK_IMPORTED_MODULE_0__["default"](document.querySelector("#canvas"));
   this.renderManager.scene.add(mesh);
   this.renderManager.start(); // @event
 
@@ -8130,6 +8128,53 @@ __webpack_require__.r(__webpack_exports__);
 
 global.days = _days__WEBPACK_IMPORTED_MODULE_0__;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../node_modules/webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
+
+/***/ }),
+
+/***/ "./src/assets/js/scripts/utils/Debug.js":
+/*!**********************************************!*\
+  !*** ./src/assets/js/scripts/utils/Debug.js ***!
+  \**********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Debug; });
+/* harmony import */ var stats_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! stats-js */ "./node_modules/stats-js/build/stats.min.js");
+/* harmony import */ var stats_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(stats_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var dat_gui__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! dat.gui */ "./node_modules/dat.gui/build/dat.gui.module.js");
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+
+
+
+var Debug =
+/*#__PURE__*/
+function () {
+  function Debug() {
+    _classCallCheck(this, Debug);
+
+    this.gui = new dat_gui__WEBPACK_IMPORTED_MODULE_1__["GUI"]();
+    this.stats = new stats_js__WEBPACK_IMPORTED_MODULE_0___default.a();
+    document.body.appendChild(this.stats.dom);
+  }
+
+  _createClass(Debug, [{
+    key: "update",
+    value: function update() {
+      this.stats.update(); // requestAnimationFrame(this.update.bind(this));
+    }
+  }]);
+
+  return Debug;
+}();
+
+
 
 /***/ }),
 
@@ -8191,14 +8236,15 @@ function (_EventDispatcher) {
     _this.canvas = canvas; // renderer
 
     _this.renderer = new three__WEBPACK_IMPORTED_MODULE_0__["WebGLRenderer"]({
-      canvas: _this.canvas // antialias: true,
-      // alpha: true
-
+      canvas: _this.canvas,
+      // antialias: true,
+      alpha: true
     });
 
-    _this.renderer.setClearColor(0xFFFFFF, 0);
+    _this.renderer.setClearColor(0xFFFFFF, 0); // this.renderer.setPixelRatio(window.devicePixelRatio);
 
-    _this.renderer.setPixelRatio(window.devicePixelRatio);
+
+    _this.renderer.setPixelRatio(1);
 
     _this.renderer.setSize(_this.params.width, _this.params.height); // camera
 
@@ -8324,8 +8370,8 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
-var VERTEX_SHADER = "\nvoid main() {\n  gl_Position = vec4( position, 1.0 );\n}";
-var FRAGMENT_SHADER = "\nuniform vec2 u_resolution;\nuniform float u_time;\nuniform float u_mouse;\n\nvoid main() {\n  vec2 st = gl_FragCoord.xy/u_resolution.xy;\n  gl_FragColor=vec4(st.x, st.y, 0.0, 1.0);\n}";
+var VERTEX_SHADER = "\nvarying vec2 vUv;\n\nvoid main() {\n  vUv = uv;\n  gl_Position = vec4( position, 1.0 );\n}";
+var FRAGMENT_SHADER = "\n// precision highp float;\nprecision mediump float;\n\nuniform vec2 u_resolution;\nuniform float u_time;\nuniform float u_mouse;\n\nvoid main() {\n  vec2 st = gl_FragCoord.xy/u_resolution.xy;\n  gl_FragColor=vec4(st.x, st.y, 0.0, 1.0);\n}";
 
 var ShaderPlaneMesh =
 /*#__PURE__*/
@@ -8363,7 +8409,8 @@ function (_Mesh) {
         }
       },
       vertexShader: VERTEX_SHADER,
-      fragmentShader: FRAGMENT_SHADER
+      fragmentShader: FRAGMENT_SHADER,
+      transparent: true
     }, materialParams);
     var material = new three__WEBPACK_IMPORTED_MODULE_0__["ShaderMaterial"](mParams);
     return _possibleConstructorReturn(this, _getPrototypeOf(ShaderPlaneMesh).call(this, geometry, material));
@@ -8376,51 +8423,16 @@ function (_Mesh) {
 
 /***/ }),
 
-/***/ "./src/assets/js/scripts/utils/debug.js":
-/*!**********************************************!*\
-  !*** ./src/assets/js/scripts/utils/debug.js ***!
-  \**********************************************/
+/***/ "./src/assets/shader/days/day001.frag":
+/*!********************************************!*\
+  !*** ./src/assets/shader/days/day001.frag ***!
+  \********************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Debug; });
-/* harmony import */ var stats_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! stats-js */ "./node_modules/stats-js/build/stats.min.js");
-/* harmony import */ var stats_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(stats_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var dat_gui__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! dat.gui */ "./node_modules/dat.gui/build/dat.gui.module.js");
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-
-
-
-var Debug =
-/*#__PURE__*/
-function () {
-  function Debug() {
-    _classCallCheck(this, Debug);
-
-    this.gui = new dat_gui__WEBPACK_IMPORTED_MODULE_1__["GUI"]();
-    console.log(dat_gui__WEBPACK_IMPORTED_MODULE_1__);
-    this.stats = new stats_js__WEBPACK_IMPORTED_MODULE_0___default.a();
-    document.body.appendChild(this.stats.dom);
-  }
-
-  _createClass(Debug, [{
-    key: "update",
-    value: function update() {
-      this.stats.update(); // requestAnimationFrame(this.update.bind(this));
-    }
-  }]);
-
-  return Debug;
-}();
-
-
+/* harmony default export */ __webpack_exports__["default"] = ("// precision highp float;\nprecision mediump float;\n#define GLSLIFY 1\n\nuniform vec2 u_resolution;\nuniform float u_time;\nuniform float u_mouse;\n\nvarying vec2 vUv;\n\nvec4 circle(vec2 position, vec2 offset, float radius, vec4 color){\n\tfloat len=length(offset-position);\n\treturn vec4(color.rgb, color.a * (1.-step(radius,len)));\n}\n\nbool inCircle(vec2 position,vec2 offset,float radius){\n\tfloat len=length(position-offset);\n\tif(len<radius){\n\t\treturn true;\n\t}\n\treturn false;\n}\n\nvoid main(){\n\tvec2 st=gl_FragCoord.xy/u_resolution.xy;\n\n\t// circle\n\t// gl_FragColor = circle(st, vec2(0.5), 0.5, vec4(.5, 1., .0, .5));\n\n\t// inCircle\n\tif(inCircle(st,vec2(.5),.5)){\n\t\tgl_FragColor = vec4(1.0);\n\t}\n\n}\n");
 
 /***/ })
 

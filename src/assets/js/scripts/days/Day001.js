@@ -1,12 +1,7 @@
-// console.log("scripts");
-// import source from '../../shader/default.vert';
-// console.log(source);
-
-import { PlaneBufferGeometry, ShaderMaterial, Mesh, Vector2} from "three";
-
 import RenderManager from "$utils/RenderManager";
 import ShaderPlaneMesh from "$utils/ShaderPlaneMesh";
 import Debug from '$utils/Debug';
+import dayFrag from "$shader/days/day001.frag";
 
 
 export default class Day001{
@@ -14,8 +9,8 @@ export default class Day001{
     let debug = new Debug();
 
     let mesh = new ShaderPlaneMesh(null, {
-      // fragmentShader: fragmentShader
-    })
+      fragmentShader: dayFrag
+    });
 
     this.renderManager = new RenderManager(document.querySelector("#canvas"));
     this.renderManager.scene.add(mesh);

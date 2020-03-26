@@ -5,7 +5,6 @@ import * as dat from "dat.gui";
 export default class Debug{
   constructor(){
     this.gui = new dat.GUI();
-    console.log(dat);
     this.stats =  new Stats();
     document.body.appendChild(this.stats.dom);
   }

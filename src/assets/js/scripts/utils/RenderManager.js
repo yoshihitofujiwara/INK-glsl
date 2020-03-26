@@ -22,10 +22,11 @@ export default class RenderManager extends EventDispatcher {
 		this.renderer = new WebGLRenderer({
 			canvas: this.canvas,
 			// antialias: true,
-			// alpha: true
+			alpha: true
 		});
 		this.renderer.setClearColor(0xFFFFFF, 0);
-		this.renderer.setPixelRatio(window.devicePixelRatio);
+		// this.renderer.setPixelRatio(window.devicePixelRatio);
+		this.renderer.setPixelRatio(1);
 		this.renderer.setSize(this.params.width, this.params.height);
 
     // camera

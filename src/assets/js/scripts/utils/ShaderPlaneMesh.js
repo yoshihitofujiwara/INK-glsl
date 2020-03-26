@@ -3,11 +3,17 @@ import { mixin } from "$ink/utils/utility";
 
 
 const VERTEX_SHADER = `
+varying vec2 vUv;
+
 void main() {
+  vUv = uv;
   gl_Position = vec4( position, 1.0 );
 }`;
 
 const FRAGMENT_SHADER = `
+// precision highp float;
+precision mediump float;
+
 uniform vec2 u_resolution;
 uniform float u_time;
 uniform float u_mouse;
@@ -48,6 +54,7 @@ export default class ShaderPlaneMesh extends Mesh {
        },
        vertexShader: VERTEX_SHADER,
        fragmentShader: FRAGMENT_SHADER,
+        transparent: true
       },
       materialParams
     );

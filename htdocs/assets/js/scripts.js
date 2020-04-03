@@ -8099,17 +8099,68 @@ var Day001 = function Day001() {
 
 /***/ }),
 
+/***/ "./src/assets/js/scripts/days/Day002.js":
+/*!**********************************************!*\
+  !*** ./src/assets/js/scripts/days/Day002.js ***!
+  \**********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Day002; });
+/* harmony import */ var $utils_RenderManager__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! $utils/RenderManager */ "./src/assets/js/scripts/utils/RenderManager.js");
+/* harmony import */ var $utils_ShaderPlaneMesh__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! $utils/ShaderPlaneMesh */ "./src/assets/js/scripts/utils/ShaderPlaneMesh.js");
+/* harmony import */ var $utils_Debug__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! $utils/Debug */ "./src/assets/js/scripts/utils/Debug.js");
+/* harmony import */ var $shader_days_day002_frag__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! $shader/days/day002.frag */ "./src/assets/shader/days/day002.frag");
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+
+
+
+
+
+var Day002 = function Day002() {
+  _classCallCheck(this, Day002);
+
+  var debug = new $utils_Debug__WEBPACK_IMPORTED_MODULE_2__["default"]();
+  var mesh = new $utils_ShaderPlaneMesh__WEBPACK_IMPORTED_MODULE_1__["default"](null, {
+    fragmentShader: $shader_days_day002_frag__WEBPACK_IMPORTED_MODULE_3__["default"]
+  });
+  this.renderManager = new $utils_RenderManager__WEBPACK_IMPORTED_MODULE_0__["default"](document.querySelector("#canvas"));
+  this.renderManager.scene.add(mesh);
+  this.renderManager.start(); // @event
+
+  this.renderManager.addEventListener("update", function (params) {
+    mesh.material.uniformsNeedUpdate = true;
+    mesh.material.uniforms.u_time.value = params.time;
+    debug.update();
+  });
+  this.renderManager.canvas.addEventListener("mousemove", function (e) {
+    mesh.material.uniforms.u_mouse.value.x = e.offsetX;
+    mesh.material.uniforms.u_mouse.value.y = e.offsetY;
+  });
+};
+
+
+
+/***/ }),
+
 /***/ "./src/assets/js/scripts/days/index.js":
 /*!*********************************************!*\
   !*** ./src/assets/js/scripts/days/index.js ***!
   \*********************************************/
-/*! exports provided: Day001 */
+/*! exports provided: Day001, Day002 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Day001__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Day001 */ "./src/assets/js/scripts/days/Day001.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day001", function() { return _Day001__WEBPACK_IMPORTED_MODULE_0__["default"]; });
+
+/* harmony import */ var _Day002__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Day002 */ "./src/assets/js/scripts/days/Day002.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day002", function() { return _Day002__WEBPACK_IMPORTED_MODULE_1__["default"]; });
+
 
 
 
@@ -8127,6 +8178,38 @@ __webpack_require__.r(__webpack_exports__);
 /* WEBPACK VAR INJECTION */(function(global) {/* harmony import */ var _days__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./days */ "./src/assets/js/scripts/days/index.js");
 
 global.days = _days__WEBPACK_IMPORTED_MODULE_0__;
+var path = location.href.split("/").find(function (item) {
+  return -1 < item.indexOf(".html");
+});
+
+if (path) {
+  // init
+  var fileName = path.replace(".html", "");
+  var className = fileName.charAt(0).toUpperCase() + fileName.slice(1);
+  new _days__WEBPACK_IMPORTED_MODULE_0__[className](); // parger
+
+  var current = +fileName.replace("day", "");
+  document.getElementById("prev").addEventListener("click", function () {
+    var prev = current - 1;
+    var prevPage = "./";
+
+    if (prev) {
+      var _prev = prev.toString();
+
+      prevPage = "./day" + Math.pow(10, 3 - _prev.length).toString().slice(1) + _prev + ".html";
+    }
+
+    location.href = prevPage;
+  });
+  document.getElementById("next").addEventListener("click", function () {
+    var next = current + 1;
+
+    var _next = next.toString();
+
+    var nextPage = "./day" + Math.pow(10, 3 - _next.length).toString().slice(1) + _next + ".html";
+    location.href = nextPage;
+  });
+}
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../node_modules/webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
 
 /***/ }),
@@ -8432,7 +8515,20 @@ function (_Mesh) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("// precision highp float;\nprecision mediump float;\n#define GLSLIFY 1\n\nuniform vec2 u_resolution;\nuniform float u_time;\nuniform float u_mouse;\n\nvarying vec2 vUv;\n\nvec4 circle(vec2 position, vec2 offset, float radius, vec4 color){\n\tfloat len=length(offset-position);\n\treturn vec4(color.rgb, color.a * (1.-step(radius,len)));\n}\n\nbool inCircle(vec2 position,vec2 offset,float radius){\n\tfloat len=length(position-offset);\n\tif(len<radius){\n\t\treturn true;\n\t}\n\treturn false;\n}\n\nvoid main(){\n\tvec2 st=gl_FragCoord.xy/u_resolution.xy;\n\n\t// circle\n\t// gl_FragColor = circle(st, vec2(0.5), 0.5, vec4(.5, 1., .0, .5));\n\n\t// inCircle\n\tif(inCircle(st,vec2(.5),.5)){\n\t\tgl_FragColor = vec4(1.0);\n\t}\n\n}\n");
+/* harmony default export */ __webpack_exports__["default"] = ("// precision highp float;\nprecision mediump float;\n#define GLSLIFY 1\n\nuniform vec2 u_resolution;\nuniform float u_time;\nuniform float u_mouse;\n\nvarying vec2 vUv;\n\nvec4 circle(vec2 position, vec2 offset, float radius, vec4 color){\n\tfloat len=length(offset-position);\n\treturn vec4(color.rgb, color.a * (1.-step(radius,len)));\n}\n\nbool inCircle(vec2 position,vec2 offset,float radius){\n\tfloat len=length(position-offset);\n\tif(len<radius){\n\t\treturn true;\n\t}\n\treturn false;\n}\n\nvoid main(){\n\tvec2 st=gl_FragCoord.xy/u_resolution.xy;\n\n\t// circle\n\tgl_FragColor = circle(st, vec2(0.5), 0.3, vec4(0.3804, 0.7647, 0.8784, 1.0));\n\n\t// inCircle\n\t// if(inCircle(st, vec2(.5), .5)){\n\t// \tgl_FragColor = vec4(0.3804, 0.7647, 0.8784, 1.0);\n\t// }\n}\n");
+
+/***/ }),
+
+/***/ "./src/assets/shader/days/day002.frag":
+/*!********************************************!*\
+  !*** ./src/assets/shader/days/day002.frag ***!
+  \********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ("// precision highp float;\nprecision mediump float;\n#define GLSLIFY 1\n\nuniform vec2 u_resolution;\nuniform float u_time;\nuniform float u_mouse;\n\nvarying vec2 vUv;\n\nfloat PI2_0 = 6.283185307179586;\nfloat antialias_0 = .005;\n\nvec4 polygon(vec2 position, vec2 offset, int vert, float radius, vec4 color){\n\tvec2 p = offset-position;\n\tfloat a=atan(p.x, p.y);\n\tfloat b=PI2_0/float(vert);\n\n\tfloat amount = smoothstep(\n\t\tradius,\n\t\tradius + antialias_0,\n\t\tcos(floor(.5 + a/b) * b - a) * length(p.xy)\n\t);\n\n\treturn color * vec4(1.0 - amount);\n}\n\nfloat PI2_1 = 6.283185307179586;\nfloat antialias_1 = .005;\n\nbool inPolygon(vec2 position, vec2 offset, int vert, float radius){\n\tvec2 p = offset-position;\n\tfloat a=atan(p.x, p.y);\n\tfloat b=PI2_1/float(vert);\n\n\tfloat amount = smoothstep(\n\t\tradius,\n\t\tradius + antialias_1,\n\t\tcos(floor(.5 + a/b) * b - a) * length(p.xy)\n\t);\n\n\tif(amount == 0.0){\n\t\treturn true;\n\t}\n\treturn false;\n}\n\n// SEE: https://thndl.com/square-shaped-shaders.html\n\nvoid main(){\n\tvec2 st=gl_FragCoord.xy/u_resolution.xy;\n\tvec2 c = (vec2(0.5) - st) * 2.0;\n\n\t// polygon\n\t// gl_FragColor = polygon(st, vec2(0.5), 6, 0.3, vec4(0.3804, 0.7647, 0.8784, 1.0));\n\n\t// inPolygon\n\tif(inPolygon(st, vec2(0.5), 6, 0.3)){\n\t\tgl_FragColor = vec4(0.3804, 0.7647, 0.8784, 1.0);\n\t}\n}\n");
 
 /***/ })
 

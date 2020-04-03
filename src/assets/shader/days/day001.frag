@@ -15,11 +15,10 @@ void main(){
 	vec2 st=gl_FragCoord.xy/u_resolution.xy;
 
 	// circle
-	// gl_FragColor = circle(st, vec2(0.5), 0.5, vec4(.5, 1., .0, .5));
+	gl_FragColor = circle(st, vec2(0.5), 0.3, vec4(0.3804, 0.7647, 0.8784, 1.0));
 
 	// inCircle
-	if(inCircle(st,vec2(.5),.5)){
-		gl_FragColor = vec4(1.0);
-	}
-
+	// if(inCircle(st, vec2(.5), .5)){
+	// 	gl_FragColor = vec4(0.3804, 0.7647, 0.8784, 1.0);
+	// }
 }

@@ -1,5 +1,15 @@
 
 
+回転
+スケール
+移動
+skew
+複製
+
+＋
+★
+
+
 ---
 
 
@@ -11,24 +21,6 @@ node: 10.16.0
 npm: 6.9.0
 gulp: 4.0.2
 webpack: 4.32.2
-```
-
-### ファイル構成
-```
-web-starter-kit/
-│
-├ gulpfile.babel.js/
-│ ├ config.js [taskのパラメーター設定]
-│ ├ index.js [gulp task設定]
-│ └ tasks/ [taskファイル置き場]
-│   └ task files...
-│
-├ htdocs/ [公開コード]
-├ src/ [開発コード]
-├ .gitignore (仮)
-├ package-look.json
-├ package.json
-└ README.md
 ```
 
 ### コマンドリスト

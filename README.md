@@ -1,13 +1,13 @@
+shape:＋,★
+湾曲
 
+ripple
+disorsion
 
-回転
-スケール
-移動
 skew
-複製
 
-＋
-★
+
+effects: glow
 
 
 ---

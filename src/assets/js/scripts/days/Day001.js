@@ -5,6 +5,11 @@ import dayFrag from "$shader/days/day001.frag";
 
 
 export default class Day001{
+  static title(){
+    return "Circle";
+  }
+
+
   constructor(){
     let debug = new Debug();
 

@@ -3,37 +3,51 @@ import * as days from "./days";
 global.days = days;
 
 
-let path = location.href.split("/").find(item => -1 < item.indexOf(".html"));
+window.addEventListener("hashchange", ()=>{
+  location.reload();
+}, false);
 
-if(path){
-  // init
-  let fileName = path.replace(".html", "");
-  let className = fileName.charAt(0).toUpperCase() + fileName.slice(1);
-  new days[className]();
 
-  // parger
-  let current = +fileName.replace("day", "");
+let fileName = location.href.split("#").find(item => -1 < item.indexOf("Day"));
 
-  document.getElementById("prev").addEventListener("click", ()=>{
-    let prev = current - 1;
-    let prevPage = "./";
-    if(prev){
-      let _prev = prev.toString();
-      prevPage = "./day" + (Math.pow(10,  (3 - _prev.length))).toString().slice(1) + _prev + ".html";
-    }
-    location.href = prevPage;
-  });
 
-  document.getElementById("next").addEventListener("click", ()=>{
-    let next = current + 1;
-    let _next = next.toString();
-    let nextPage = "./day" + (Math.pow(10,  (3 - _next.length))).toString().slice(1) + _next + ".html";
-    location.href = nextPage;
-  });
+if(fileName){ // day
+  new days[fileName]();
+  document.querySelector("h1").innerHTML = days[fileName].title();
+
+  let current = +fileName.replace("Day", "");
+  let prev = current - 1;
+  let $prev = document.getElementById("prev");
+
+  if(prev){
+    $prev.addEventListener("click", ()=>{
+      prev = prev.toString();
+      location.hash = "#Day" + (Math.pow(10,  (3 - prev.length))).toString().slice(1) + prev;
+    });
+  } else {
+    $prev.parentNode.removeChild($prev);
+  }
+
+  let last =  "Day" + (Math.pow(10,  (3 - current.toString().length))).toString().slice(1) + (current + 1);
+  let $next = document.getElementById("next");
+
+  if(days[last]){
+    $next.addEventListener("click", ()=>{
+      let next = (current + 1).toString();
+      let nextPage = "#Day" + (Math.pow(10,  (3 - next.length))).toString().slice(1) + next;
+      location.hash = nextPage;
+    });
+  } else {
+    $next.parentNode.removeChild($next);
+  }
+
+} else { // index
+  let links = "";
+  for(let key in days){
+    links += `<li><a href="./day.html#${key}">`;
+    links += `${key}: ${days[key].title()}`;
+    links += `</a></li>`;
+  }
+
+  document.getElementById("menu").innerHTML = links;
 }
-
-
-
-
-
-

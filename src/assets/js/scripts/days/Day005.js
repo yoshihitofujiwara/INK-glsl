@@ -7,6 +7,10 @@ import dayFrag from "$shader/days/day005.frag";
 import { Vector2 } from "three";
 
 export default class Day005{
+  static title(){
+    return "Zoom";
+  }
+
   constructor(){
     let debug = new Debug();
 

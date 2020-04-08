@@ -26,7 +26,8 @@ h1{
 }
 
 canvas{
-	width: 5ddd	height: 512px;
+	width: 512px;
+	height: 512px;
 	background: #000;
 	outline: 1px solid #ddd;
 }
@@ -45,4 +46,17 @@ canvas{
 	}
 }
 
+// index
+#menu{
+	margin: 40px;
 
+	a{
+		display: inline-block;
+		margin: 7px 0;
+		color: #3d7e9a;
+
+		&:hover{
+			text-decoration: underline;
+		}
+	}
+}

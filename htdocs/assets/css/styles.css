@@ -273,7 +273,7 @@ canvas {
   width: 512px;
   height: 512px;
   background: #000;
-  outline: 1px solid #e9e9e9;
+  outline: 1px solid #ddd;
 }
 
 #pager {
@@ -287,5 +287,19 @@ canvas {
 }
 
 #pager button:hover {
+  text-decoration: underline;
+}
+
+#menu {
+  margin: 40px;
+}
+
+#menu a {
+  display: inline-block;
+  margin: 7px 0;
+  color: #3d7e9a;
+}
+
+#menu a:hover {
   text-decoration: underline;
 }

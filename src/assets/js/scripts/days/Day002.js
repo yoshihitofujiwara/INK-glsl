@@ -5,6 +5,10 @@ import dayFrag from "$shader/days/day002.frag";
 
 
 export default class Day002{
+  static title(){
+    return "Polygon";
+  }
+
   constructor(){
     let debug = new Debug();
 

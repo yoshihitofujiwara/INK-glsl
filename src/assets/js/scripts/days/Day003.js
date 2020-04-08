@@ -6,6 +6,10 @@ import dayFrag from "$shader/days/day003.frag";
 import { Vector2 } from "three";
 
 export default class Day003{
+  static title(){
+    return "Transform Polygon";
+  }
+
   constructor(){
     let debug = new Debug();
 

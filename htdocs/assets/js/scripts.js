@@ -8298,11 +8298,89 @@ var Day004 = function Day004() {
 
 /***/ }),
 
+/***/ "./src/assets/js/scripts/days/Day005.js":
+/*!**********************************************!*\
+  !*** ./src/assets/js/scripts/days/Day005.js ***!
+  \**********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Day005; });
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! three */ "./node_modules/three/build/three.module.js");
+/* harmony import */ var $utils_RenderManager__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! $utils/RenderManager */ "./src/assets/js/scripts/utils/RenderManager.js");
+/* harmony import */ var $utils_ShaderPlaneMesh__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! $utils/ShaderPlaneMesh */ "./src/assets/js/scripts/utils/ShaderPlaneMesh.js");
+/* harmony import */ var $utils_Debug__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! $utils/Debug */ "./src/assets/js/scripts/utils/Debug.js");
+/* harmony import */ var $shader_days_day005_frag__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! $shader/days/day005.frag */ "./src/assets/shader/days/day005.frag");
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+
+
+
+
+
+
+
+var Day005 = function Day005() {
+  _classCallCheck(this, Day005);
+
+  var debug = new $utils_Debug__WEBPACK_IMPORTED_MODULE_3__["default"]();
+  var mesh = new $utils_ShaderPlaneMesh__WEBPACK_IMPORTED_MODULE_2__["default"](null, {
+    fragmentShader: $shader_days_day005_frag__WEBPACK_IMPORTED_MODULE_4__["default"],
+    uniforms: {
+      u_map1: {
+        type: "t",
+        value: three__WEBPACK_IMPORTED_MODULE_0__["ImageUtils"].loadTexture("./assets/img/img01.jpg")
+      },
+      u_zoom: {
+        type: "f",
+        value: 1.2
+      },
+      u_vert: {
+        type: "i",
+        value: 6
+      },
+      u_radius: {
+        type: "f",
+        value: 0.3
+      }
+    }
+  }); // @debug
+
+  debug.gui.add(mesh.material.uniforms.u_zoom, "value", 1, 10).name("Zoom").onChange(function () {
+    mesh.material.uniformsNeedUpdate = true;
+  });
+  debug.gui.add(mesh.material.uniforms.u_vert, "value", 3, 12, 1).name("Vert").onChange(function () {
+    mesh.material.uniformsNeedUpdate = true;
+  });
+  debug.gui.add(mesh.material.uniforms.u_radius, "value", 0.1, 0.5).name("Radius").onChange(function () {
+    mesh.material.uniformsNeedUpdate = true;
+  });
+  this.renderManager = new $utils_RenderManager__WEBPACK_IMPORTED_MODULE_1__["default"](document.querySelector("#canvas"));
+  this.renderManager.scene.add(mesh);
+  this.renderManager.start(); // @event
+
+  this.renderManager.addEventListener("update", function (params) {
+    mesh.material.uniformsNeedUpdate = true;
+    mesh.material.uniforms.u_time.value = params.time;
+    debug.update();
+  });
+  this.renderManager.canvas.addEventListener("mousemove", function (e) {
+    mesh.material.uniforms.u_mouse.value.x = e.offsetX;
+    mesh.material.uniforms.u_mouse.value.y = e.offsetY;
+  });
+};
+
+
+
+/***/ }),
+
 /***/ "./src/assets/js/scripts/days/index.js":
 /*!*********************************************!*\
   !*** ./src/assets/js/scripts/days/index.js ***!
   \*********************************************/
-/*! exports provided: Day001, Day002, Day003, Day004 */
+/*! exports provided: Day001, Day002, Day003, Day004, Day005 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -8318,6 +8396,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony import */ var _Day004__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Day004 */ "./src/assets/js/scripts/days/Day004.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day004", function() { return _Day004__WEBPACK_IMPORTED_MODULE_3__["default"]; });
+
+/* harmony import */ var _Day005__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Day005 */ "./src/assets/js/scripts/days/Day005.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day005", function() { return _Day005__WEBPACK_IMPORTED_MODULE_4__["default"]; });
+
 
 
 
@@ -8648,7 +8730,7 @@ function (_Mesh) {
         },
         u_mouse: {
           type: "v2",
-          value: new three__WEBPACK_IMPORTED_MODULE_0__["Vector2"]()
+          value: new three__WEBPACK_IMPORTED_MODULE_0__["Vector2"](512 * 0.5, 512 * 0.5)
         }
       },
       vertexShader: VERTEX_SHADER,
@@ -8675,7 +8757,7 @@ function (_Mesh) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("// precision highp float;\nprecision mediump float;\n#define GLSLIFY 1\n\nuniform vec2 u_resolution;\nuniform float u_time;\nuniform float u_mouse;\n\nvarying vec2 vUv;\n\nvec4 circle(vec2 position, vec2 offset, float radius, vec4 color){\n\tfloat len=length(offset-position);\n\treturn vec4(color.rgb, color.a * (1.-step(radius,len)));\n}\n\nbool inCircle(vec2 position,vec2 offset,float radius){\n\tfloat len=length(position-offset);\n\tif(len<radius){\n\t\treturn true;\n\t}\n\treturn false;\n}\n\nvoid main(){\n\tvec2 st=gl_FragCoord.xy/u_resolution.xy;\n\n\t// circle\n\tgl_FragColor = circle(st, vec2(0.5), 0.3, vec4(0.3804, 0.7647, 0.8784, 1.0));\n\n\t// inCircle\n\t// if(inCircle(st, vec2(.5), .5)){\n\t// \tgl_FragColor = vec4(0.3804, 0.7647, 0.8784, 1.0);\n\t// }\n}\n");
+/* harmony default export */ __webpack_exports__["default"] = ("// precision highp float;\nprecision mediump float;\n#define GLSLIFY 1\n\nuniform vec2 u_resolution;\nuniform float u_time;\nuniform vec2 u_mouse;\n\nvarying vec2 vUv;\n\nvec4 circle(vec2 position, vec2 offset, float radius, vec4 color){\n\tfloat len=length(offset-position);\n\treturn vec4(color.rgb, color.a * (1.-step(radius,len)));\n}\n\nbool inCircle(vec2 position,vec2 offset,float radius){\n\tfloat len=length(position-offset);\n\tif(len<radius){\n\t\treturn true;\n\t}\n\treturn false;\n}\n\nvoid main(){\n\tvec2 st=gl_FragCoord.xy/u_resolution.xy;\n\n\t// circle\n\tgl_FragColor = circle(st, vec2(0.5), 0.3, vec4(0.3804, 0.7647, 0.8784, 1.0));\n\n\t// inCircle\n\t// if(inCircle(st, vec2(.5), .5)){\n\t// \tgl_FragColor = vec4(0.3804, 0.7647, 0.8784, 1.0);\n\t// }\n}\n");
 
 /***/ }),
 
@@ -8688,7 +8770,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("// precision highp float;\nprecision mediump float;\n#define GLSLIFY 1\n\nuniform vec2 u_resolution;\nuniform float u_time;\nuniform float u_mouse;\n\nvarying vec2 vUv;\n\nfloat PI2_0 = 6.283185307179586;\nfloat antialias_0 = .005;\n\nvec4 polygon(vec2 position, vec2 offset, int vert, float radius, vec4 color){\n\tvec2 p = offset-position;\n\tfloat a=atan(p.x, p.y);\n\tfloat b=PI2_0/float(vert);\n\n\tfloat amount = smoothstep(\n\t\tradius,\n\t\tradius + antialias_0,\n\t\tcos(floor(.5 + a/b) * b - a) * length(p.xy)\n\t);\n\n\treturn color * vec4(1.0 - amount);\n}\n\nfloat PI2_1 = 6.283185307179586;\nfloat antialias_1 = .005;\n\nbool inPolygon(vec2 position, vec2 offset, int vert, float radius){\n\tvec2 p = offset-position;\n\tfloat a=atan(p.x, p.y);\n\tfloat b=PI2_1/float(vert);\n\n\tfloat amount = smoothstep(\n\t\tradius,\n\t\tradius + antialias_1,\n\t\tcos(floor(.5 + a/b) * b - a) * length(p.xy)\n\t);\n\n\tif(amount == 0.0){\n\t\treturn true;\n\t}\n\treturn false;\n}\n\n// SEE: https://thndl.com/square-shaped-shaders.html\n\nvoid main(){\n\tvec2 st=gl_FragCoord.xy/u_resolution.xy;\n\tvec2 c = (vec2(0.5) - st) * 2.0;\n\n\t// polygon\n\t// gl_FragColor = polygon(st, vec2(0.5), 6, 0.3, vec4(0.3804, 0.7647, 0.8784, 1.0));\n\n\t// inPolygon\n\tif(inPolygon(st, vec2(0.5), 6, 0.3)){\n\t\tgl_FragColor = vec4(0.3804, 0.7647, 0.8784, 1.0);\n\t}\n}\n");
+/* harmony default export */ __webpack_exports__["default"] = ("// precision highp float;\nprecision mediump float;\n#define GLSLIFY 1\n\nuniform vec2 u_resolution;\nuniform float u_time;\nuniform vec2 u_mouse;\n\nvarying vec2 vUv;\n\nfloat PI2_0 = 6.283185307179586;\nfloat antialias_0 = .005;\n\nvec4 polygon(vec2 position, vec2 offset, int vert, float radius, vec4 color){\n\tvec2 p = offset-position;\n\tfloat a=atan(p.x, p.y);\n\tfloat b=PI2_0/float(vert);\n\n\tfloat amount = smoothstep(\n\t\tradius,\n\t\tradius + antialias_0,\n\t\tcos(floor(.5 + a/b) * b - a) * length(p.xy)\n\t);\n\n\treturn color * vec4(1.0 - amount);\n}\n\nfloat PI2_1 = 6.283185307179586;\nfloat antialias_1 = .005;\n\nbool inPolygon(vec2 position, vec2 offset, int vert, float radius){\n\tvec2 p = offset-position;\n\tfloat a=atan(p.x, p.y);\n\tfloat b=PI2_1/float(vert);\n\n\tfloat amount = smoothstep(\n\t\tradius,\n\t\tradius + antialias_1,\n\t\tcos(floor(.5 + a/b) * b - a) * length(p.xy)\n\t);\n\n\tif(amount == 0.0){\n\t\treturn true;\n\t}\n\treturn false;\n}\n\n// SEE: https://thndl.com/square-shaped-shaders.html\n\nvoid main(){\n\tvec2 st=gl_FragCoord.xy/u_resolution.xy;\n\tvec2 c = (vec2(0.5) - st) * 2.0;\n\n\t// polygon\n\t// gl_FragColor = polygon(st, vec2(0.5), 6, 0.3, vec4(0.3804, 0.7647, 0.8784, 1.0));\n\n\t// inPolygon\n\tif(inPolygon(st, vec2(0.5), 6, 0.3)){\n\t\tgl_FragColor = vec4(0.3804, 0.7647, 0.8784, 1.0);\n\t}\n}\n");
 
 /***/ }),
 
@@ -8701,7 +8783,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("// precision highp float;\nprecision mediump float;\n#define GLSLIFY 1\n\nuniform vec2 u_resolution;\nuniform float u_time;\nuniform float u_mouse;\n\nuniform vec2 u_translate;\nuniform vec2 u_scale;\nuniform float u_rotate;\n\nuniform int u_vert;\nuniform float u_radius;\n\nvarying vec2 vUv;\n\nfloat PI2 = 6.283185307179586;\nfloat antialias = .005;\n\nvec4 polygon(vec2 position, vec2 offset, int vert, float radius, vec4 color){\n\tvec2 p = offset-position;\n\tfloat a=atan(p.x, p.y);\n\tfloat b=PI2/float(vert);\n\n\tfloat amount = smoothstep(\n\t\tradius,\n\t\tradius + antialias,\n\t\tcos(floor(.5 + a/b) * b - a) * length(p.xy)\n\t);\n\n\treturn color * vec4(1.0 - amount);\n}\n\nmat2 rotate(float radius){\n\tfloat c=cos(radius);\n\tfloat s=sin(radius);\n\treturn mat2(c,-s,s,c);\n}\n\n// SEE: https://thndl.com/square-shaped-shaders.html\n\nvoid main(){\n\tvec4 color = vec4(0.3804, 0.7647, 0.8784, 1.0);\n\tvec2 st=gl_FragCoord.xy/u_resolution.xy;\n\t// vec2 c = (vec2(0.5) - st) * 2.0;\n\n\t// translate\n\tvec2 offset = u_translate/u_resolution;\n\toffset.y = 1.0 - offset.y;\n\n\t// rotate\n\tst *= rotate(u_rotate);\n\toffset *= rotate(u_rotate);\n\n\t// scale\n\tif(u_scale.x == 0.0 || u_scale.y == 0.0){\n\t\tdiscard;\n\t}\n\tst /= u_scale;\n\toffset /= u_scale;\n\n\t// polygon\n\tvec4 fColor = polygon(st, offset, u_vert, u_radius, color);\n\n\tgl_FragColor = fColor;\n}\n");
+/* harmony default export */ __webpack_exports__["default"] = ("// precision highp float;\nprecision mediump float;\n#define GLSLIFY 1\n\nuniform vec2 u_resolution;\nuniform float u_time;\nuniform vec2 u_mouse;\n\nuniform vec2 u_translate;\nuniform vec2 u_scale;\nuniform float u_rotate;\n\nuniform int u_vert;\nuniform float u_radius;\n\nvarying vec2 vUv;\n\nfloat PI2 = 6.283185307179586;\nfloat antialias = .005;\n\nvec4 polygon(vec2 position, vec2 offset, int vert, float radius, vec4 color){\n\tvec2 p = offset-position;\n\tfloat a=atan(p.x, p.y);\n\tfloat b=PI2/float(vert);\n\n\tfloat amount = smoothstep(\n\t\tradius,\n\t\tradius + antialias,\n\t\tcos(floor(.5 + a/b) * b - a) * length(p.xy)\n\t);\n\n\treturn color * vec4(1.0 - amount);\n}\n\nmat2 rotate(float radius){\n\tfloat c=cos(radius);\n\tfloat s=sin(radius);\n\treturn mat2(c,-s,s,c);\n}\n\n// SEE: https://thndl.com/square-shaped-shaders.html\n\nvoid main(){\n\tvec4 color = vec4(0.3804, 0.7647, 0.8784, 1.0);\n\tvec2 st=gl_FragCoord.xy/u_resolution.xy;\n\t// vec2 c = (vec2(0.5) - st) * 2.0;\n\n\t// translate\n\tvec2 offset = u_translate/u_resolution;\n\toffset.y = 1.0 - offset.y;\n\n\t// rotate\n\tst *= rotate(u_rotate);\n\toffset *= rotate(u_rotate);\n\n\t// scale\n\tif(u_scale.x == 0.0 || u_scale.y == 0.0){\n\t\tdiscard;\n\t}\n\tst /= u_scale;\n\toffset /= u_scale;\n\n\t// polygon\n\tvec4 fColor = polygon(st, offset, u_vert, u_radius, color);\n\n\tgl_FragColor = fColor;\n}\n");
 
 /***/ }),
 
@@ -8714,7 +8796,20 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("// precision highp float;\nprecision mediump float;\n#define GLSLIFY 1\n\nuniform vec2 u_resolution;\nuniform float u_time;\nuniform float u_mouse;\nuniform float u_tile;\n\nvarying vec2 vUv;\n\nfloat PI2_1 = 6.283185307179586;\nfloat antialias_1 = .005;\n\nvec4 polygon(vec2 position, vec2 offset, int vert, float radius, vec4 color){\n\tvec2 p = offset-position;\n\tfloat a=atan(p.x, p.y);\n\tfloat b=PI2_1/float(vert);\n\n\tfloat amount = smoothstep(\n\t\tradius,\n\t\tradius + antialias_1,\n\t\tcos(floor(.5 + a/b) * b - a) * length(p.xy)\n\t);\n\n\treturn color * vec4(1.0 - amount);\n}\n\nfloat PI2_0 = 6.283185307179586;\nfloat antialias_0 = .005;\n\nbool inPolygon(vec2 position, vec2 offset, int vert, float radius){\n\tvec2 p = offset-position;\n\tfloat a=atan(p.x, p.y);\n\tfloat b=PI2_0/float(vert);\n\n\tfloat amount = smoothstep(\n\t\tradius,\n\t\tradius + antialias_0,\n\t\tcos(floor(.5 + a/b) * b - a) * length(p.xy)\n\t);\n\n\tif(amount == 0.0){\n\t\treturn true;\n\t}\n\treturn false;\n}\n\n// SEE: https://thndl.com/square-shaped-shaders.html\n\nvoid main(){\n\tvec4 color=vec4(.3804,.7647,.8784,1.);\n\tvec2 st=gl_FragCoord.xy/u_resolution.xy;\n\tst *= vec2(u_tile);\n\tst = fract(st);\n\n\tvec2 offset = vec2(.5);\n\n\t// polygon\n\tgl_FragColor = polygon(st, offset, 6, 0.3, color);\n}\n");
+/* harmony default export */ __webpack_exports__["default"] = ("// precision highp float;\nprecision mediump float;\n#define GLSLIFY 1\n\nuniform vec2 u_resolution;\nuniform float u_time;\nuniform vec2 u_mouse;\nuniform float u_tile;\n\nvarying vec2 vUv;\n\nfloat PI2_0 = 6.283185307179586;\nfloat antialias_0 = .005;\n\nvec4 polygon(vec2 position, vec2 offset, int vert, float radius, vec4 color){\n\tvec2 p = offset-position;\n\tfloat a=atan(p.x, p.y);\n\tfloat b=PI2_0/float(vert);\n\n\tfloat amount = smoothstep(\n\t\tradius,\n\t\tradius + antialias_0,\n\t\tcos(floor(.5 + a/b) * b - a) * length(p.xy)\n\t);\n\n\treturn color * vec4(1.0 - amount);\n}\n\nfloat PI2_1 = 6.283185307179586;\nfloat antialias_1 = .005;\n\nbool inPolygon(vec2 position, vec2 offset, int vert, float radius){\n\tvec2 p = offset-position;\n\tfloat a=atan(p.x, p.y);\n\tfloat b=PI2_1/float(vert);\n\n\tfloat amount = smoothstep(\n\t\tradius,\n\t\tradius + antialias_1,\n\t\tcos(floor(.5 + a/b) * b - a) * length(p.xy)\n\t);\n\n\tif(amount == 0.0){\n\t\treturn true;\n\t}\n\treturn false;\n}\n\n// SEE: https://thndl.com/square-shaped-shaders.html\n\nvoid main(){\n\tvec4 color=vec4(.3804,.7647,.8784,1.);\n\tvec2 st=gl_FragCoord.xy/u_resolution.xy;\n\tst *= vec2(u_tile);\n\tst = fract(st);\n\n\tvec2 offset = vec2(.5);\n\n\t// polygon\n\tgl_FragColor = polygon(st, offset, 6, 0.3, color);\n}\n");
+
+/***/ }),
+
+/***/ "./src/assets/shader/days/day005.frag":
+/*!********************************************!*\
+  !*** ./src/assets/shader/days/day005.frag ***!
+  \********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ("// precision highp float;\nprecision mediump float;\n#define GLSLIFY 1\n\nuniform vec2 u_resolution;\nuniform float u_time;\nuniform vec2 u_mouse;\nuniform sampler2D u_map1;\nuniform float u_zoom;\nuniform int u_vert;\nuniform float u_radius;\n\nvarying vec2 vUv;\n\nbool inCircle(vec2 position,vec2 offset,float radius){\n\tfloat len=length(position-offset);\n\tif(len<radius){\n\t\treturn true;\n\t}\n\treturn false;\n}\n\nfloat PI2 = 6.283185307179586;\nfloat antialias = .005;\n\nbool inPolygon(vec2 position, vec2 offset, int vert, float radius){\n\tvec2 p = offset-position;\n\tfloat a=atan(p.x, p.y);\n\tfloat b=PI2/float(vert);\n\n\tfloat amount = smoothstep(\n\t\tradius,\n\t\tradius + antialias,\n\t\tcos(floor(.5 + a/b) * b - a) * length(p.xy)\n\t);\n\n\tif(amount == 0.0){\n\t\treturn true;\n\t}\n\treturn false;\n}\n\n// SEE: https://thndl.com/square-shaped-shaders.html\n\nvoid main(){\n\tvec4 color=vec4(.3804,.7647,.8784,1.);\n\tvec2 st=gl_FragCoord.xy/u_resolution.xy;\n\n\tvec2 mouse=u_mouse.xy/u_resolution.xy;\n\tmouse.y = 1.0 - mouse.y;\n\n\tif(inPolygon(st, mouse, u_vert, u_radius)){\n\t\tvec2 zoomCoord = st - (mouse);\n\t\tzoomCoord = zoomCoord / u_zoom + mouse;\n\t\tgl_FragColor = texture2D(u_map1, zoomCoord);\n\t// }\n\t// if(inCircle(st, mouse, u_radius)){\n\t// \tvec2 zoomCoord = st - (mouse);\n\t// \tzoomCoord = zoomCoord / u_zoom + mouse;\n\t// \tgl_FragColor = texture2D(u_map1, zoomCoord);\n\n\t} else {\n\t\tgl_FragColor = texture2D(u_map1, vUv);\n\t}\n\n}\n");
 
 /***/ })
 

@@ -50,7 +50,7 @@ export default class ShaderPlaneMesh extends Mesh {
       uniforms: {
         u_time: { type: "f", value: 1.0 },
         u_resolution: { type: "v2", value: new Vector2(512, 512) },
-        u_mouse: { type: "v2", value: new Vector2() }
+        u_mouse: { type: "v2", value: new Vector2(512 * 0.5, 512 * 0.5) }
        },
        vertexShader: VERTEX_SHADER,
        fragmentShader: FRAGMENT_SHADER,

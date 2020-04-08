@@ -15,7 +15,6 @@ export default class Day003{
         u_rotate: { type: "f", value: 0.0 },
         u_translate: { type: "v2", value: new Vector2(512*0.5, 512*0.5) },
         u_scale: { type: "v2", value:  new Vector2(1, 1) },
-
         u_vert: { type: "i", value: 6 },
         u_radius: { type: "f", value: 0.25 },
       }

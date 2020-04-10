@@ -1,9 +1,10 @@
+disorsion
+rgb shift
+
+
 shape:＋,★
 湾曲
-
 ripple
-disorsion
-
 skew
 
 

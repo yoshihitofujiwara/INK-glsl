@@ -4,7 +4,7 @@ import Debug from '$utils/Debug';
 import dayFrag from "$shader/days/day001.frag";
 
 
-export default class Day001{
+export default class Day{
   static title(){
     return "Circle";
   }

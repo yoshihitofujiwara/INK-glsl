@@ -14973,7 +14973,7 @@ function log() {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Day001; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Day; });
 /* harmony import */ var $utils_RenderManager__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! $utils/RenderManager */ "./src/assets/js/scripts/utils/RenderManager.js");
 /* harmony import */ var $utils_ShaderPlaneMesh__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! $utils/ShaderPlaneMesh */ "./src/assets/js/scripts/utils/ShaderPlaneMesh.js");
 /* harmony import */ var $utils_Debug__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! $utils/Debug */ "./src/assets/js/scripts/utils/Debug.js");
@@ -14989,18 +14989,18 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 
 
-var Day001 =
+var Day =
 /*#__PURE__*/
 function () {
-  _createClass(Day001, null, [{
+  _createClass(Day, null, [{
     key: "title",
     value: function title() {
       return "Circle";
     }
   }]);
 
-  function Day001() {
-    _classCallCheck(this, Day001);
+  function Day() {
+    _classCallCheck(this, Day);
 
     var debug = new $utils_Debug__WEBPACK_IMPORTED_MODULE_2__["default"]();
     var mesh = new $utils_ShaderPlaneMesh__WEBPACK_IMPORTED_MODULE_1__["default"](null, {
@@ -15021,7 +15021,7 @@ function () {
     });
   }
 
-  return Day001;
+  return Day;
 }();
 
 
@@ -15037,7 +15037,7 @@ function () {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Day002; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Day; });
 /* harmony import */ var $utils_RenderManager__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! $utils/RenderManager */ "./src/assets/js/scripts/utils/RenderManager.js");
 /* harmony import */ var $utils_ShaderPlaneMesh__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! $utils/ShaderPlaneMesh */ "./src/assets/js/scripts/utils/ShaderPlaneMesh.js");
 /* harmony import */ var $utils_Debug__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! $utils/Debug */ "./src/assets/js/scripts/utils/Debug.js");
@@ -15053,18 +15053,18 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 
 
-var Day002 =
+var Day =
 /*#__PURE__*/
 function () {
-  _createClass(Day002, null, [{
+  _createClass(Day, null, [{
     key: "title",
     value: function title() {
       return "Polygon";
     }
   }]);
 
-  function Day002() {
-    _classCallCheck(this, Day002);
+  function Day() {
+    _classCallCheck(this, Day);
 
     var debug = new $utils_Debug__WEBPACK_IMPORTED_MODULE_2__["default"]();
     var mesh = new $utils_ShaderPlaneMesh__WEBPACK_IMPORTED_MODULE_1__["default"](null, {
@@ -15085,7 +15085,7 @@ function () {
     });
   }
 
-  return Day002;
+  return Day;
 }();
 
 
@@ -15101,7 +15101,7 @@ function () {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Day003; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Day; });
 /* harmony import */ var $utils_RenderManager__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! $utils/RenderManager */ "./src/assets/js/scripts/utils/RenderManager.js");
 /* harmony import */ var $utils_ShaderPlaneMesh__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! $utils/ShaderPlaneMesh */ "./src/assets/js/scripts/utils/ShaderPlaneMesh.js");
 /* harmony import */ var $utils_Debug__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! $utils/Debug */ "./src/assets/js/scripts/utils/Debug.js");
@@ -15119,18 +15119,18 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 
 
-var Day003 =
+var Day =
 /*#__PURE__*/
 function () {
-  _createClass(Day003, null, [{
+  _createClass(Day, null, [{
     key: "title",
     value: function title() {
       return "Transform Polygon";
     }
   }]);
 
-  function Day003() {
-    _classCallCheck(this, Day003);
+  function Day() {
+    _classCallCheck(this, Day);
 
     var debug = new $utils_Debug__WEBPACK_IMPORTED_MODULE_2__["default"]();
     var mesh = new $utils_ShaderPlaneMesh__WEBPACK_IMPORTED_MODULE_1__["default"](null, {
@@ -15195,7 +15195,7 @@ function () {
     });
   }
 
-  return Day003;
+  return Day;
 }();
 
 
@@ -15211,12 +15211,11 @@ function () {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Day004; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Day; });
 /* harmony import */ var $utils_RenderManager__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! $utils/RenderManager */ "./src/assets/js/scripts/utils/RenderManager.js");
 /* harmony import */ var $utils_ShaderPlaneMesh__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! $utils/ShaderPlaneMesh */ "./src/assets/js/scripts/utils/ShaderPlaneMesh.js");
 /* harmony import */ var $utils_Debug__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! $utils/Debug */ "./src/assets/js/scripts/utils/Debug.js");
 /* harmony import */ var $shader_days_day004_frag__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! $shader/days/day004.frag */ "./src/assets/shader/days/day004.frag");
-/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! three */ "./node_modules/three/build/three.module.js");
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -15228,19 +15227,18 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 
 
-
-var Day004 =
+var Day =
 /*#__PURE__*/
 function () {
-  _createClass(Day004, null, [{
+  _createClass(Day, null, [{
     key: "title",
     value: function title() {
       return "Tile";
     }
   }]);
 
-  function Day004() {
-    _classCallCheck(this, Day004);
+  function Day() {
+    _classCallCheck(this, Day);
 
     var debug = new $utils_Debug__WEBPACK_IMPORTED_MODULE_2__["default"]();
     var mesh = new $utils_ShaderPlaneMesh__WEBPACK_IMPORTED_MODULE_1__["default"](null, {
@@ -15271,7 +15269,7 @@ function () {
     });
   }
 
-  return Day004;
+  return Day;
 }();
 
 
@@ -15287,7 +15285,7 @@ function () {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Day005; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Day; });
 /* harmony import */ var three__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! three */ "./node_modules/three/build/three.module.js");
 /* harmony import */ var $utils_RenderManager__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! $utils/RenderManager */ "./src/assets/js/scripts/utils/RenderManager.js");
 /* harmony import */ var $utils_ShaderPlaneMesh__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! $utils/ShaderPlaneMesh */ "./src/assets/js/scripts/utils/ShaderPlaneMesh.js");
@@ -15305,19 +15303,18 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 
 
-
-var Day005 =
+var Day =
 /*#__PURE__*/
 function () {
-  _createClass(Day005, null, [{
+  _createClass(Day, null, [{
     key: "title",
     value: function title() {
       return "Zoom";
     }
   }]);
 
-  function Day005() {
-    _classCallCheck(this, Day005);
+  function Day() {
+    _classCallCheck(this, Day);
 
     var debug = new $utils_Debug__WEBPACK_IMPORTED_MODULE_3__["default"]();
     var mesh = new $utils_ShaderPlaneMesh__WEBPACK_IMPORTED_MODULE_2__["default"](null, {
@@ -15366,7 +15363,7 @@ function () {
     });
   }
 
-  return Day005;
+  return Day;
 }();
 
 
@@ -15382,7 +15379,7 @@ function () {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Day006; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Day; });
 /* harmony import */ var three__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! three */ "./node_modules/three/build/three.module.js");
 /* harmony import */ var $utils_RenderManager__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! $utils/RenderManager */ "./src/assets/js/scripts/utils/RenderManager.js");
 /* harmony import */ var $utils_ShaderPlaneMesh__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! $utils/ShaderPlaneMesh */ "./src/assets/js/scripts/utils/ShaderPlaneMesh.js");
@@ -15400,19 +15397,18 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 
 
-
-var Day006 =
+var Day =
 /*#__PURE__*/
 function () {
-  _createClass(Day006, null, [{
+  _createClass(Day, null, [{
     key: "title",
     value: function title() {
       return "Lens";
     }
   }]);
 
-  function Day006() {
-    _classCallCheck(this, Day006);
+  function Day() {
+    _classCallCheck(this, Day);
 
     var debug = new $utils_Debug__WEBPACK_IMPORTED_MODULE_3__["default"]();
     var mesh = new $utils_ShaderPlaneMesh__WEBPACK_IMPORTED_MODULE_2__["default"](null, {
@@ -15454,7 +15450,7 @@ function () {
     });
   }
 
-  return Day006;
+  return Day;
 }();
 
 
@@ -15470,7 +15466,7 @@ function () {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Day006; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Day; });
 /* harmony import */ var three__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! three */ "./node_modules/three/build/three.module.js");
 /* harmony import */ var gsap__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! gsap */ "./node_modules/gsap/index.js");
 /* harmony import */ var $utils_RenderManager__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! $utils/RenderManager */ "./src/assets/js/scripts/utils/RenderManager.js");
@@ -15490,18 +15486,18 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 
 
-var Day006 =
+var Day =
 /*#__PURE__*/
 function () {
-  _createClass(Day006, null, [{
+  _createClass(Day, null, [{
     key: "title",
     value: function title() {
       return "Fade";
     }
   }]);
 
-  function Day006() {
-    _classCallCheck(this, Day006);
+  function Day() {
+    _classCallCheck(this, Day);
 
     var debug = new $utils_Debug__WEBPACK_IMPORTED_MODULE_4__["default"]();
     var mesh = new $utils_ShaderPlaneMesh__WEBPACK_IMPORTED_MODULE_3__["default"](null, {
@@ -15558,7 +15554,132 @@ function () {
     });
   }
 
-  return Day006;
+  return Day;
+}();
+
+
+
+/***/ }),
+
+/***/ "./src/assets/js/scripts/days/Day008.js":
+/*!**********************************************!*\
+  !*** ./src/assets/js/scripts/days/Day008.js ***!
+  \**********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Day; });
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! three */ "./node_modules/three/build/three.module.js");
+/* harmony import */ var gsap__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! gsap */ "./node_modules/gsap/index.js");
+/* harmony import */ var $utils_RenderManager__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! $utils/RenderManager */ "./src/assets/js/scripts/utils/RenderManager.js");
+/* harmony import */ var $utils_ShaderPlaneMesh__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! $utils/ShaderPlaneMesh */ "./src/assets/js/scripts/utils/ShaderPlaneMesh.js");
+/* harmony import */ var $utils_Debug__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! $utils/Debug */ "./src/assets/js/scripts/utils/Debug.js");
+/* harmony import */ var $shader_days_day008_frag__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! $shader/days/day008.frag */ "./src/assets/shader/days/day008.frag");
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+
+
+
+
+
+
+
+
+var Day =
+/*#__PURE__*/
+function () {
+  _createClass(Day, null, [{
+    key: "title",
+    value: function title() {
+      return "Distortion";
+    }
+  }]);
+
+  function Day() {
+    _classCallCheck(this, Day);
+
+    var debug = new $utils_Debug__WEBPACK_IMPORTED_MODULE_4__["default"]();
+    var map1 = three__WEBPACK_IMPORTED_MODULE_0__["ImageUtils"].loadTexture("./assets/img/img03.jpg");
+    var map2 = three__WEBPACK_IMPORTED_MODULE_0__["ImageUtils"].loadTexture("./assets/img/img04.jpg");
+    map1.magFilter = map2.magFilter = three__WEBPACK_IMPORTED_MODULE_0__["LinearFilter"];
+    map1.minFilter = map2.minFilter = three__WEBPACK_IMPORTED_MODULE_0__["LinearFilter"];
+    var mesh = new $utils_ShaderPlaneMesh__WEBPACK_IMPORTED_MODULE_3__["default"](null, {
+      fragmentShader: $shader_days_day008_frag__WEBPACK_IMPORTED_MODULE_5__["default"],
+      uniforms: {
+        u_map1: {
+          type: "t",
+          value: map1
+        },
+        u_map2: {
+          type: "t",
+          value: map2
+        },
+        u_effectMap: {
+          type: "t",
+          value: three__WEBPACK_IMPORTED_MODULE_0__["ImageUtils"].loadTexture("./assets/img/pattern/1.jpg")
+        },
+        u_progress: {
+          type: "f",
+          value: 0.0
+        },
+        u_intensity: {
+          type: "f",
+          value: 0.2
+        },
+        u_angle: {
+          type: "f",
+          value: Math.PI * 0.25
+        },
+        u_aspect: {
+          type: "v",
+          value: new three__WEBPACK_IMPORTED_MODULE_0__["Vector2"](1.0, 1.0)
+        }
+      }
+    }); // @debug
+
+    var p = debug.gui.add(mesh.material.uniforms.u_progress, "value", 0, 1, 0.01).name("Progress").onChange(function () {
+      mesh.material.uniformsNeedUpdate = true;
+    });
+    var params = {
+      tween: function tween() {
+        var value = 1;
+
+        if (mesh.material.uniforms.u_progress.value == 1) {
+          value = 0;
+        }
+
+        gsap__WEBPACK_IMPORTED_MODULE_1__["default"].to(mesh.material.uniforms.u_progress, {
+          value: value,
+          duration: 1,
+          onUpdate: function onUpdate() {
+            debug.gui.updateDisplay();
+          }
+        });
+      }
+    };
+    debug.gui.add(params, "tween");
+    this.renderManager = new $utils_RenderManager__WEBPACK_IMPORTED_MODULE_2__["default"](document.querySelector("#canvas"));
+    this.renderManager.scene.add(mesh);
+    this.renderManager.start(); // @event
+
+    this.renderManager.addEventListener("update", function (params) {
+      mesh.material.uniformsNeedUpdate = true;
+      mesh.material.uniforms.u_time.value = params.time;
+      debug.update();
+    });
+    this.renderManager.canvas.addEventListener("mousemove", function (e) {
+      mesh.material.uniforms.u_mouse.value.x = e.offsetX;
+      mesh.material.uniforms.u_mouse.value.y = e.offsetY;
+    });
+  }
+
+  return Day;
 }();
 
 
@@ -15569,7 +15690,7 @@ function () {
 /*!*********************************************!*\
   !*** ./src/assets/js/scripts/days/index.js ***!
   \*********************************************/
-/*! exports provided: Day001, Day002, Day003, Day004, Day005, Day006, Day007 */
+/*! exports provided: Day001, Day002, Day003, Day004, Day005, Day006, Day007, Day008 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -15594,6 +15715,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony import */ var _Day007__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Day007 */ "./src/assets/js/scripts/days/Day007.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day007", function() { return _Day007__WEBPACK_IMPORTED_MODULE_6__["default"]; });
+
+/* harmony import */ var _Day008__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Day008 */ "./src/assets/js/scripts/days/Day008.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day008", function() { return _Day008__WEBPACK_IMPORTED_MODULE_7__["default"]; });
+
 
 
 
@@ -15996,7 +16121,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("// precision highp float;\nprecision mediump float;\n#define GLSLIFY 1\n\nuniform vec2 u_resolution;\nuniform float u_time;\nuniform vec2 u_mouse;\n\nuniform vec2 u_translate;\nuniform vec2 u_scale;\nuniform float u_rotate;\n\nuniform int u_vert;\nuniform float u_radius;\n\nvarying vec2 vUv;\n\nfloat PI2 = 6.283185307179586;\nfloat antialias = .005;\n\nvec4 polygon(vec2 position, vec2 offset, int vert, float radius, vec4 color){\n\tvec2 p = offset-position;\n\tfloat a=atan(p.x, p.y);\n\tfloat b=PI2/float(vert);\n\n\tfloat amount = smoothstep(\n\t\tradius,\n\t\tradius + antialias,\n\t\tcos(floor(.5 + a/b) * b - a) * length(p.xy)\n\t);\n\n\treturn color * vec4(1.0 - amount);\n}\n\nmat2 rotate(float radius){\n\tfloat c=cos(radius);\n\tfloat s=sin(radius);\n\treturn mat2(c,-s,s,c);\n}\n\n// SEE: https://thndl.com/square-shaped-shaders.html\n\nvoid main(){\n\tvec4 color = vec4(0.3804, 0.7647, 0.8784, 1.0);\n\tvec2 st=gl_FragCoord.xy/u_resolution.xy;\n\t// vec2 c = (vec2(0.5) - st) * 2.0;\n\n\t// translate\n\tvec2 offset = u_translate/u_resolution;\n\toffset.y = 1.0 - offset.y;\n\n\t// rotate\n\tst *= rotate(u_rotate);\n\toffset *= rotate(u_rotate);\n\n\t// scale\n\tif(u_scale.x == 0.0 || u_scale.y == 0.0){\n\t\tdiscard;\n\t}\n\tst /= u_scale;\n\toffset /= u_scale;\n\n\t// polygon\n\tvec4 fColor = polygon(st, offset, u_vert, u_radius, color);\n\n\tgl_FragColor = fColor;\n}\n");
+/* harmony default export */ __webpack_exports__["default"] = ("// precision highp float;\nprecision mediump float;\n#define GLSLIFY 1\n\nuniform vec2 u_resolution;\nuniform float u_time;\nuniform vec2 u_mouse;\n\nuniform vec2 u_translate;\nuniform vec2 u_scale;\nuniform float u_rotate;\n\nuniform int u_vert;\nuniform float u_radius;\n\nvarying vec2 vUv;\n\nfloat PI2 = 6.283185307179586;\nfloat antialias = .005;\n\nvec4 polygon(vec2 position, vec2 offset, int vert, float radius, vec4 color){\n\tvec2 p = offset-position;\n\tfloat a=atan(p.x, p.y);\n\tfloat b=PI2/float(vert);\n\n\tfloat amount = smoothstep(\n\t\tradius,\n\t\tradius + antialias,\n\t\tcos(floor(.5 + a/b) * b - a) * length(p.xy)\n\t);\n\n\treturn color * vec4(1.0 - amount);\n}\n\nmat2 rotate(float angle){\n\tfloat c=cos(angle);\n\tfloat s=sin(angle);\n\treturn mat2(c,-s,s,c);\n}\n\n// SEE: https://thndl.com/square-shaped-shaders.html\n\nvoid main(){\n\tvec4 color = vec4(0.3804, 0.7647, 0.8784, 1.0);\n\tvec2 st=gl_FragCoord.xy/u_resolution.xy;\n\t// vec2 c = (vec2(0.5) - st) * 2.0;\n\n\t// translate\n\tvec2 offset = u_translate/u_resolution;\n\toffset.y = 1.0 - offset.y;\n\n\t// rotate\n\tst *= rotate(u_rotate);\n\toffset *= rotate(u_rotate);\n\n\t// scale\n\tif(u_scale.x == 0.0 || u_scale.y == 0.0){\n\t\tdiscard;\n\t}\n\tst /= u_scale;\n\toffset /= u_scale;\n\n\t// polygon\n\tvec4 fColor = polygon(st, offset, u_vert, u_radius, color);\n\n\tgl_FragColor = fColor;\n}\n");
 
 /***/ }),
 
@@ -16049,6 +16174,19 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ("// precision highp float;\nprecision mediump float;\n#define GLSLIFY 1\n\nuniform vec2 u_resolution;\nuniform float u_time;\nuniform vec2 u_mouse;\n\nuniform sampler2D u_map1;\nuniform sampler2D u_map2;\nuniform float u_progress;\n\nvarying vec2 vUv;\n\nvoid main(){\n\t// vec4 color=vec4(0.1647, 0.3843, 0.4549, 1.0);\n\t// vec2 st=gl_FragCoord.xy/u_resolution.xy;\n\tvec4 color1 = texture2D(u_map1, vUv);\n\tvec4 color2 = texture2D(u_map2, vUv);\n\n\tgl_FragColor = mix(color1, color2, u_progress);\n}\n");
+
+/***/ }),
+
+/***/ "./src/assets/shader/days/day008.frag":
+/*!********************************************!*\
+  !*** ./src/assets/shader/days/day008.frag ***!
+  \********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ("// precision highp float;\nprecision mediump float;\n#define GLSLIFY 1\n\nuniform vec2 u_resolution;\nuniform float u_time;\nuniform vec2 u_mouse;\n\nuniform sampler2D u_map1;\nuniform sampler2D u_map2;\nuniform sampler2D u_effectMap;\nuniform float u_progress;\nuniform float u_intensity;\nuniform float u_angle;\nuniform vec2 u_aspect;\n\nvarying vec2 vUv;\n\nfloat PI2=6.283185307179586;\nfloat PI_H4=PI2/8.0;\n\nmat2 rotate(float angle){\n\tfloat c=cos(angle);\n\tfloat s=sin(angle);\n\treturn mat2(c,-s,s,c);\n}\n\nvoid main(){\n\t// vec4 color=vec4(0.1647, 0.3843, 0.4549, 1.0);\n\tvec2 st = gl_FragCoord.xy/u_resolution.xy;\n\n\tvec4 effect = texture2D(u_effectMap, vUv);\n\tvec2 effectVec = vec2(effect.r, effect.g);\n\tvec2 uv = (st-vec2(.5)) * u_aspect + vec2(.5);\n\n\tfloat angle1 = u_angle;\n\t// float angle2 = u_angle * 5.0;\n\tfloat angle2 = -u_angle * 3.0;\n\n\tvec2 uv1=uv+rotate(angle1)*effectVec*u_intensity*u_progress;\n\tvec2 uv2=uv+rotate(angle2)*effectVec*u_intensity*(1.-u_progress);\n\n\tvec4 color1 = texture2D(u_map1, uv1);\n\tvec4 color2 = texture2D(u_map2, uv2);\n\tgl_FragColor = mix(color1, color2, u_progress);\n}\n");
 
 /***/ })
 

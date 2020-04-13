@@ -3,29 +3,45 @@ import gsap from "gsap";
 import RenderManager from "$utils/RenderManager";
 import ShaderPlaneMesh from "$utils/ShaderPlaneMesh";
 import Debug from '$utils/Debug';
-import dayFrag from "$shader/days/day007.frag";
+import dayFrag from "$shader/days/day008.frag";
+
+import { LinearFilter, Vector2 } from "three";
+
 
 
 export default class Day{
   static title(){
-    return "Fade";
+    return "Distortion";
   }
 
   constructor(){
     let debug = new Debug();
+
+    let map1 = ImageUtils.loadTexture("./assets/img/img03.jpg");
+    let map2 = ImageUtils.loadTexture("./assets/img/img04.jpg");
+
+    map1.magFilter = map2.magFilter = LinearFilter;
+    map1.minFilter = map2.minFilter = LinearFilter;
 
     let mesh = new ShaderPlaneMesh(null, {
       fragmentShader: dayFrag,
       uniforms: {
         u_map1: {
           type: "t",
-          value: ImageUtils.loadTexture("./assets/img/img03.jpg")
+          value: map1
         },
         u_map2: {
           type: "t",
-          value: ImageUtils.loadTexture("./assets/img/img04.jpg")
+          value: map2
         },
-        u_progress: { type: "f", value: 0.0}
+        u_effectMap: {
+          type: "t",
+          value: ImageUtils.loadTexture("./assets/img/pattern/1.jpg")
+        },
+        u_progress: { type: "f", value: 0.0},
+        u_intensity: { type: "f", value: 0.2},
+        u_angle: { type: "f", value: Math.PI * 0.25},
+        u_aspect: { type: "v", value: new Vector2(1.0, 1.0)},
       }
     });
 

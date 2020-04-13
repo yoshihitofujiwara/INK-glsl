@@ -4,9 +4,8 @@ import ShaderPlaneMesh from "$utils/ShaderPlaneMesh";
 import Debug from '$utils/Debug';
 import dayFrag from "$shader/days/day005.frag";
 
-import { Vector2 } from "three";
 
-export default class Day005{
+export default class Day{
   static title(){
     return "Zoom";
   }

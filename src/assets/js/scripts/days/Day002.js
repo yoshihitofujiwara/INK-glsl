@@ -4,7 +4,7 @@ import Debug from '$utils/Debug';
 import dayFrag from "$shader/days/day002.frag";
 
 
-export default class Day002{
+export default class Day{
   static title(){
     return "Polygon";
   }

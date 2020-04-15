@@ -15597,7 +15597,7 @@ function () {
   _createClass(Day, null, [{
     key: "title",
     value: function title() {
-      return "Distortion";
+      return "Slide Transition";
     }
   }]);
 
@@ -15686,11 +15686,131 @@ function () {
 
 /***/ }),
 
+/***/ "./src/assets/js/scripts/days/Day009.js":
+/*!**********************************************!*\
+  !*** ./src/assets/js/scripts/days/Day009.js ***!
+  \**********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Day; });
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! three */ "./node_modules/three/build/three.module.js");
+/* harmony import */ var gsap__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! gsap */ "./node_modules/gsap/index.js");
+/* harmony import */ var $utils_RenderManager__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! $utils/RenderManager */ "./src/assets/js/scripts/utils/RenderManager.js");
+/* harmony import */ var $utils_ShaderPlaneMesh__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! $utils/ShaderPlaneMesh */ "./src/assets/js/scripts/utils/ShaderPlaneMesh.js");
+/* harmony import */ var $utils_Debug__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! $utils/Debug */ "./src/assets/js/scripts/utils/Debug.js");
+/* harmony import */ var $shader_days_day009_frag__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! $shader/days/day009.frag */ "./src/assets/shader/days/day009.frag");
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+
+
+
+
+
+
+
+
+var Day =
+/*#__PURE__*/
+function () {
+  _createClass(Day, null, [{
+    key: "title",
+    value: function title() {
+      return "Transition";
+    }
+  }]);
+
+  function Day() {
+    _classCallCheck(this, Day);
+
+    var debug = new $utils_Debug__WEBPACK_IMPORTED_MODULE_4__["default"]();
+    var map1 = three__WEBPACK_IMPORTED_MODULE_0__["ImageUtils"].loadTexture("./assets/img/img01.jpg");
+    var map2 = three__WEBPACK_IMPORTED_MODULE_0__["ImageUtils"].loadTexture("./assets/img/img03.jpg");
+    map1.magFilter = map2.magFilter = three__WEBPACK_IMPORTED_MODULE_0__["LinearFilter"];
+    map1.minFilter = map2.minFilter = three__WEBPACK_IMPORTED_MODULE_0__["LinearFilter"];
+    var mesh = new $utils_ShaderPlaneMesh__WEBPACK_IMPORTED_MODULE_3__["default"](null, {
+      fragmentShader: $shader_days_day009_frag__WEBPACK_IMPORTED_MODULE_5__["default"],
+      uniforms: {
+        u_map1: {
+          type: "t",
+          value: map1
+        },
+        u_map2: {
+          type: "t",
+          value: map2
+        },
+        u_effectMap: {
+          type: "t",
+          value: three__WEBPACK_IMPORTED_MODULE_0__["ImageUtils"].loadTexture("./assets/img/transition/1.png")
+        },
+        u_progress: {
+          type: "f",
+          value: 0.0
+        },
+        u_threshold: {
+          type: "f",
+          value: 0.2
+        }
+      }
+    }); // @debug
+
+    debug.gui.add(mesh.material.uniforms.u_threshold, "value", 0, 1, 0.01).name("Threshold").onChange(function () {
+      mesh.material.uniformsNeedUpdate = true;
+    });
+    debug.gui.add(mesh.material.uniforms.u_progress, "value", 0, 1, 0.01).name("Progress").onChange(function () {
+      mesh.material.uniformsNeedUpdate = true;
+    });
+    var params = {
+      tween: function tween() {
+        var value = 1;
+
+        if (mesh.material.uniforms.u_progress.value == 1) {
+          value = 0;
+        }
+
+        gsap__WEBPACK_IMPORTED_MODULE_1__["default"].to(mesh.material.uniforms.u_progress, {
+          value: value,
+          duration: 1,
+          onUpdate: function onUpdate() {
+            debug.gui.updateDisplay();
+          }
+        });
+      }
+    };
+    debug.gui.add(params, "tween");
+    this.renderManager = new $utils_RenderManager__WEBPACK_IMPORTED_MODULE_2__["default"](document.querySelector("#canvas"));
+    this.renderManager.scene.add(mesh);
+    this.renderManager.start(); // @event
+
+    this.renderManager.addEventListener("update", function (params) {
+      mesh.material.uniformsNeedUpdate = true;
+      mesh.material.uniforms.u_time.value = params.time;
+      debug.update();
+    });
+    this.renderManager.canvas.addEventListener("mousemove", function (e) {
+      mesh.material.uniforms.u_mouse.value.x = e.offsetX;
+      mesh.material.uniforms.u_mouse.value.y = e.offsetY;
+    });
+  }
+
+  return Day;
+}();
+
+
+
+/***/ }),
+
 /***/ "./src/assets/js/scripts/days/index.js":
 /*!*********************************************!*\
   !*** ./src/assets/js/scripts/days/index.js ***!
   \*********************************************/
-/*! exports provided: Day001, Day002, Day003, Day004, Day005, Day006, Day007, Day008 */
+/*! exports provided: Day001, Day002, Day003, Day004, Day005, Day006, Day007, Day008, Day009 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -15718,6 +15838,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony import */ var _Day008__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Day008 */ "./src/assets/js/scripts/days/Day008.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day008", function() { return _Day008__WEBPACK_IMPORTED_MODULE_7__["default"]; });
+
+/* harmony import */ var _Day009__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./Day009 */ "./src/assets/js/scripts/days/Day009.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day009", function() { return _Day009__WEBPACK_IMPORTED_MODULE_8__["default"]; });
+
 
 
 
@@ -16187,6 +16311,19 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ("// precision highp float;\nprecision mediump float;\n#define GLSLIFY 1\n\nuniform vec2 u_resolution;\nuniform float u_time;\nuniform vec2 u_mouse;\n\nuniform sampler2D u_map1;\nuniform sampler2D u_map2;\nuniform sampler2D u_effectMap;\nuniform float u_progress;\nuniform float u_intensity;\nuniform float u_angle;\nuniform vec2 u_aspect;\n\nvarying vec2 vUv;\n\nfloat PI2=6.283185307179586;\nfloat PI_H4=PI2/8.0;\n\nmat2 rotate(float angle){\n\tfloat c=cos(angle);\n\tfloat s=sin(angle);\n\treturn mat2(c,-s,s,c);\n}\n\nvoid main(){\n\t// vec4 color=vec4(0.1647, 0.3843, 0.4549, 1.0);\n\tvec2 st = gl_FragCoord.xy/u_resolution.xy;\n\n\tvec4 effect = texture2D(u_effectMap, vUv);\n\tvec2 effectVec = vec2(effect.r, effect.g);\n\tvec2 uv = (st-vec2(.5)) * u_aspect + vec2(.5);\n\n\tfloat angle1 = u_angle;\n\t// float angle2 = u_angle * 5.0;\n\tfloat angle2 = -u_angle * 3.0;\n\n\tvec2 uv1=uv+rotate(angle1)*effectVec*u_intensity*u_progress;\n\tvec2 uv2=uv+rotate(angle2)*effectVec*u_intensity*(1.-u_progress);\n\n\tvec4 color1 = texture2D(u_map1, uv1);\n\tvec4 color2 = texture2D(u_map2, uv2);\n\tgl_FragColor = mix(color1, color2, u_progress);\n}\n");
+
+/***/ }),
+
+/***/ "./src/assets/shader/days/day009.frag":
+/*!********************************************!*\
+  !*** ./src/assets/shader/days/day009.frag ***!
+  \********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ("// precision highp float;\nprecision mediump float;\n#define GLSLIFY 1\n\nuniform vec2 u_resolution;\nuniform float u_time;\nuniform vec2 u_mouse;\n\nuniform sampler2D u_map1;\nuniform sampler2D u_map2;\nuniform sampler2D u_effectMap;\nuniform float u_threshold;\nuniform float u_progress;\n\nvarying vec2 vUv;\n\nconst float adjustF = .00001;\n\nvoid main(){\n\t// vec4 color=vec4(0.1647, 0.3843, 0.4549, 1.0);\n\tvec2 st = gl_FragCoord.xy/u_resolution.xy;\n\n\tvec4 color1=texture2D(u_map1,vUv);\n\tvec4 color2=texture2D(u_map2,vUv);\n\tvec4 transionColor=texture2D(u_effectMap,vUv);\n\n\tfloat p=mix(-u_threshold-adjustF,1.+u_threshold,u_progress);\n\tfloat q=smoothstep(p-u_threshold,p+u_threshold,transionColor.r);\n\n\tgl_FragColor=mix(color1,color2,1.-q);\n\n\t// if(u_progress==0.){\n\t// \tgl_FragColor=texture2D(u_map1,vUv);\n\n\t// }else if(u_progress==1.){\n\t// \tgl_FragColor=texture2D(u_map2,vUv);\n\n\t// }else{\n\t// \ttypeA\n\t// \tvec4 color1=texture2D(u_map1,vUv);\n\t// \tvec4 color2=texture2D(u_map2,vUv);\n\t// \tvec4 transionColor=texture2D(u_effectMap,vUv);\n\n\t// \tfloat p=mix(-u_threshold,1.+u_threshold,u_progress);\n\n\t// \tfloat q=smoothstep(p-u_threshold,p+u_threshold,transionColor.r);\n\n\t// \tgl_FragColor=mix(color1,color2,1.-q);\n\n\t// \t// typeB\n\t// \tvec4 color1=texture2D(u_map1,vUv);\n\t// \tvec4 color2=texture2D(u_map2,vUv);\n\t// \tvec4 transionColor=texture2D(u_effectMap,vUv);\n\n\t// \tfloat r=u_progress*(1.+u_threshold*2.)-u_threshold;\n\t// \tfloat mixf=clamp((r-transionColor.r)*(1./u_threshold),0.,1.);\n\n\t// \tgl_FragColor=mix(color1,color2,mixf);\n\t// }\n}\n");
 
 /***/ })
 

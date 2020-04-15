@@ -3,7 +3,7 @@ import gsap from "gsap";
 import RenderManager from "$utils/RenderManager";
 import ShaderPlaneMesh from "$utils/ShaderPlaneMesh";
 import Debug from '$utils/Debug';
-import dayFrag from "$shader/days/day008.frag";
+import dayFrag from "$shader/days/day009.frag";
 
 import { LinearFilter, Vector2 } from "three";
 
@@ -11,14 +11,14 @@ import { LinearFilter, Vector2 } from "three";
 
 export default class Day{
   static title(){
-    return "Slide Transition";
+    return "Transition";
   }
 
   constructor(){
     let debug = new Debug();
 
-    let map1 = ImageUtils.loadTexture("./assets/img/img03.jpg");
-    let map2 = ImageUtils.loadTexture("./assets/img/img04.jpg");
+    let map1 = ImageUtils.loadTexture("./assets/img/img01.jpg");
+    let map2 = ImageUtils.loadTexture("./assets/img/img03.jpg");
 
     map1.magFilter = map2.magFilter = LinearFilter;
     map1.minFilter = map2.minFilter = LinearFilter;
@@ -36,17 +36,18 @@ export default class Day{
         },
         u_effectMap: {
           type: "t",
-          value: ImageUtils.loadTexture("./assets/img/pattern/1.jpg")
+          value: ImageUtils.loadTexture("./assets/img/transition/1.png")
         },
         u_progress: { type: "f", value: 0.0},
-        u_intensity: { type: "f", value: 0.2},
-        u_angle: { type: "f", value: Math.PI * 0.25},
-        u_aspect: { type: "v", value: new Vector2(1.0, 1.0)},
+        u_threshold: { type: "f", value: 0.2}
       }
     });
 
     // @debug
-    let p = debug.gui.add(mesh.material.uniforms.u_progress, "value", 0, 1, 0.01).name("Progress").onChange(()=>{
+    debug.gui.add(mesh.material.uniforms.u_threshold, "value", 0, 1, 0.01).name("Threshold").onChange(()=>{
+      mesh.material.uniformsNeedUpdate = true;
+    });
+    debug.gui.add(mesh.material.uniforms.u_progress, "value", 0, 1, 0.01).name("Progress").onChange(()=>{
       mesh.material.uniformsNeedUpdate = true;
     });
 

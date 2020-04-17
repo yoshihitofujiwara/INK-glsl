@@ -3,7 +3,7 @@ import gsap from "gsap";
 import RenderManager from "$utils/RenderManager";
 import ShaderPlaneMesh from "$utils/ShaderPlaneMesh";
 import Debug from '$utils/Debug';
-import dayFrag from "$shader/days/day010.frag";
+import dayFrag from "$shader/days/day011.frag";
 
 import { LinearFilter, Vector2 } from "three";
 
@@ -11,7 +11,7 @@ import { LinearFilter, Vector2 } from "three";
 
 export default class Day{
   static title(){
-    return "RGB Split";
+    return "Wave";
   }
 
   constructor(){
@@ -28,21 +28,24 @@ export default class Day{
           type: "t",
           value: map1
         },
-        u_distance: { type: "f", value: 0.01},
-        u_speed: { type: "f", value: 0.2},
+        u_fineness: { type: "f", value: 16},
+        u_speed: { type: "f", value: 5},
+        u_volume: { type: "f", value: 0.25},
       }
     });
 
     // @debug
-    debug.gui.add(mesh.material.uniforms.u_speed, "value", 0.1, 3, 0.01).name("Speed").onChange(()=>{
+    debug.gui.add(mesh.material.uniforms.u_speed, "value", 0, 10, 0.1).name("Speed").onChange(()=>{
       mesh.material.uniformsNeedUpdate = true;
     });
 
-
-    debug.gui.add(mesh.material.uniforms.u_distance, "value", 0, 0.03, 0.001).name("Distance").onChange(()=>{
+    debug.gui.add(mesh.material.uniforms.u_fineness, "value", 0, 512).name("Fineness").onChange(()=>{
       mesh.material.uniformsNeedUpdate = true;
     });
 
+    debug.gui.add(mesh.material.uniforms.u_volume, "value", 0, 1, 0.01).name("Volume").onChange(()=>{
+      mesh.material.uniformsNeedUpdate = true;
+    });
 
     this.renderManager = new RenderManager(document.querySelector("#canvas"));
     this.renderManager.scene.add(mesh);

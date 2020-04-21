@@ -13821,6 +13821,456 @@ module.exports = g;
 
 /***/ }),
 
+/***/ "./src/assets/js/libs/inkjs/class_events/Events.js":
+/*!*********************************************************!*\
+  !*** ./src/assets/js/libs/inkjs/class_events/Events.js ***!
+  \*********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Events; });
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils */ "./src/assets/js/libs/inkjs/utils/index.js");
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+/// INKjs Javascript Library
+/// The MIT License (MIT)
+/// Source https://github.com/yoshihitofujiwara/INKjs
+/// Author Yoshihito Fujiwara
+/// Copyright (c) 2012 Yoshihito Fujiwara
+
+/**
+ * イベント
+ * イベントクラスの継承して使用出来ます｡メディエーターとしても使用すことも可能
+ *
+ * @class Events
+ * @constructor
+ * @example
+ *   var events = new Events();
+ *
+ *   // on<br>
+ *   events.on('change', listener);<br>
+ *   events.on('change.type', listener);<br>
+ *
+ *   // off<br>
+ *   events.off('change');<br>
+ *   events.off('change', listener);<br>
+ *   events.off();<br>
+ *
+ *   // trigger<br>
+ *   events.trigger('change');<br>
+ *   events.trigger('change.type');
+ */
+
+var Events =
+/*#__PURE__*/
+function () {
+  /**
+   * constructor
+   */
+  function Events() {
+    _classCallCheck(this, Events);
+
+    /**
+     * id
+     * @private
+     * @property _id
+     * @type {string}
+     */
+    this._id = _utils__WEBPACK_IMPORTED_MODULE_0__["createId"]();
+    /**
+     * イベントリスナーを連想配列で格納します
+     * @private
+     * @property _listeners
+     * @type {object}
+     * @example
+     *   _listeners[eventName] = [{
+     *      attr    : eventObj.attr, <br>
+     *      listener: listener, <br>
+     *      context : context <br>
+     *   }]
+     */
+
+    this._listeners = {};
+  }
+  /**
+   * イベント登録
+   * イベント名に属性名を付与するも可能
+   * @method on
+   * @param {string} type イベントタイプ
+   * @param {function} listener イベントリスナー
+   * @param {object} context コンテキスト
+   * @return {Events}
+   */
+
+
+  _createClass(Events, [{
+    key: "on",
+    value: function on(type, listener, context) {
+      this._addEvent(type, listener, context);
+
+      return this;
+    }
+    /**
+     * 1度だけ実行するイベント登録
+     * @method onece
+     * @param {string} type イベントタイプ
+     * @param {function} listener イベントリスナー
+     * @param {object} context コンテキスト
+     * @return {Events}
+     */
+
+  }, {
+    key: "onece",
+    value: function onece(type, listener, context) {
+      var _this = this,
+          _arguments = arguments;
+
+      this.on(type, function () {
+        _this.off(type);
+
+        listener.apply(_this, _arguments);
+      }, context);
+      return this;
+    }
+    /**
+     * イベント削除
+     * type省略時は、全てのイベントを削除<br>
+     * listener省略時は、指定イベントタイプ全て削除
+     *
+     * @method off
+     * @param {string} type イベントタイプ 省略可
+     * @param {function} listener イベントリスナー 省略可
+     * @return {Events}
+     */
+
+  }, {
+    key: "off",
+    value: function off(type, listener) {
+      this._removeEvent(type, listener);
+
+      return this;
+    }
+    /**
+     * イベント追加
+     * @private
+     * @method _addEvent
+     * @param {string} type イベントタイプ
+     * @param {function} listener コールバック関数
+     * @param {object} context コンテキスト
+     * @return {Void}
+     */
+
+  }, {
+    key: "_addEvent",
+    value: function _addEvent(type, listener, context) {
+      var _this2 = this;
+
+      var events = type.split(' ');
+
+      if (_utils__WEBPACK_IMPORTED_MODULE_0__["isFunction"](listener)) {
+        _utils__WEBPACK_IMPORTED_MODULE_0__["each"](events, function (item) {
+          var eventObj = _this2._getEventNameMap(item);
+
+          _this2._listeners[eventObj.type] = _this2._listeners[eventObj.type] || [];
+
+          _this2._listeners[eventObj.type].push({
+            attr: eventObj.attr,
+            listener: listener,
+            context: context
+          });
+        });
+      }
+    }
+    /**
+     * イベント削除
+     * @private
+     * @method _removeEvent
+     * @param {string} type イベントタイプ
+     * @param {function} listener コールバック関数
+     * @return {Void}
+     */
+
+  }, {
+    key: "_removeEvent",
+    value: function _removeEvent(type, listener) {
+      var _this3 = this;
+
+      var events = type ? type.split(' ') : [],
+          ary = null,
+          listeners;
+      listener = _utils__WEBPACK_IMPORTED_MODULE_0__["getFunctionName"](listener);
+      _utils__WEBPACK_IMPORTED_MODULE_0__["each"](events, function (event) {
+        var eventObj = _this3._getEventNameMap(event);
+
+        if (eventObj && eventObj.attr && _this3._listeners[eventObj.type]) {
+          // イベント属性指定がある場合
+          listeners = _this3._listeners[eventObj.type];
+          _utils__WEBPACK_IMPORTED_MODULE_0__["each"](listeners, function (item) {
+            if (item.attr !== eventObj.attr) {
+              if (listener) {
+                if (listener !== _utils__WEBPACK_IMPORTED_MODULE_0__["getFunctionName"](item.listener)) {
+                  ary = ary || [];
+                  ary.push(item);
+                }
+              } else {
+                ary = ary || [];
+                ary.push(item);
+              }
+            }
+          });
+          _this3._listeners[eventObj.type] = ary;
+        } else if (eventObj) {
+          // イベントタイプ指定ある場合
+          if (listener) {
+            listeners = _this3._listeners[eventObj.type];
+            _utils__WEBPACK_IMPORTED_MODULE_0__["each"](listeners, function (item) {
+              if (listener !== _utils__WEBPACK_IMPORTED_MODULE_0__["getFunctionName"](item.listener)) {
+                ary = ary || [];
+                ary.push(item);
+              }
+            });
+          }
+
+          _this3._listeners[eventObj.type] = ary;
+        } else {
+          // イベント全て削除
+          _this3._listeners = null;
+          _this3._listeners = {};
+        }
+      });
+    }
+    /**
+     * イベント名、イベント属性を連想配列にして返す
+     * @private
+     * @method _getEventNameMap
+     * @param {string} type イベントタイプ
+     * @return {object}
+     */
+
+  }, {
+    key: "_getEventNameMap",
+    value: function _getEventNameMap(type) {
+      var events = type.split('.');
+      return {
+        type: events[0],
+        attr: events[1]
+      };
+    }
+    /**
+     * 登録イベントがあるか判定します
+     * @method hasEvent
+     * @param {string} type イベントタイプ
+     * @return {boolean}
+     */
+
+  }, {
+    key: "hasEvent",
+    value: function hasEvent(type) {
+      var flag = false,
+          events = this._getEventNameMap(type),
+          listeners = this._listeners[events.type]; // イベントリスナーの有無
+
+
+      if (listeners) {
+        // 属性指定がある場合
+        if (events.attr) {
+          _utils__WEBPACK_IMPORTED_MODULE_0__["each"](listeners, function (item) {
+            if (item.attr === events.attr) {
+              flag = true;
+              return false;
+            }
+          });
+        } else {
+          flag = true;
+        }
+      }
+
+      return flag;
+    }
+    /**
+     * イベント発行
+     * 第二引数以降に値を渡すとcallbackに引数として渡します
+     * @method trigger
+     * @param {string} type イベントタイプ
+     * @return {Events}
+     */
+
+  }, {
+    key: "trigger",
+    value: function trigger(type) {
+      var events = this._getEventNameMap(type),
+          listeners = this._listeners[events.type],
+          args = _utils__WEBPACK_IMPORTED_MODULE_0__["argsToArray"](arguments, 1);
+
+      if (listeners) {
+        _utils__WEBPACK_IMPORTED_MODULE_0__["each"](listeners, function (item) {
+          if (!events.attr || item.attr === events.attr) {
+            item.listener.apply(item.context, args);
+          }
+        });
+      }
+
+      return this;
+    }
+  }]);
+
+  return Events;
+}();
+
+
+
+/***/ }),
+
+/***/ "./src/assets/js/libs/inkjs/class_utils/WebRTC.js":
+/*!********************************************************!*\
+  !*** ./src/assets/js/libs/inkjs/class_utils/WebRTC.js ***!
+  \********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return WebRTC; });
+/* harmony import */ var _class_events_Events__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../class_events/Events */ "./src/assets/js/libs/inkjs/class_events/Events.js");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils */ "./src/assets/js/libs/inkjs/utils/index.js");
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+/// INKjs Javascript Library
+/// The MIT License (MIT)
+/// Source https://github.com/yoshihitofujiwara/INKjs
+/// Author Yoshihito Fujiwara
+/// Copyright (c) 2012 Yoshihito Fujiwara
+
+
+/**
+ * @class WebCamera
+ * @constructor
+ */
+
+var WebRTC =
+/*#__PURE__*/
+function (_Events) {
+  _inherits(WebRTC, _Events);
+
+  /**
+   * constructor
+   */
+  function WebRTC(video, options) {
+    var _this;
+
+    _classCallCheck(this, WebRTC);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(WebRTC).call(this));
+    /**
+     * イベントリスト
+     * @private
+     * @property _EVENTS
+     * @type {object}
+     */
+
+    _this._EVENTS = {
+      // FAIL        : 'fail',
+      DONE: "done",
+      ERROR: "error",
+      LOAD: "load"
+    }; /// FIXME: offscreenレンダリング可能か？
+
+    /**
+     * 表示用video
+     * @property video
+     * @type {DOM}
+     */
+
+    _this.video = video;
+    /**
+     * options
+     * @type {object}
+     */
+
+    _this.options = _utils__WEBPACK_IMPORTED_MODULE_1__["mixin"](true, {
+      constraints: {
+        video: true,
+        audio: false
+      }
+    }, options);
+    return _this;
+  }
+  /**
+   * setup
+   * @return {Promise}
+   */
+
+
+  _createClass(WebRTC, [{
+    key: "setup",
+    value: function setup() {
+      var _this2 = this;
+
+      return navigator.mediaDevices.getUserMedia(this.options.constraints).then(function (stream) {
+        _this2.trigger(_this2._EVENTS.DONE, stream);
+
+        _this2.video.srcObject = stream;
+
+        _this2.trigger(_this2._EVENTS.LOAD);
+      }).catch(function (err) {
+        _this2.trigger(_this2._EVENTS.ERROR, err);
+
+        _utils__WEBPACK_IMPORTED_MODULE_1__["log"](err.name + ": " + err.message);
+      });
+    }
+    /**
+     * play
+     * @return {WebCamera}
+     */
+
+  }, {
+    key: "play",
+    value: function play() {
+      this.video.play();
+      return this;
+    }
+    /**
+     * pause
+     * @return {WebCamera}
+     */
+
+  }, {
+    key: "pause",
+    value: function pause() {
+      this.video.pause();
+      return this;
+    }
+  }]);
+
+  return WebRTC;
+}(_class_events_Events__WEBPACK_IMPORTED_MODULE_0__["default"]);
+
+
+
+/***/ }),
+
 /***/ "./src/assets/js/libs/inkjs/utils/array.js":
 /*!*************************************************!*\
   !*** ./src/assets/js/libs/inkjs/utils/array.js ***!
@@ -13950,6 +14400,717 @@ function shuffle(ary) {
   });
 }
 ;
+
+/***/ }),
+
+/***/ "./src/assets/js/libs/inkjs/utils/calc.js":
+/*!************************************************!*\
+  !*** ./src/assets/js/libs/inkjs/utils/calc.js ***!
+  \************************************************/
+/*! exports provided: PI, TWO_PI, HARF_PI, RAD_TO_DEG, DEG_TO_RAD, sqrt2, radToCoord, degToCoord, coordToRad, coordToDeg, radToDeg, degToRad, diagonal, diagonalToSideLength, sign, fract, clamp, factorial, inRange, isIntersect, lerp, smoothstep, normalize, map */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PI", function() { return PI; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TWO_PI", function() { return TWO_PI; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HARF_PI", function() { return HARF_PI; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RAD_TO_DEG", function() { return RAD_TO_DEG; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DEG_TO_RAD", function() { return DEG_TO_RAD; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sqrt2", function() { return sqrt2; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "radToCoord", function() { return radToCoord; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "degToCoord", function() { return degToCoord; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "coordToRad", function() { return coordToRad; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "coordToDeg", function() { return coordToDeg; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "radToDeg", function() { return radToDeg; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "degToRad", function() { return degToRad; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "diagonal", function() { return diagonal; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "diagonalToSideLength", function() { return diagonalToSideLength; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sign", function() { return sign; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fract", function() { return fract; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "clamp", function() { return clamp; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "factorial", function() { return factorial; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "inRange", function() { return inRange; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isIntersect", function() { return isIntersect; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "lerp", function() { return lerp; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "smoothstep", function() { return smoothstep; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "normalize", function() { return normalize; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "map", function() { return map; });
+/// INKjs Javascript Library
+/// The MIT License (MIT)
+/// Source https://github.com/yoshihitofujiwara/INKjs
+/// Author Yoshihito Fujiwara
+/// Copyright (c) 2012 Yoshihito Fujiwara
+
+/**
+ * @class Math
+ */
+
+/**
+ * π (半円)
+ * @static
+ * @property PI
+ * @type {number}
+ */
+var PI = Math.PI;
+/**
+ * π * 2 (円)
+ * @static
+ * @property TWO_PI
+ * @type {number}
+ */
+
+var TWO_PI = PI * 2;
+/**
+ * π * 2 (1/4円)
+ * @static
+ * @property HARF_PI
+ * @type {number}
+ */
+
+var HARF_PI = PI / 2;
+/**
+ * ラジアンからに角度変換する積数
+ * @static
+ * @property RAD_TO_DEG
+ * @type {number}
+ */
+
+var RAD_TO_DEG = 180 / PI;
+/**
+ * 角度からラジアンに変換する積数
+ * @static
+ * @property DEG_TO_RAD
+ * @type {number}
+ */
+
+var DEG_TO_RAD = PI / 180;
+/**
+ * √2
+ * @static
+ * @property sqrt2
+ * @type {number}
+ */
+
+var sqrt2 = Math.sqrt(2);
+/* Convert
+-----------------------------------------------------------------*/
+
+/**
+ * ラジアンと半径から座標生成
+ * @method radToCoord
+ * @param  {number} rad ラジアン
+ * @param  {number} radius 半径
+ * @return {object} x, y座標を格納したオブジェクト
+ */
+
+function radToCoord(rad) {
+  var radius = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+  return {
+    x: Math.cos(rad) * radius,
+    y: Math.sin(rad) * radius
+  };
+}
+;
+/**
+ * 角度と半径から座標を生成
+ * @method degToCoord
+ * @param  {number} deg ラジアン
+ * @param  {number} radius 半径
+ * @return {object} x, y座標を格納したオブジェクト
+ */
+
+function degToCoord(deg) {
+  var radius = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+  return radToCoord(degToRad(deg), radius);
+}
+;
+/**
+ * 座標からRadianを取得
+ * @static
+ * @method coordToRad
+ * @param  {number} x x座標値
+ * @param  {number} y y座標値
+ * @return {number} Radian
+ */
+
+function coordToRad(x, y) {
+  return Math.atan2(y, x);
+}
+;
+/**
+ * 座標からDegreesを取得
+ * @static
+ * @method coordToDeg
+ * @param  {number} x x座標値
+ * @param  {number} y y座標値
+ * @return {number} Degrees
+ */
+
+function coordToDeg(x, y) {
+  return Math.atan2(y, x) * RAD_TO_DEG;
+}
+;
+/**
+ * ラジアンから角度を求める
+ * @static
+ * @method radToDeg
+ * @param {number} rad ラジアン
+ * @return {number} degree
+ */
+
+function radToDeg(rad) {
+  return rad * RAD_TO_DEG;
+}
+;
+/**
+ * 角度をラジアンに変換して返す
+ * @static
+ * @method degToRad
+ * @param {number} deg 角度
+ * @return {number} radian
+ */
+
+function degToRad(deg) {
+  return deg * DEG_TO_RAD;
+}
+;
+/**
+ * 対角線の長さ
+ * @static
+ * @method diagonal
+ * @param  {number} x 横
+ * @param  {number} y 縦
+ * @return {number}
+ */
+
+function diagonal(x, y) {
+  return Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+}
+;
+/**
+ * 対角線の長さから正方形の辺の長さを求める（なす角45°）
+ * @static
+ * @method diagonalToSideLength
+ * @param  {number} diagonal 対角線の長さ
+ * @return {number}
+ */
+
+function diagonalToSideLength(diagonal) {
+  return diagonal / utils.sqrt2;
+}
+/* Utilitys
+-----------------------------------------------------------------*/
+
+/**
+ * 値の符号化
+ * numが正なら+1.0、0.0なら0.0、負なら-1.0を返す
+ * @static
+ * @method sign
+ * @param  {number} num
+ * @return {number} -1, 0, 1のいずれかの値
+ */
+
+function sign(num) {
+  if (0 < num) {
+    return 1;
+  } else if (0 > num) {
+    return -1;
+  } else {
+    return 0;
+  }
+}
+;
+/**
+ * 小数点を取り出す
+ * @static
+ * @method fract
+ * @param  {number} num
+ * @return {number}
+ */
+
+function fract(num) {
+  return num - Math.floor(num);
+}
+;
+/**
+ * 値の有効範囲を適用して返す
+ * @static
+ * @method clamp
+ * @param {number} num 数値
+ * @param {number} min 最小値
+ * @param {number} max 最大値
+ * @return {number} 有効範囲を適用した数値
+ */
+
+function clamp(num, min, max) {
+  return Math.max(Math.min(num, max), min);
+}
+;
+/**
+ * 階乗の計算
+ * @static
+ * @method factorial
+ * @param {number} num 階乗数
+ * @return {number}
+ */
+
+function factorial(num) {
+  var total = 1;
+
+  while (num) {
+    total = total * num;
+    num -= 1;
+  }
+
+  return total;
+}
+;
+/**
+ * 範囲内に値があるか
+ * @static
+ * @method inRange
+ * @param  {number} val 数値
+ * @param  {number} min 最小値
+ * @param  {number} max 最大値
+ * @return {boolean}
+ */
+
+function inRange(val, min, max) {
+  return val >= Math.min(min, max) && val <= Math.max(min, max);
+}
+;
+/**
+ * 値の範囲が交差するか
+ * @static
+ * @method isIntersect
+ * @param  {number} rangeMin1 範囲1の最小値
+ * @param  {number} rangeMax1 範囲1の最大値
+ * @param  {number} rangeMin2 範囲2の最小値
+ * @param  {number} rangeMax2 範囲2の最大値
+ * @return {boolean}
+ */
+
+function isIntersect(rangeMin1, rangeMax1, rangeMin2, rangeMax2) {
+  return Math.max(rangeMin1, rangeMax1) >= Math.min(rangeMin2, rangeMax2) && Math.min(rangeMin1, rangeMax1) <= Math.max(rangeMin2, rangeMax2);
+}
+;
+/**
+ * 線形補間
+ * @static
+ * @method lerp
+ * @param  {number} val 線形補間する指定の値
+ * @param  {number} min   最小値
+ * @param  {number} max   最大値
+ * @return {number}       線形補間した値
+ */
+
+function lerp(val, min, max) {
+  return (max - min) * val + min;
+}
+;
+/**
+ * エルミート補完
+ * @static
+ * @method smoothstep
+ * @param  {number} val 線形補間する指定の値
+ * @param  {number} min   最小値
+ * @param  {number} max   最大値
+ * @return {number}       線形補間した値
+ */
+
+function smoothstep(val, min, max) {
+  // return clamp((val - min) / (max - min), 0, 1);
+  var t = clamp((val - min) / (max - min), 0, 1);
+  return t * t * (3 - 2 * t);
+}
+;
+/**
+ * 正規化(0.0-1.0)
+ * @static
+ * @method normalize
+ * @param  {number} val 正規化する値
+ * @param  {number} min   最小値
+ * @param  {number} max   最大値
+ * @return {number}       正規化した値
+ */
+
+function normalize(val, min, max) {
+  return (val - min) / (max - min);
+}
+;
+/**
+ * 値の有効範囲の最適化（マッピング）
+ * valueを範囲scorpeA1 - scorpeA2から範囲scorpeB1 - scorpeB2へ変換
+ * @static
+ * @method map
+ * @param  {number} val   最適化する値
+ * @param  {number} fromMin 現在基準の最小値
+ * @param  {number} fromMax 現在基準の最大値
+ * @param  {number} toMin 最適化基準の最小値
+ * @param  {number} toMax 最適化基準の最大値
+ * @return {number}         最適化した値
+ */
+
+function map(val, fromMin, fromMax, toMin, toMax) {
+  return lerp(normalize(val, fromMin, fromMax), toMin, toMax);
+}
+;
+
+/***/ }),
+
+/***/ "./src/assets/js/libs/inkjs/utils/config.js":
+/*!**************************************************!*\
+  !*** ./src/assets/js/libs/inkjs/utils/config.js ***!
+  \**************************************************/
+/*! exports provided: isDevelop */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isDevelop", function() { return isDevelop; });
+/// INKjs Javascript Library
+/// The MIT License (MIT)
+/// Source https://github.com/yoshihitofujiwara/INKjs
+/// Author Yoshihito Fujiwara
+/// Copyright (c) 2012 Yoshihito Fujiwara
+
+/**
+ * @class Config
+ */
+
+/**
+ * isDevelop 開発モードフラグ
+ * @type {boolean}
+ */
+var isDevelop = true;
+
+/***/ }),
+
+/***/ "./src/assets/js/libs/inkjs/utils/has.js":
+/*!***********************************************!*\
+  !*** ./src/assets/js/libs/inkjs/utils/has.js ***!
+  \***********************************************/
+/*! exports provided: hasHash, hasString, hasUA */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "hasHash", function() { return hasHash; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "hasString", function() { return hasString; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "hasUA", function() { return hasUA; });
+/* harmony import */ var _is__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./is */ "./src/assets/js/libs/inkjs/utils/is.js");
+/// INKjs Javascript Library
+/// The MIT License (MIT)
+/// Source https://github.com/yoshihitofujiwara/INKjs
+/// Author Yoshihito Fujiwara
+/// Copyright (c) 2012 Yoshihito Fujiwara
+
+/**
+ * @class Has
+ */
+
+var url = window.location;
+/**
+ * LocationHashの有無
+ * @static
+ * @method hasHash
+ * @param {string} key ハッシュ名 省略可
+ * @return {boolean}
+ */
+
+function hasHash(key) {
+  var flag = false;
+
+  if (url.href.indexOf("#") > -1) {
+    if (key) {
+      var k = " " + key.replace(/^#/, "") + " ",
+          vals = url.hash.split("#"),
+          i = 0,
+          l = vals.length;
+
+      for (; i < l; i += 1) {
+        if (k.indexOf(" " + vals[i] + " ") !== -1) {
+          flag = true;
+          break;
+        }
+      }
+    } else {
+      flag = true;
+    }
+  }
+
+  return flag;
+}
+;
+/**
+ * 文字列を検索し、指定の文字列があるか判定
+ * @static
+ * @method hasString
+ * @param {string} str 対象の文字列
+ * @param {string} haStr 検索文字
+ * @return {boolean}
+ */
+
+function hasString(str, hasStr) {
+  return _is__WEBPACK_IMPORTED_MODULE_0__["isString"](str) && str.indexOf(hasStr) > -1;
+}
+;
+/**
+ * ユーザーエージェントに指定の文字列があるか判定します
+ * @static
+ * @method hasUA
+ * @param {string} str 指定の文字列
+ * @return {boolean}
+ */
+
+function hasUA(str) {
+  return _is__WEBPACK_IMPORTED_MODULE_0__["ua"].indexOf(str) > -1;
+}
+;
+
+/***/ }),
+
+/***/ "./src/assets/js/libs/inkjs/utils/index.js":
+/*!*************************************************!*\
+  !*** ./src/assets/js/libs/inkjs/utils/index.js ***!
+  \*************************************************/
+/*! exports provided: argsToArray, each, findMax, findMin, shuffle, isDevelop, hasHash, hasString, hasUA, UA, ua, isArray, isBoolean, isFunction, isNumber, isObject, isPlainObject, isString, isRegexp, isUndefined, isNull, isMultibyte, isEmail, isOS, isWindows, isMac, isIos, isAndroid, isDevice, isPC, isSmartDevice, isSmartPhone, isTablet, isIPhone, isIPad, isIPod, isAndroidPhone, isAndroidTablet, isBrowser, isIE, isEdge, isChrome, isFirefox, isSafari, isMobileSafari, isAndroidBrowser, isMobileChrome, isIosChrome, isAndroidChrome, isWebkit, isFileAPI, isRequestFileSystem, isStorage, isTouchScreen, getHash, getQuery, queryHashMap, PI, TWO_PI, HARF_PI, RAD_TO_DEG, DEG_TO_RAD, sqrt2, radToCoord, degToCoord, coordToRad, coordToDeg, radToDeg, degToRad, diagonal, diagonalToSideLength, sign, fract, clamp, factorial, inRange, isIntersect, lerp, smoothstep, normalize, map, random, randomInt, randomLow, randomLow2, randomHight, randomHight2, randomNormalize, randomLinerLow, randomLinerHight, randomLinerCenter, zeroPadding, createId, objectToQuery, removeSpace, replaceAll, toHarfNumber, base64FileSize, getFunctionName, mixin, nowDate, spec, noop, log */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _array__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./array */ "./src/assets/js/libs/inkjs/utils/array.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "argsToArray", function() { return _array__WEBPACK_IMPORTED_MODULE_0__["argsToArray"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "each", function() { return _array__WEBPACK_IMPORTED_MODULE_0__["each"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "findMax", function() { return _array__WEBPACK_IMPORTED_MODULE_0__["findMax"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "findMin", function() { return _array__WEBPACK_IMPORTED_MODULE_0__["findMin"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "shuffle", function() { return _array__WEBPACK_IMPORTED_MODULE_0__["shuffle"]; });
+
+/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./config */ "./src/assets/js/libs/inkjs/utils/config.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isDevelop", function() { return _config__WEBPACK_IMPORTED_MODULE_1__["isDevelop"]; });
+
+/* harmony import */ var _has__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./has */ "./src/assets/js/libs/inkjs/utils/has.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "hasHash", function() { return _has__WEBPACK_IMPORTED_MODULE_2__["hasHash"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "hasString", function() { return _has__WEBPACK_IMPORTED_MODULE_2__["hasString"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "hasUA", function() { return _has__WEBPACK_IMPORTED_MODULE_2__["hasUA"]; });
+
+/* harmony import */ var _is__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./is */ "./src/assets/js/libs/inkjs/utils/is.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "UA", function() { return _is__WEBPACK_IMPORTED_MODULE_3__["UA"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ua", function() { return _is__WEBPACK_IMPORTED_MODULE_3__["ua"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isArray", function() { return _is__WEBPACK_IMPORTED_MODULE_3__["isArray"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isBoolean", function() { return _is__WEBPACK_IMPORTED_MODULE_3__["isBoolean"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isFunction", function() { return _is__WEBPACK_IMPORTED_MODULE_3__["isFunction"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isNumber", function() { return _is__WEBPACK_IMPORTED_MODULE_3__["isNumber"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isObject", function() { return _is__WEBPACK_IMPORTED_MODULE_3__["isObject"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isPlainObject", function() { return _is__WEBPACK_IMPORTED_MODULE_3__["isPlainObject"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isString", function() { return _is__WEBPACK_IMPORTED_MODULE_3__["isString"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isRegexp", function() { return _is__WEBPACK_IMPORTED_MODULE_3__["isRegexp"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isUndefined", function() { return _is__WEBPACK_IMPORTED_MODULE_3__["isUndefined"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isNull", function() { return _is__WEBPACK_IMPORTED_MODULE_3__["isNull"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isMultibyte", function() { return _is__WEBPACK_IMPORTED_MODULE_3__["isMultibyte"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isEmail", function() { return _is__WEBPACK_IMPORTED_MODULE_3__["isEmail"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isOS", function() { return _is__WEBPACK_IMPORTED_MODULE_3__["isOS"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isWindows", function() { return _is__WEBPACK_IMPORTED_MODULE_3__["isWindows"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isMac", function() { return _is__WEBPACK_IMPORTED_MODULE_3__["isMac"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isIos", function() { return _is__WEBPACK_IMPORTED_MODULE_3__["isIos"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isAndroid", function() { return _is__WEBPACK_IMPORTED_MODULE_3__["isAndroid"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isDevice", function() { return _is__WEBPACK_IMPORTED_MODULE_3__["isDevice"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isPC", function() { return _is__WEBPACK_IMPORTED_MODULE_3__["isPC"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isSmartDevice", function() { return _is__WEBPACK_IMPORTED_MODULE_3__["isSmartDevice"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isSmartPhone", function() { return _is__WEBPACK_IMPORTED_MODULE_3__["isSmartPhone"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isTablet", function() { return _is__WEBPACK_IMPORTED_MODULE_3__["isTablet"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isIPhone", function() { return _is__WEBPACK_IMPORTED_MODULE_3__["isIPhone"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isIPad", function() { return _is__WEBPACK_IMPORTED_MODULE_3__["isIPad"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isIPod", function() { return _is__WEBPACK_IMPORTED_MODULE_3__["isIPod"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isAndroidPhone", function() { return _is__WEBPACK_IMPORTED_MODULE_3__["isAndroidPhone"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isAndroidTablet", function() { return _is__WEBPACK_IMPORTED_MODULE_3__["isAndroidTablet"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isBrowser", function() { return _is__WEBPACK_IMPORTED_MODULE_3__["isBrowser"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isIE", function() { return _is__WEBPACK_IMPORTED_MODULE_3__["isIE"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isEdge", function() { return _is__WEBPACK_IMPORTED_MODULE_3__["isEdge"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isChrome", function() { return _is__WEBPACK_IMPORTED_MODULE_3__["isChrome"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isFirefox", function() { return _is__WEBPACK_IMPORTED_MODULE_3__["isFirefox"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isSafari", function() { return _is__WEBPACK_IMPORTED_MODULE_3__["isSafari"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isMobileSafari", function() { return _is__WEBPACK_IMPORTED_MODULE_3__["isMobileSafari"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isAndroidBrowser", function() { return _is__WEBPACK_IMPORTED_MODULE_3__["isAndroidBrowser"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isMobileChrome", function() { return _is__WEBPACK_IMPORTED_MODULE_3__["isMobileChrome"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isIosChrome", function() { return _is__WEBPACK_IMPORTED_MODULE_3__["isIosChrome"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isAndroidChrome", function() { return _is__WEBPACK_IMPORTED_MODULE_3__["isAndroidChrome"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isWebkit", function() { return _is__WEBPACK_IMPORTED_MODULE_3__["isWebkit"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isFileAPI", function() { return _is__WEBPACK_IMPORTED_MODULE_3__["isFileAPI"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isRequestFileSystem", function() { return _is__WEBPACK_IMPORTED_MODULE_3__["isRequestFileSystem"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isStorage", function() { return _is__WEBPACK_IMPORTED_MODULE_3__["isStorage"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isTouchScreen", function() { return _is__WEBPACK_IMPORTED_MODULE_3__["isTouchScreen"]; });
+
+/* harmony import */ var _location__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./location */ "./src/assets/js/libs/inkjs/utils/location.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getHash", function() { return _location__WEBPACK_IMPORTED_MODULE_4__["getHash"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getQuery", function() { return _location__WEBPACK_IMPORTED_MODULE_4__["getQuery"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "queryHashMap", function() { return _location__WEBPACK_IMPORTED_MODULE_4__["queryHashMap"]; });
+
+/* harmony import */ var _calc__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./calc */ "./src/assets/js/libs/inkjs/utils/calc.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "PI", function() { return _calc__WEBPACK_IMPORTED_MODULE_5__["PI"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "TWO_PI", function() { return _calc__WEBPACK_IMPORTED_MODULE_5__["TWO_PI"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "HARF_PI", function() { return _calc__WEBPACK_IMPORTED_MODULE_5__["HARF_PI"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "RAD_TO_DEG", function() { return _calc__WEBPACK_IMPORTED_MODULE_5__["RAD_TO_DEG"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "DEG_TO_RAD", function() { return _calc__WEBPACK_IMPORTED_MODULE_5__["DEG_TO_RAD"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "sqrt2", function() { return _calc__WEBPACK_IMPORTED_MODULE_5__["sqrt2"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "radToCoord", function() { return _calc__WEBPACK_IMPORTED_MODULE_5__["radToCoord"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "degToCoord", function() { return _calc__WEBPACK_IMPORTED_MODULE_5__["degToCoord"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "coordToRad", function() { return _calc__WEBPACK_IMPORTED_MODULE_5__["coordToRad"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "coordToDeg", function() { return _calc__WEBPACK_IMPORTED_MODULE_5__["coordToDeg"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "radToDeg", function() { return _calc__WEBPACK_IMPORTED_MODULE_5__["radToDeg"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "degToRad", function() { return _calc__WEBPACK_IMPORTED_MODULE_5__["degToRad"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "diagonal", function() { return _calc__WEBPACK_IMPORTED_MODULE_5__["diagonal"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "diagonalToSideLength", function() { return _calc__WEBPACK_IMPORTED_MODULE_5__["diagonalToSideLength"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "sign", function() { return _calc__WEBPACK_IMPORTED_MODULE_5__["sign"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "fract", function() { return _calc__WEBPACK_IMPORTED_MODULE_5__["fract"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "clamp", function() { return _calc__WEBPACK_IMPORTED_MODULE_5__["clamp"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "factorial", function() { return _calc__WEBPACK_IMPORTED_MODULE_5__["factorial"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "inRange", function() { return _calc__WEBPACK_IMPORTED_MODULE_5__["inRange"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isIntersect", function() { return _calc__WEBPACK_IMPORTED_MODULE_5__["isIntersect"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "lerp", function() { return _calc__WEBPACK_IMPORTED_MODULE_5__["lerp"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "smoothstep", function() { return _calc__WEBPACK_IMPORTED_MODULE_5__["smoothstep"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "normalize", function() { return _calc__WEBPACK_IMPORTED_MODULE_5__["normalize"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "map", function() { return _calc__WEBPACK_IMPORTED_MODULE_5__["map"]; });
+
+/* harmony import */ var _random__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./random */ "./src/assets/js/libs/inkjs/utils/random.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "random", function() { return _random__WEBPACK_IMPORTED_MODULE_6__["random"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "randomInt", function() { return _random__WEBPACK_IMPORTED_MODULE_6__["randomInt"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "randomLow", function() { return _random__WEBPACK_IMPORTED_MODULE_6__["randomLow"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "randomLow2", function() { return _random__WEBPACK_IMPORTED_MODULE_6__["randomLow2"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "randomHight", function() { return _random__WEBPACK_IMPORTED_MODULE_6__["randomHight"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "randomHight2", function() { return _random__WEBPACK_IMPORTED_MODULE_6__["randomHight2"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "randomNormalize", function() { return _random__WEBPACK_IMPORTED_MODULE_6__["randomNormalize"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "randomLinerLow", function() { return _random__WEBPACK_IMPORTED_MODULE_6__["randomLinerLow"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "randomLinerHight", function() { return _random__WEBPACK_IMPORTED_MODULE_6__["randomLinerHight"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "randomLinerCenter", function() { return _random__WEBPACK_IMPORTED_MODULE_6__["randomLinerCenter"]; });
+
+/* harmony import */ var _string__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./string */ "./src/assets/js/libs/inkjs/utils/string.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "zeroPadding", function() { return _string__WEBPACK_IMPORTED_MODULE_7__["zeroPadding"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createId", function() { return _string__WEBPACK_IMPORTED_MODULE_7__["createId"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "objectToQuery", function() { return _string__WEBPACK_IMPORTED_MODULE_7__["objectToQuery"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "removeSpace", function() { return _string__WEBPACK_IMPORTED_MODULE_7__["removeSpace"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "replaceAll", function() { return _string__WEBPACK_IMPORTED_MODULE_7__["replaceAll"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "toHarfNumber", function() { return _string__WEBPACK_IMPORTED_MODULE_7__["toHarfNumber"]; });
+
+/* harmony import */ var _utility__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./utility */ "./src/assets/js/libs/inkjs/utils/utility.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "base64FileSize", function() { return _utility__WEBPACK_IMPORTED_MODULE_8__["base64FileSize"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getFunctionName", function() { return _utility__WEBPACK_IMPORTED_MODULE_8__["getFunctionName"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "mixin", function() { return _utility__WEBPACK_IMPORTED_MODULE_8__["mixin"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "nowDate", function() { return _utility__WEBPACK_IMPORTED_MODULE_8__["nowDate"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "spec", function() { return _utility__WEBPACK_IMPORTED_MODULE_8__["spec"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "noop", function() { return _utility__WEBPACK_IMPORTED_MODULE_8__["noop"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "log", function() { return _utility__WEBPACK_IMPORTED_MODULE_8__["log"]; });
+
+/// INKjs Javascript Library
+/// The MIT License (MIT)
+/// Source https://github.com/yoshihitofujiwara/INKjs
+/// Author Yoshihito Fujiwara
+/// Copyright (c) 2012 Yoshihito Fujiwara
+
+
+
+
+
+
+
+
+
 
 /***/ }),
 
@@ -14756,6 +15917,413 @@ var isTouchScreen = function () {
 
 /***/ }),
 
+/***/ "./src/assets/js/libs/inkjs/utils/location.js":
+/*!****************************************************!*\
+  !*** ./src/assets/js/libs/inkjs/utils/location.js ***!
+  \****************************************************/
+/*! exports provided: getHash, getQuery, queryHashMap */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getHash", function() { return getHash; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getQuery", function() { return getQuery; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "queryHashMap", function() { return queryHashMap; });
+/// INKjs Javascript Library
+/// The MIT License (MIT)
+/// Source https://github.com/yoshihitofujiwara/INKjs
+/// Author Yoshihito Fujiwara
+/// Copyright (c) 2012 Yoshihito Fujiwara
+
+/**
+ * @class Location
+ */
+var url = window.location;
+/*----------------------------------------------------------------------
+  @method
+----------------------------------------------------------------------*/
+
+/**
+ * hashを配列にして返す
+ * @static
+ * @method getHash
+ * @return {array} hashの配列
+ */
+
+function getHash() {
+  var ary = url.hash.split("#").slice(1);
+
+  if (ary.length) {
+    var i = 0,
+        l = ary.length;
+
+    for (; i < l; i += 1) {
+      ary[i] = "#" + ary[i];
+    }
+  }
+
+  return ary;
+}
+;
+/**
+ * getQuery
+ *
+ * @export location
+ * @param {string} query 取得したいクエリ名
+ * @returns {string} クエリの値を返す。値がない場合はundefined
+ */
+
+function getQuery(query) {
+  var querys = queryHashMap();
+  return querys[query];
+}
+;
+/**
+ * リクエストパラメータ値を連想配列として取得
+ * @static
+ * @method queryHashMap
+ * @param {string} query urlもしくは、パラメーター。省略時は現在のURL
+ * @return {object} リクエストパラメータ値を連想配列にして返す
+ */
+
+function queryHashMap(query) {
+  var map = {},
+      array = [],
+      params;
+
+  if (query) {
+    if (query.indexOf("?") > -1) {
+      params = query.split("?")[1].split("&");
+    } else {
+      params = query.split("&");
+    }
+  } else {
+    params = url.search.slice(1).split("&");
+  }
+
+  if (params[0] !== "") {
+    var i = 0,
+        l = params.length;
+
+    for (; i < l; i += 1) {
+      array = params[i].split("=");
+      map[array[0]] = decodeURI(array[1] || array[0]);
+    }
+  }
+
+  return map;
+}
+;
+
+/***/ }),
+
+/***/ "./src/assets/js/libs/inkjs/utils/random.js":
+/*!**************************************************!*\
+  !*** ./src/assets/js/libs/inkjs/utils/random.js ***!
+  \**************************************************/
+/*! exports provided: random, randomInt, randomLow, randomLow2, randomHight, randomHight2, randomNormalize, randomLinerLow, randomLinerHight, randomLinerCenter */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "random", function() { return random; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "randomInt", function() { return randomInt; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "randomLow", function() { return randomLow; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "randomLow2", function() { return randomLow2; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "randomHight", function() { return randomHight; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "randomHight2", function() { return randomHight2; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "randomNormalize", function() { return randomNormalize; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "randomLinerLow", function() { return randomLinerLow; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "randomLinerHight", function() { return randomLinerHight; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "randomLinerCenter", function() { return randomLinerCenter; });
+/// INKjs Javascript Library
+/// The MIT License (MIT)
+/// Source https://github.com/yoshihitofujiwara/INKjs
+/// Author Yoshihito Fujiwara
+/// Copyright (c) 2012 Yoshihito Fujiwara
+
+/**
+ * @class Random
+ * see: https://ics.media/entry/11292
+ */
+
+/**
+ * 乱数の生成
+ * @static
+ * @param {number} min 最小値 ※省略可
+ * @param {number} max 最大値 ※省略可
+ * @return {number} 乱数を返します
+ */
+function random() {
+  var min = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+  var max = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+  var random = Math.random();
+
+  if (min > max) {
+    var num = min;
+    min = max;
+    max = num;
+  }
+
+  return random * (max - min) + min;
+}
+;
+/**
+ * int型の乱数の生成
+ * @static
+ * @param {number} min 最小値 ※省略可
+ * @param {number} max 最大値 ※省略可
+ * @return {number} 乱数を返します
+ */
+
+function randomInt(min, max) {
+  return Math.round(random(min, max));
+}
+/**
+ * randomLow
+ * 0.0付近の出現率が高い乱数の生成
+ *
+ * @export
+ * @returns {number} 0.0 - 1.0までの値を返す
+ */
+
+function randomLow() {
+  return Math.random() * Math.random();
+}
+;
+/**
+ * randomLow2
+ * 0.0付近の出現率が高い乱数の生成（randomLowより高い）
+ *
+ * @export
+ * @returns {number} 0.0 - 1.0までの値を返す
+ */
+
+function randomLow2() {
+  var r = Math.random();
+  return r * r;
+}
+;
+/**
+ * randomHight
+ * 1.0付近の出現率が高い乱数の生成
+ *
+ * @export
+ * @returns {number} 0.0 - 1.0までの値を返す
+ */
+
+function randomHight() {
+  return 1.0 - Math.random() * Math.random();
+}
+;
+/**
+ * randomHight2
+ * 1.0付近の出現率が高い乱数の生成（randomHightより高い）
+ *
+ * @export
+ * @returns {number} 0.0 - 1.0までの値を返す
+ */
+
+function randomHight2() {
+  var r = Math.random();
+  return 1.0 - r * r;
+}
+;
+/**
+ * randomNormalize
+ * 中央値(0.5)付近の値を多く出す
+ *
+ * @export
+ * @returns
+ */
+
+function randomNormalize() {
+  var r1 = Math.random();
+  var r2 = Math.random();
+  var value = Math.sqrt(-2.0 * Math.log(r1)) * Math.sin(2.0 * Math.PI * r2); // 値を0以上1未満になるよう正規化する
+
+  return (value + 3) / 6;
+}
+;
+/**
+ * randomLinerLow
+ * 直線的に0.0付近の出現率を高くする
+ *
+ * @export
+ * @returns {number} 0.0 - 1.0までの値を返す
+ */
+
+function randomLinerLow() {
+  return 1.0 - Math.sqrt(Math.random());
+}
+;
+/**
+ * randomLinerHight
+ * 直線的に1.0付近の出現率を高くする
+ *
+ * @export
+ * @returns {number} 0.0 - 1.0までの値を返す
+ */
+
+function randomLinerHight() {
+  return Math.sqrt(Math.random());
+}
+;
+/**
+ * randomLinerCenter
+ * 中央値(0.5)付近の値を多く出す
+ *
+ * @export
+ * @returns {number} 0.0 - 1.0までの値を返す
+ */
+
+function randomLinerCenter() {
+  return (Math.random() + Math.random()) * 0.5;
+}
+;
+
+/***/ }),
+
+/***/ "./src/assets/js/libs/inkjs/utils/string.js":
+/*!**************************************************!*\
+  !*** ./src/assets/js/libs/inkjs/utils/string.js ***!
+  \**************************************************/
+/*! exports provided: zeroPadding, createId, objectToQuery, removeSpace, replaceAll, toHarfNumber */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "zeroPadding", function() { return zeroPadding; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createId", function() { return createId; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "objectToQuery", function() { return objectToQuery; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeSpace", function() { return removeSpace; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "replaceAll", function() { return replaceAll; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "toHarfNumber", function() { return toHarfNumber; });
+/* harmony import */ var _array__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./array */ "./src/assets/js/libs/inkjs/utils/array.js");
+/* harmony import */ var _is__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./is */ "./src/assets/js/libs/inkjs/utils/is.js");
+/// INKjs Javascript Library
+/// The MIT License (MIT)
+/// Source https://github.com/yoshihitofujiwara/INKjs
+/// Author Yoshihito Fujiwara
+/// Copyright (c) 2012 Yoshihito Fujiwara
+
+
+/**
+ * @class String
+ */
+
+/**
+ * zeroPadding 数値桁数を揃える
+ * @param  {number} value 値
+ * @param  {number} digit 桁数 (1桁=1, 2桁=2)
+ * @return {string}
+ */
+
+function zeroPadding(value, digit, isBeyondValue) {
+  var _value = "" + value,
+      zero = ("" + Math.pow(10, digit)).slice(1);
+
+  if (digit * 10 > value) {
+    return (zero + _value).slice(-digit);
+  } else {
+    return _value;
+  }
+}
+;
+/**
+ * id生成します
+ * 文字列にナンバーを追加して返します
+ *
+ * @static
+ * @method createId
+ * @param {string} str id名 初期値: 'id_' 省略可
+ * @return {string} 生成したid
+ */
+
+var createId = function () {
+  var _count = 0;
+  return function () {
+    var str = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "id_";
+    return str + (_count += 1);
+  };
+}();
+/**
+ * objectToQuery オブジェクトをクエリ文字列に変換 (ネスト構造に再起処理はしません)
+ * @static
+ * @method objectToQuery
+ * @param  {Object} obj 対象のオブジェクト
+ * @param  {boolean} isQuestion 先頭に?加えるか ※初期false
+ * @return {string}
+ */
+
+function objectToQuery(obj) {
+  var isQuestion = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+  var query = "";
+  _array__WEBPACK_IMPORTED_MODULE_0__["each"](obj, function (key, val) {
+    if (query) {
+      query += "&";
+    }
+
+    if (_is__WEBPACK_IMPORTED_MODULE_1__["isObject"](val)) {
+      query += key + "=" + val.keys().length;
+    } else if (_is__WEBPACK_IMPORTED_MODULE_1__["isArray"](val)) {
+      query += key + "=" + val.length;
+    } else {
+      query += key + "=" + val;
+    }
+  });
+
+  if (isQuestion) {
+    query = +query;
+  }
+
+  return query;
+}
+;
+/**
+ * 空白文字の削除
+ * @static
+ * @method removeSpace
+ * @param {string} str 対象の文字列
+ * @return {string} 空白文字を削除した文字列
+ */
+
+function removeSpace(str) {
+  return str.replace(/\s+/g, "");
+}
+;
+/**
+ * 文字列の全置換
+ * 対象の文字列と、削除文字列がマッチしたものを全置換します
+ * @static
+ * @method replaceAll
+ * @param {string} str 置換対象の文字列
+ * @param {string} del 削除する文字列
+ * @param {string} add 追加する文字列
+ * @return {string} 置換した文字列
+ */
+
+function replaceAll(str, del, add) {
+  add = add ? add : "";
+  return str.split(del).join(add);
+}
+;
+/**
+ * toHarfNumber 全角数値を半角数値へ変換
+ * @param  {string} str 数値文字列
+ * @return {string}
+ */
+
+function toHarfNumber(str) {
+  str = str.replace(/-/g, "");
+  return str.replace(/[０-９]/g, function (s) {
+    return String.fromCharCode(s.charCodeAt(0) - 0xFEE0);
+  });
+}
+;
+
+/***/ }),
+
 /***/ "./src/assets/js/libs/inkjs/utils/utility.js":
 /*!***************************************************!*\
   !*** ./src/assets/js/libs/inkjs/utils/utility.js ***!
@@ -14961,6 +16529,95 @@ function log() {
   }
 }
 ;
+
+/***/ }),
+
+/***/ "./src/assets/js/scripts/days/Day000.js":
+/*!**********************************************!*\
+  !*** ./src/assets/js/scripts/days/Day000.js ***!
+  \**********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Day; });
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! three */ "./node_modules/three/build/three.module.js");
+/* harmony import */ var gsap__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! gsap */ "./node_modules/gsap/index.js");
+/* harmony import */ var $utils_RenderManager__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! $utils/RenderManager */ "./src/assets/js/scripts/utils/RenderManager.js");
+/* harmony import */ var $utils_ShaderPlaneMesh__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! $utils/ShaderPlaneMesh */ "./src/assets/js/scripts/utils/ShaderPlaneMesh.js");
+/* harmony import */ var $utils_Debug__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! $utils/Debug */ "./src/assets/js/scripts/utils/Debug.js");
+/* harmony import */ var $ink_class_utils_WebRTC__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! $ink/class_utils/WebRTC */ "./src/assets/js/libs/inkjs/class_utils/WebRTC.js");
+/* harmony import */ var $shader_days_day000_frag__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! $shader/days/day000.frag */ "./src/assets/shader/days/day000.frag");
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+
+
+
+
+
+
+
+
+
+var Day =
+/*#__PURE__*/
+function () {
+  _createClass(Day, null, [{
+    key: "title",
+    value: function title() {
+      return "Mosaic";
+    }
+  }]);
+
+  function Day() {
+    _classCallCheck(this, Day);
+
+    var debug = new $utils_Debug__WEBPACK_IMPORTED_MODULE_4__["default"]();
+    var map1 = three__WEBPACK_IMPORTED_MODULE_0__["ImageUtils"].loadTexture("./assets/img/img01.jpg");
+    map1.magFilter = map1.minFilter = three__WEBPACK_IMPORTED_MODULE_0__["LinearFilter"];
+    var mesh = new $utils_ShaderPlaneMesh__WEBPACK_IMPORTED_MODULE_3__["default"](null, {
+      fragmentShader: $shader_days_day000_frag__WEBPACK_IMPORTED_MODULE_6__["default"],
+      uniforms: {
+        u_map1: {
+          type: "t",
+          value: map1
+        },
+        u_grid: {
+          type: "f",
+          value: 32
+        }
+      }
+    });
+    console.log(mesh.material.uniforms); // @debug
+
+    debug.gui.add(mesh.material.uniforms.u_grid, "value", 0, 512 / 4).name("Grid").onChange(function () {
+      mesh.material.uniformsNeedUpdate = true;
+    }); // console.log(WebRTC);
+
+    this.renderManager = new $utils_RenderManager__WEBPACK_IMPORTED_MODULE_2__["default"](document.querySelector("#canvas"));
+    this.renderManager.scene.add(mesh);
+    this.renderManager.start(); // @event
+
+    this.renderManager.addEventListener("update", function (params) {
+      mesh.material.uniformsNeedUpdate = true;
+      mesh.material.uniforms.u_time.value = params.time;
+      debug.update();
+    });
+    this.renderManager.canvas.addEventListener("mousemove", function (e) {
+      mesh.material.uniforms.u_mouse.value.x = e.offsetX / window.innerWidth;
+      mesh.material.uniforms.u_mouse.value.y = 1. - e.offsetY / window.innerHeight;
+    });
+  }
+
+  return Day;
+}();
+
+
 
 /***/ }),
 
@@ -16083,50 +17740,173 @@ function () {
 
 /***/ }),
 
-/***/ "./src/assets/js/scripts/days/index.js":
-/*!*********************************************!*\
-  !*** ./src/assets/js/scripts/days/index.js ***!
-  \*********************************************/
-/*! exports provided: Day001, Day002, Day003, Day004, Day005, Day006, Day007, Day008, Day009, Day010, Day011, Day012 */
+/***/ "./src/assets/js/scripts/days/Day013.js":
+/*!**********************************************!*\
+  !*** ./src/assets/js/scripts/days/Day013.js ***!
+  \**********************************************/
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _Day001__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Day001 */ "./src/assets/js/scripts/days/Day001.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day001", function() { return _Day001__WEBPACK_IMPORTED_MODULE_0__["default"]; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Day; });
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! three */ "./node_modules/three/build/three.module.js");
+/* harmony import */ var gsap__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! gsap */ "./node_modules/gsap/index.js");
+/* harmony import */ var $utils_RenderManager__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! $utils/RenderManager */ "./src/assets/js/scripts/utils/RenderManager.js");
+/* harmony import */ var $utils_ShaderPlaneMesh__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! $utils/ShaderPlaneMesh */ "./src/assets/js/scripts/utils/ShaderPlaneMesh.js");
+/* harmony import */ var $utils_Debug__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! $utils/Debug */ "./src/assets/js/scripts/utils/Debug.js");
+/* harmony import */ var $ink_utils_calc__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! $ink/utils/calc */ "./src/assets/js/libs/inkjs/utils/calc.js");
+/* harmony import */ var $shader_days_day013_frag__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! $shader/days/day013.frag */ "./src/assets/shader/days/day013.frag");
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-/* harmony import */ var _Day002__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Day002 */ "./src/assets/js/scripts/days/Day002.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day002", function() { return _Day002__WEBPACK_IMPORTED_MODULE_1__["default"]; });
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-/* harmony import */ var _Day003__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Day003 */ "./src/assets/js/scripts/days/Day003.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day003", function() { return _Day003__WEBPACK_IMPORTED_MODULE_2__["default"]; });
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-/* harmony import */ var _Day004__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Day004 */ "./src/assets/js/scripts/days/Day004.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day004", function() { return _Day004__WEBPACK_IMPORTED_MODULE_3__["default"]; });
 
-/* harmony import */ var _Day005__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Day005 */ "./src/assets/js/scripts/days/Day005.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day005", function() { return _Day005__WEBPACK_IMPORTED_MODULE_4__["default"]; });
 
-/* harmony import */ var _Day006__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Day006 */ "./src/assets/js/scripts/days/Day006.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day006", function() { return _Day006__WEBPACK_IMPORTED_MODULE_5__["default"]; });
 
-/* harmony import */ var _Day007__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Day007 */ "./src/assets/js/scripts/days/Day007.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day007", function() { return _Day007__WEBPACK_IMPORTED_MODULE_6__["default"]; });
 
-/* harmony import */ var _Day008__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Day008 */ "./src/assets/js/scripts/days/Day008.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day008", function() { return _Day008__WEBPACK_IMPORTED_MODULE_7__["default"]; });
 
-/* harmony import */ var _Day009__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./Day009 */ "./src/assets/js/scripts/days/Day009.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day009", function() { return _Day009__WEBPACK_IMPORTED_MODULE_8__["default"]; });
 
-/* harmony import */ var _Day010__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./Day010 */ "./src/assets/js/scripts/days/Day010.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day010", function() { return _Day010__WEBPACK_IMPORTED_MODULE_9__["default"]; });
 
-/* harmony import */ var _Day011__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./Day011 */ "./src/assets/js/scripts/days/Day011.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day011", function() { return _Day011__WEBPACK_IMPORTED_MODULE_10__["default"]; });
 
-/* harmony import */ var _Day012__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./Day012 */ "./src/assets/js/scripts/days/Day012.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day012", function() { return _Day012__WEBPACK_IMPORTED_MODULE_11__["default"]; });
+
+var Day =
+/*#__PURE__*/
+function () {
+  _createClass(Day, null, [{
+    key: "title",
+    value: function title() {
+      return "Mouse Tracking Zoom Effect";
+    }
+  }]);
+
+  function Day() {
+    _classCallCheck(this, Day);
+
+    var debug = new $utils_Debug__WEBPACK_IMPORTED_MODULE_4__["default"]();
+    var map1 = three__WEBPACK_IMPORTED_MODULE_0__["ImageUtils"].loadTexture("./assets/img/img01.jpg");
+    map1.magFilter = map1.minFilter = three__WEBPACK_IMPORTED_MODULE_0__["LinearFilter"];
+    var mesh = new $utils_ShaderPlaneMesh__WEBPACK_IMPORTED_MODULE_3__["default"](null, {
+      fragmentShader: $shader_days_day013_frag__WEBPACK_IMPORTED_MODULE_6__["default"],
+      uniforms: {
+        u_map1: {
+          type: "t",
+          value: map1
+        },
+        u_velocity: {
+          type: "f",
+          value: 0
+        },
+        u_radius: {
+          type: "f",
+          value: .3
+        },
+        u_followMouse: {
+          type: "v2",
+          value: new three__WEBPACK_IMPORTED_MODULE_0__["Vector2"]()
+        }
+      }
+    });
+    var params = {
+      targetSpeed: 0,
+      speed: 0,
+      mouse: new three__WEBPACK_IMPORTED_MODULE_0__["Vector2"](),
+      prevMouse: new three__WEBPACK_IMPORTED_MODULE_0__["Vector2"](),
+      followMouse: new three__WEBPACK_IMPORTED_MODULE_0__["Vector2"](),
+      decay: 0.1 // @debug
+
+    };
+    debug.gui.add(params, "decay", 0.01, 1, 0.01).name("Decay");
+    debug.gui.add(mesh.material.uniforms.u_radius, "value", 0, 1, 0.01).name("Radius");
+    this.renderManager = new $utils_RenderManager__WEBPACK_IMPORTED_MODULE_2__["default"](document.querySelector("#canvas"));
+    this.renderManager.scene.add(mesh);
+    this.renderManager.start(); // @event
+
+    this.renderManager.addEventListener("update", function (_params) {
+      mesh.material.uniformsNeedUpdate = true;
+      mesh.material.uniforms.u_time.value = _params.time;
+      debug.update(); // day013
+
+      params.speed = Math.sqrt(Math.pow(params.prevMouse.x - params.mouse.x, 2) + Math.pow(params.prevMouse.y - params.mouse.y, 2));
+      params.targetSpeed = Object($ink_utils_calc__WEBPACK_IMPORTED_MODULE_5__["lerp"])(params.decay, params.targetSpeed, params.speed);
+      params.followMouse.x = Object($ink_utils_calc__WEBPACK_IMPORTED_MODULE_5__["lerp"])(params.decay, params.followMouse.x, params.mouse.x);
+      params.followMouse.y = Object($ink_utils_calc__WEBPACK_IMPORTED_MODULE_5__["lerp"])(params.decay, params.followMouse.y, params.mouse.y);
+      mesh.material.uniforms.u_followMouse.value = params.followMouse;
+      mesh.material.uniforms.u_velocity.value = Math.min(params.targetSpeed, 0.05);
+      params.prevMouse.x = params.mouse.x;
+      params.prevMouse.y = params.mouse.y;
+      params.targetSpeed *= 0.999;
+    });
+    this.renderManager.canvas.addEventListener("mousemove", function (e) {
+      mesh.material.uniforms.u_mouse.value.x = e.offsetX / 512;
+      mesh.material.uniforms.u_mouse.value.y = 1. - e.offsetY / 512; // day013
+
+      params.mouse.x = mesh.material.uniforms.u_mouse.value.x;
+      params.mouse.y = mesh.material.uniforms.u_mouse.value.y;
+    });
+  }
+
+  return Day;
+}();
+
+
+
+/***/ }),
+
+/***/ "./src/assets/js/scripts/days/index.js":
+/*!*********************************************!*\
+  !*** ./src/assets/js/scripts/days/index.js ***!
+  \*********************************************/
+/*! exports provided: Day000, Day001, Day002, Day003, Day004, Day005, Day006, Day007, Day008, Day009, Day010, Day011, Day012, Day013 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Day000__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Day000 */ "./src/assets/js/scripts/days/Day000.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day000", function() { return _Day000__WEBPACK_IMPORTED_MODULE_0__["default"]; });
+
+/* harmony import */ var _Day001__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Day001 */ "./src/assets/js/scripts/days/Day001.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day001", function() { return _Day001__WEBPACK_IMPORTED_MODULE_1__["default"]; });
+
+/* harmony import */ var _Day002__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Day002 */ "./src/assets/js/scripts/days/Day002.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day002", function() { return _Day002__WEBPACK_IMPORTED_MODULE_2__["default"]; });
+
+/* harmony import */ var _Day003__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Day003 */ "./src/assets/js/scripts/days/Day003.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day003", function() { return _Day003__WEBPACK_IMPORTED_MODULE_3__["default"]; });
+
+/* harmony import */ var _Day004__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Day004 */ "./src/assets/js/scripts/days/Day004.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day004", function() { return _Day004__WEBPACK_IMPORTED_MODULE_4__["default"]; });
+
+/* harmony import */ var _Day005__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Day005 */ "./src/assets/js/scripts/days/Day005.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day005", function() { return _Day005__WEBPACK_IMPORTED_MODULE_5__["default"]; });
+
+/* harmony import */ var _Day006__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Day006 */ "./src/assets/js/scripts/days/Day006.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day006", function() { return _Day006__WEBPACK_IMPORTED_MODULE_6__["default"]; });
+
+/* harmony import */ var _Day007__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Day007 */ "./src/assets/js/scripts/days/Day007.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day007", function() { return _Day007__WEBPACK_IMPORTED_MODULE_7__["default"]; });
+
+/* harmony import */ var _Day008__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./Day008 */ "./src/assets/js/scripts/days/Day008.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day008", function() { return _Day008__WEBPACK_IMPORTED_MODULE_8__["default"]; });
+
+/* harmony import */ var _Day009__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./Day009 */ "./src/assets/js/scripts/days/Day009.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day009", function() { return _Day009__WEBPACK_IMPORTED_MODULE_9__["default"]; });
+
+/* harmony import */ var _Day010__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./Day010 */ "./src/assets/js/scripts/days/Day010.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day010", function() { return _Day010__WEBPACK_IMPORTED_MODULE_10__["default"]; });
+
+/* harmony import */ var _Day011__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./Day011 */ "./src/assets/js/scripts/days/Day011.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day011", function() { return _Day011__WEBPACK_IMPORTED_MODULE_11__["default"]; });
+
+/* harmony import */ var _Day012__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./Day012 */ "./src/assets/js/scripts/days/Day012.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day012", function() { return _Day012__WEBPACK_IMPORTED_MODULE_12__["default"]; });
+
+/* harmony import */ var _Day013__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./Day013 */ "./src/assets/js/scripts/days/Day013.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day013", function() { return _Day013__WEBPACK_IMPORTED_MODULE_13__["default"]; });
+
+
 
 
 
@@ -16499,6 +18279,19 @@ function (_Mesh) {
 
 /***/ }),
 
+/***/ "./src/assets/shader/days/day000.frag":
+/*!********************************************!*\
+  !*** ./src/assets/shader/days/day000.frag ***!
+  \********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ("// precision highp float;\nprecision mediump float;\n#define GLSLIFY 1\n\nuniform vec2 u_resolution;\nuniform float u_time;\nuniform vec2 u_mouse;\n\nuniform sampler2D u_map1;\nuniform float u_grid;\n\nvarying vec2 vUv;\n\nfloat circle(vec2 uv, vec2 offset, float radius, float border) {\n\tuv -= offset;\n\t// uv *= u_resolution;\n\tfloat dist = sqrt(dot(uv, uv));\n\treturn smoothstep(radius + border, radius - border, dist);\n}\n\nvoid main(){\n\t// vec4 color=vec4(0.1647, 0.3843, 0.4549, 1.0);\n\t// vec2 st = gl_FragCoord.xy/u_resolution.xy;\n\n  vec2 uv = vUv;\n  float moz = 1. / u_grid;\n\n  if(u_grid != 0. && moz > 0.){\n\t\t// グリッド分割し小数点を切り捨ててモザイク化。モザイクの中心点を足す\n    uv = floor(uv / moz) * moz + (moz * .5);\n  }\n\n  gl_FragColor = texture2D(u_map1, uv);\n\n}\n");
+
+/***/ }),
+
 /***/ "./src/assets/shader/days/day001.frag":
 /*!********************************************!*\
   !*** ./src/assets/shader/days/day001.frag ***!
@@ -16652,6 +18445,19 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ("// precision highp float;\nprecision mediump float;\n#define GLSLIFY 1\n\nuniform vec2 u_resolution;\nuniform float u_time;\nuniform vec2 u_mouse;\n\nuniform sampler2D u_map1;\nuniform float u_grid;\n\nvarying vec2 vUv;\n\nfloat circle(vec2 uv, vec2 offset, float radius, float border) {\n\tuv -= offset;\n\t// uv *= u_resolution;\n\tfloat dist = sqrt(dot(uv, uv));\n\treturn smoothstep(radius + border, radius - border, dist);\n}\n\nvoid main(){\n\t// vec4 color=vec4(0.1647, 0.3843, 0.4549, 1.0);\n\t// vec2 st = gl_FragCoord.xy/u_resolution.xy;\n\n  vec2 uv = vUv;\n  float moz = 1. / u_grid;\n\n  if(u_grid != 0. && moz > 0.){\n\t\t// グリッド分割し小数点を切り捨ててモザイク化。モザイクの中心点を足す\n    uv = floor(uv / moz) * moz + (moz * .5);\n  }\n\n  gl_FragColor = texture2D(u_map1, uv);\n\n}\n");
+
+/***/ }),
+
+/***/ "./src/assets/shader/days/day013.frag":
+/*!********************************************!*\
+  !*** ./src/assets/shader/days/day013.frag ***!
+  \********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ("// precision highp float;\nprecision mediump float;\n#define GLSLIFY 1\n\nuniform vec2 u_resolution;\nuniform float u_time;\nuniform vec2 u_mouse;\n\nuniform sampler2D u_map1;\nuniform float u_velocity;\nuniform float u_radius;\nuniform vec2 u_followMouse;\n\nvarying vec2 vUv;\n\nfloat circle(vec2 uv, vec2 offset, float radius, float border) {\n\tuv -= offset;\n\t// uv *= u_resolution;\n\tfloat dist = sqrt(dot(uv, uv));\n\treturn smoothstep(radius + border, radius - border, dist);\n}\n\nvoid main(){\n\t// vec4 color=vec4(0.1647, 0.3843, 0.4549, 1.0);\n\t// vec2 st = gl_FragCoord.xy/u_resolution.xy;\n\n  vec2 uv = vUv;\n\n\tfloat c = circle(uv, u_followMouse, 0., u_velocity + u_radius);\n\tc = c * 40. * u_velocity;\n\n\tvec2 offsetVector = normalize(u_followMouse-vUv);\n\n\tvec2 warpedUV = mix(vUv, u_followMouse, c * .99); //power\n\n\tgl_FragColor = texture2D(u_map1, warpedUV) + texture2D(u_map1, warpedUV) * vec4(vec3(c), 1.);\n}\n");
 
 /***/ })
 

@@ -12,7 +12,7 @@ import * as utils from "../utils";
  * @class WebCamera
  * @constructor
  */
-export default class WebCamera extends Events {
+export default class WebRTC extends Events {
   /**
    * constructor
    */
@@ -55,10 +55,10 @@ export default class WebCamera extends Events {
 
   /**
    * setup
-   * @return {WebCamera}
+   * @return {Promise}
    */
   setup(){
-		navigator.mediaDevices.getUserMedia(
+		return navigator.mediaDevices.getUserMedia(
 			this.options.constraints
 		)
     .then(
@@ -72,8 +72,6 @@ export default class WebCamera extends Events {
       this.trigger(this._EVENTS.ERROR, err);
       utils.log(err.name + ": " + err.message);
     });
-
-    return this;
   }
 
 

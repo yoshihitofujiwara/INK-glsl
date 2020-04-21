@@ -9,4 +9,4 @@ export { default as Deferred } from "./Deferred";
 export { default as Debug } from "./Debug";
 export { default as Ease } from "./Ease";
 // export { default as LFO } from './LFO'; 実装予定
-// export { default as WebCamera } from "./WebCamera"; 実装予定
+export { default as WebRTC } from "./WebRTC";

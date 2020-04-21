@@ -32,6 +32,13 @@ canvas{
 	outline: 1px solid #ddd;
 }
 
+video{
+	width: 512px;
+	height: 512px;
+	visibility: hidden;
+	backface-visibility: hidden;
+}
+
 #pager{
 	padding-top: 20px;
 	text-align: center;

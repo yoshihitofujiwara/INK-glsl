@@ -17770,7 +17770,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 
 
-
+ // https://github.com/akella/webgl-mouseover-effects/blob/master/js/post/fragment.glsl
 
 var Day =
 /*#__PURE__*/
@@ -17786,7 +17786,7 @@ function () {
     _classCallCheck(this, Day);
 
     var debug = new $utils_Debug__WEBPACK_IMPORTED_MODULE_4__["default"]();
-    var map1 = three__WEBPACK_IMPORTED_MODULE_0__["ImageUtils"].loadTexture("./assets/img/img01.jpg");
+    var map1 = three__WEBPACK_IMPORTED_MODULE_0__["ImageUtils"].loadTexture("./assets/img/img06.jpg");
     map1.magFilter = map1.minFilter = three__WEBPACK_IMPORTED_MODULE_0__["LinearFilter"];
     var mesh = new $utils_ShaderPlaneMesh__WEBPACK_IMPORTED_MODULE_3__["default"](null, {
       fragmentShader: $shader_days_day013_frag__WEBPACK_IMPORTED_MODULE_6__["default"],
@@ -17802,6 +17802,10 @@ function () {
         u_radius: {
           type: "f",
           value: .3
+        },
+        u_zoom: {
+          type: "f",
+          value: 40.
         },
         u_followMouse: {
           type: "v2",
@@ -17820,6 +17824,132 @@ function () {
     };
     debug.gui.add(params, "decay", 0.01, 1, 0.01).name("Decay");
     debug.gui.add(mesh.material.uniforms.u_radius, "value", 0, 1, 0.01).name("Radius");
+    debug.gui.add(mesh.material.uniforms.u_zoom, "value", 0, 50).name("Zoom");
+    this.renderManager = new $utils_RenderManager__WEBPACK_IMPORTED_MODULE_2__["default"](document.querySelector("#canvas"));
+    this.renderManager.scene.add(mesh);
+    this.renderManager.start(); // @event
+
+    this.renderManager.addEventListener("update", function (_params) {
+      mesh.material.uniformsNeedUpdate = true;
+      mesh.material.uniforms.u_time.value = _params.time;
+      debug.update(); // day013
+
+      params.speed = Math.sqrt(Math.pow(params.prevMouse.x - params.mouse.x, 2) + Math.pow(params.prevMouse.y - params.mouse.y, 2));
+      params.targetSpeed = Object($ink_utils_calc__WEBPACK_IMPORTED_MODULE_5__["lerp"])(params.decay, params.targetSpeed, params.speed);
+      params.followMouse.x = Object($ink_utils_calc__WEBPACK_IMPORTED_MODULE_5__["lerp"])(params.decay, params.followMouse.x, params.mouse.x);
+      params.followMouse.y = Object($ink_utils_calc__WEBPACK_IMPORTED_MODULE_5__["lerp"])(params.decay, params.followMouse.y, params.mouse.y);
+      mesh.material.uniforms.u_followMouse.value = params.followMouse;
+      mesh.material.uniforms.u_velocity.value = Math.min(params.targetSpeed, 0.05);
+      params.prevMouse.x = params.mouse.x;
+      params.prevMouse.y = params.mouse.y;
+      params.targetSpeed *= 0.999;
+    });
+    this.renderManager.canvas.addEventListener("mousemove", function (e) {
+      mesh.material.uniforms.u_mouse.value.x = e.offsetX / 512;
+      mesh.material.uniforms.u_mouse.value.y = 1. - e.offsetY / 512; // day013
+
+      params.mouse.x = mesh.material.uniforms.u_mouse.value.x;
+      params.mouse.y = mesh.material.uniforms.u_mouse.value.y;
+    });
+  }
+
+  return Day;
+}();
+
+
+
+/***/ }),
+
+/***/ "./src/assets/js/scripts/days/Day014.js":
+/*!**********************************************!*\
+  !*** ./src/assets/js/scripts/days/Day014.js ***!
+  \**********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Day; });
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! three */ "./node_modules/three/build/three.module.js");
+/* harmony import */ var gsap__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! gsap */ "./node_modules/gsap/index.js");
+/* harmony import */ var $utils_RenderManager__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! $utils/RenderManager */ "./src/assets/js/scripts/utils/RenderManager.js");
+/* harmony import */ var $utils_ShaderPlaneMesh__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! $utils/ShaderPlaneMesh */ "./src/assets/js/scripts/utils/ShaderPlaneMesh.js");
+/* harmony import */ var $utils_Debug__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! $utils/Debug */ "./src/assets/js/scripts/utils/Debug.js");
+/* harmony import */ var $ink_utils_calc__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! $ink/utils/calc */ "./src/assets/js/libs/inkjs/utils/calc.js");
+/* harmony import */ var $shader_days_day014_frag__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! $shader/days/day014.frag */ "./src/assets/shader/days/day014.frag");
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+
+
+
+
+
+
+
+ // https://github.com/akella/webgl-mouseover-effects/blob/master/js/post/fragment.glsl
+
+var Day =
+/*#__PURE__*/
+function () {
+  _createClass(Day, null, [{
+    key: "title",
+    value: function title() {
+      return "Mouse Tracking RGB Split Effect";
+    }
+  }]);
+
+  function Day() {
+    _classCallCheck(this, Day);
+
+    var debug = new $utils_Debug__WEBPACK_IMPORTED_MODULE_4__["default"]();
+    var map1 = three__WEBPACK_IMPORTED_MODULE_0__["ImageUtils"].loadTexture("./assets/img/img06.jpg");
+    map1.magFilter = map1.minFilter = three__WEBPACK_IMPORTED_MODULE_0__["LinearFilter"];
+    var mesh = new $utils_ShaderPlaneMesh__WEBPACK_IMPORTED_MODULE_3__["default"](null, {
+      fragmentShader: $shader_days_day014_frag__WEBPACK_IMPORTED_MODULE_6__["default"],
+      uniforms: {
+        u_map1: {
+          type: "t",
+          value: map1
+        },
+        u_velocity: {
+          type: "f",
+          value: 0
+        },
+        u_radius: {
+          type: "f",
+          value: .3
+        },
+        u_zoom: {
+          type: "f",
+          value: 40.
+        },
+        u_colorShift: {
+          type: "f",
+          value: .5
+        },
+        u_followMouse: {
+          type: "v2",
+          value: new three__WEBPACK_IMPORTED_MODULE_0__["Vector2"]()
+        }
+      }
+    });
+    var params = {
+      targetSpeed: 0,
+      speed: 0,
+      mouse: new three__WEBPACK_IMPORTED_MODULE_0__["Vector2"](),
+      prevMouse: new three__WEBPACK_IMPORTED_MODULE_0__["Vector2"](),
+      followMouse: new three__WEBPACK_IMPORTED_MODULE_0__["Vector2"](),
+      decay: 0.1 // @debug
+
+    };
+    debug.gui.add(params, "decay", 0.01, 1, 0.01).name("Decay");
+    debug.gui.add(mesh.material.uniforms.u_radius, "value", 0, 1, 0.01).name("Radius");
+    debug.gui.add(mesh.material.uniforms.u_zoom, "value", 0, 50).name("Zoom");
+    debug.gui.add(mesh.material.uniforms.u_colorShift, "value", 0, 5, 0.01).name("Color Shift");
     this.renderManager = new $utils_RenderManager__WEBPACK_IMPORTED_MODULE_2__["default"](document.querySelector("#canvas"));
     this.renderManager.scene.add(mesh);
     this.renderManager.start(); // @event
@@ -17859,7 +17989,7 @@ function () {
 /*!*********************************************!*\
   !*** ./src/assets/js/scripts/days/index.js ***!
   \*********************************************/
-/*! exports provided: Day000, Day001, Day002, Day003, Day004, Day005, Day006, Day007, Day008, Day009, Day010, Day011, Day012, Day013 */
+/*! exports provided: Day000, Day001, Day002, Day003, Day004, Day005, Day006, Day007, Day008, Day009, Day010, Day011, Day012, Day013, Day014 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -17906,6 +18036,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Day013__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./Day013 */ "./src/assets/js/scripts/days/Day013.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day013", function() { return _Day013__WEBPACK_IMPORTED_MODULE_13__["default"]; });
 
+/* harmony import */ var _Day014__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./Day014 */ "./src/assets/js/scripts/days/Day014.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day014", function() { return _Day014__WEBPACK_IMPORTED_MODULE_14__["default"]; });
+
+
 
 
 
@@ -17945,7 +18079,7 @@ var fileName = location.href.split("#").find(function (item) {
 if (fileName) {
   // day
   new _days__WEBPACK_IMPORTED_MODULE_0__[fileName]();
-  document.querySelector("h1").innerHTML = _days__WEBPACK_IMPORTED_MODULE_0__[fileName].title();
+  document.querySelector("h1").innerHTML = fileName + " : " + _days__WEBPACK_IMPORTED_MODULE_0__[fileName].title();
   var current = +fileName.replace("Day", "");
   var prev = current - 1;
   var $prev = document.getElementById("prev");
@@ -17959,7 +18093,7 @@ if (fileName) {
     $prev.parentNode.removeChild($prev);
   }
 
-  var last = "Day" + Math.pow(10, 3 - current.toString().length).toString().slice(1) + (current + 1);
+  var last = "Day" + Math.pow(10, 3 - (current + 1).toString().length).toString().slice(1) + (current + 1);
   var $next = document.getElementById("next");
 
   if (_days__WEBPACK_IMPORTED_MODULE_0__[last]) {
@@ -18444,7 +18578,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("// precision highp float;\nprecision mediump float;\n#define GLSLIFY 1\n\nuniform vec2 u_resolution;\nuniform float u_time;\nuniform vec2 u_mouse;\n\nuniform sampler2D u_map1;\nuniform float u_grid;\n\nvarying vec2 vUv;\n\nfloat circle(vec2 uv, vec2 offset, float radius, float border) {\n\tuv -= offset;\n\t// uv *= u_resolution;\n\tfloat dist = sqrt(dot(uv, uv));\n\treturn smoothstep(radius + border, radius - border, dist);\n}\n\nvoid main(){\n\t// vec4 color=vec4(0.1647, 0.3843, 0.4549, 1.0);\n\t// vec2 st = gl_FragCoord.xy/u_resolution.xy;\n\n  vec2 uv = vUv;\n  float moz = 1. / u_grid;\n\n  if(u_grid != 0. && moz > 0.){\n\t\t// グリッド分割し小数点を切り捨ててモザイク化。モザイクの中心点を足す\n    uv = floor(uv / moz) * moz + (moz * .5);\n  }\n\n  gl_FragColor = texture2D(u_map1, uv);\n\n}\n");
+/* harmony default export */ __webpack_exports__["default"] = ("// precision highp float;\nprecision mediump float;\n#define GLSLIFY 1\n\nuniform vec2 u_resolution;\nuniform float u_time;\nuniform vec2 u_mouse;\n\nuniform sampler2D u_map1;\nuniform float u_grid;\n\nvarying vec2 vUv;\n\nvec2 mosaic(vec2 position, float grid){\n\tfloat split=1./grid;\n\n\tif(grid!=0.&&split>0.){\n\t\t// グリッド分割し小数点を切り捨ててモザイク化。モザイクの中心点を足す\n\t\treturn floor(position/split)*split+(split*.5);\n\t}else{\n\t\treturn position;\n\t}\n}\n\nvoid main(){\n\t// vec4 color=vec4(0.1647, 0.3843, 0.4549, 1.0);\n\t// vec2 st = gl_FragCoord.xy/u_resolution.xy;\n\n\tvec2 uv = mosaic(vUv, u_grid);\n\n  gl_FragColor = texture2D(u_map1, uv);\n\n}\n");
 
 /***/ }),
 
@@ -18457,7 +18591,20 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("// precision highp float;\nprecision mediump float;\n#define GLSLIFY 1\n\nuniform vec2 u_resolution;\nuniform float u_time;\nuniform vec2 u_mouse;\n\nuniform sampler2D u_map1;\nuniform float u_velocity;\nuniform float u_radius;\nuniform vec2 u_followMouse;\n\nvarying vec2 vUv;\n\nfloat circle(vec2 uv, vec2 offset, float radius, float border) {\n\tuv -= offset;\n\t// uv *= u_resolution;\n\tfloat dist = sqrt(dot(uv, uv));\n\treturn smoothstep(radius + border, radius - border, dist);\n}\n\nvoid main(){\n\t// vec4 color=vec4(0.1647, 0.3843, 0.4549, 1.0);\n\t// vec2 st = gl_FragCoord.xy/u_resolution.xy;\n\n  vec2 uv = vUv;\n\n\tfloat c = circle(uv, u_followMouse, 0., u_velocity + u_radius);\n\tc = c * 40. * u_velocity;\n\n\tvec2 offsetVector = normalize(u_followMouse-vUv);\n\n\tvec2 warpedUV = mix(vUv, u_followMouse, c * .99); //power\n\n\tgl_FragColor = texture2D(u_map1, warpedUV) + texture2D(u_map1, warpedUV) * vec4(vec3(c), 1.);\n}\n");
+/* harmony default export */ __webpack_exports__["default"] = ("// precision highp float;\nprecision mediump float;\n#define GLSLIFY 1\n\nuniform vec2 u_resolution;\nuniform float u_time;\nuniform vec2 u_mouse;\n\nuniform sampler2D u_map1;\nuniform float u_velocity;\nuniform float u_radius;\nuniform float u_zoom;\nuniform vec2 u_followMouse;\n\nvarying vec2 vUv;\n\nfloat circleSmoothstep(vec2 position,vec2 offset,float radius,float smooth){\n\t// 内積の平方根は対角線の長さ\n\t// position -= offset;\n\t// float dist = sqrt(dot(position, position));\n\n\tfloat dist=length(position-offset);\n\treturn smoothstep(radius+smooth,radius-smooth,dist);\n}\n\nvoid main(){\n\t// vec4 color=vec4(0.1647, 0.3843, 0.4549, 1.0);\n\t// vec2 st = gl_FragCoord.xy/u_resolution.xy;\n  vec2 uv = vUv;\n\n\tfloat c = circleSmoothstep(uv, u_followMouse, 0., u_velocity + u_radius);\n\t// u_velocityをかけて加速・減速\n\tc *= (u_zoom * u_velocity);\n\n\tvec2 warpedUV = mix(vUv, u_followMouse, c);\n\tvec4 color = texture2D(u_map1,warpedUV);\n\n\t// スクリーン\n\tgl_FragColor = color + color * vec4(vec3(c), 1.);\n}\n");
+
+/***/ }),
+
+/***/ "./src/assets/shader/days/day014.frag":
+/*!********************************************!*\
+  !*** ./src/assets/shader/days/day014.frag ***!
+  \********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ("// precision highp float;\nprecision mediump float;\n#define GLSLIFY 1\n\nuniform vec2 u_resolution;\nuniform float u_time;\nuniform vec2 u_mouse;\n\nuniform sampler2D u_map1;\nuniform float u_velocity;\nuniform float u_radius;\nuniform float u_zoom;\nuniform float u_colorShift;\nuniform vec2 u_followMouse;\n\nvarying vec2 vUv;\n\nfloat circleSmoothstep(vec2 position,vec2 offset,float radius,float smooth){\n\t// 内積の平方根は対角線の長さ\n\t// position -= offset;\n\t// float dist = sqrt(dot(position, position));\n\n\tfloat dist=length(position-offset);\n\treturn smoothstep(radius+smooth,radius-smooth,dist);\n}\n\nvoid main(){\n\t// vec4 color=vec4(0.1647, 0.3843, 0.4549, 1.0);\n\t// vec2 st = gl_FragCoord.xy/u_resolution.xy;\n  vec2 uv = vUv;\n\n\t// cは距離に応じてかかるエフェクトの強さを決めている（近ければエフェクト量が増える）\n\tfloat c = circleSmoothstep(uv, u_followMouse, 0., u_velocity + u_radius);\n\t// u_velocityをかけて加速・減速\n\tc *= (u_zoom * u_velocity);\n\n\tvec2 warpedUV = mix(vUv, u_followMouse, c);\n\n\tfloat r = texture2D(u_map1,warpedUV + c * (u_velocity * u_colorShift)).r;\n\tfloat g = texture2D(u_map1,warpedUV + c * (u_velocity)).g;\n\tfloat b = texture2D(u_map1,warpedUV - c * (u_velocity * u_colorShift)).b;\n\tvec4 color = vec4(r, g, b, 1.);\n\n\t// スクリーン\n\tgl_FragColor = color + color * vec4(vec3(c), 1.);\n}\n");
 
 /***/ })
 

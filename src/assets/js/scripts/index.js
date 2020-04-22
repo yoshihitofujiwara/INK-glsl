@@ -10,10 +10,9 @@ window.addEventListener("hashchange", ()=>{
 
 let fileName = location.href.split("#").find(item => -1 < item.indexOf("Day"));
 
-
 if(fileName){ // day
   new days[fileName]();
-  document.querySelector("h1").innerHTML = days[fileName].title();
+  document.querySelector("h1").innerHTML = fileName + " : " + days[fileName].title();
 
   let current = +fileName.replace("Day", "");
   let prev = current - 1;
@@ -28,8 +27,9 @@ if(fileName){ // day
     $prev.parentNode.removeChild($prev);
   }
 
-  let last =  "Day" + (Math.pow(10,  (3 - current.toString().length))).toString().slice(1) + (current + 1);
+  let last =  "Day" + (Math.pow(10,  (3 - (current+1).toString().length))).toString().slice(1) + (current + 1);
   let $next = document.getElementById("next");
+
 
   if(days[last]){
     $next.addEventListener("click", ()=>{

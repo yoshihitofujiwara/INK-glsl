@@ -12,7 +12,7 @@ uniform float u_speed;
 varying vec2 vUv;
 
 #pragma glslify: snoise2 = require(glsl-noise/simplex/2d)
-#pragma glslify:rotate=require("../rotate.vert")
+#pragma glslify:rotate=require("../rotate.glsl")
 
 float PI2 = 6.283185307179586;
 

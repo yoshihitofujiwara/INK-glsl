@@ -18,7 +18,7 @@ varying vec2 vUv;
 float PI2=6.283185307179586;
 float PI_H4=PI2/8.0;
 
-#pragma glslify:rotate=require("../rotate.vert")
+#pragma glslify:rotate=require("../rotate.glsl")
 
 
 void main(){

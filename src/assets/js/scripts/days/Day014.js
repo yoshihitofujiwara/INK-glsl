@@ -4,7 +4,7 @@ import RenderManager from "$utils/RenderManager";
 import ShaderPlaneMesh from "$utils/ShaderPlaneMesh";
 import Debug from '$utils/Debug';
 import {lerp} from '$ink/utils/calc';
-import dayFrag from "$shader/days/day013.frag";
+import dayFrag from "$shader/days/day014.frag";
 
 import { LinearFilter, Vector2 } from "three";
 
@@ -12,14 +12,11 @@ import { LinearFilter, Vector2 } from "three";
 
 export default class Day{
   static title(){
-    return "Mouse Tracking Zoom Effect";
+    return "Mouse Tracking RGB Split Effect";
   }
 
   constructor(){
     let debug = new Debug();
-
-
-
 
     let map1 = ImageUtils.loadTexture("./assets/img/img06.jpg");
 
@@ -35,6 +32,7 @@ export default class Day{
         u_velocity: { type: "f", value: 0},
         u_radius: { type: "f", value: .3},
         u_zoom: { type: "f", value: 40.},
+        u_colorShift: { type: "f", value: .5},
         u_followMouse: { type: "v2", value: new Vector2()}
       }
     });
@@ -52,8 +50,7 @@ export default class Day{
     debug.gui.add(params, "decay", 0.01, 1, 0.01).name("Decay");
     debug.gui.add(mesh.material.uniforms.u_radius, "value", 0, 1, 0.01).name("Radius");
     debug.gui.add(mesh.material.uniforms.u_zoom, "value", 0, 50).name("Zoom");
-
-
+    debug.gui.add(mesh.material.uniforms.u_colorShift, "value", 0, 5, 0.01).name("Color Shift");
 
     this.renderManager = new RenderManager(document.querySelector("#canvas"));
     this.renderManager.scene.add(mesh);

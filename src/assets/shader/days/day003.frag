@@ -15,7 +15,7 @@ uniform float u_radius;
 varying vec2 vUv;
 
 #pragma glslify:polygon=require("../polygon.frag")
-#pragma glslify:rotate=require("../rotate.vert")
+#pragma glslify:rotate=require("../rotate.glsl")
 
 
 // SEE: https://thndl.com/square-shaped-shaders.html

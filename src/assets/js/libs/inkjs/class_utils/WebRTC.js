@@ -32,23 +32,21 @@ export default class WebRTC extends Events {
       LOAD : "load"
     };
 
-    /// FIXME: offscreenレンダリング可能か？
     /**
      * 表示用video
      * @property video
      * @type {DOM}
      */
-    this.video = video;
+    this.video = video || document.createElement("video");
+    this.video.autoplay = true;
 
     /**
      * options
      * @type {object}
      */
     this.options = utils.mixin(true, {
-      constraints: {
-        video: true,
-        audio: false
-      }
+      video: true,
+      audio: false
     }, options);
   }
 
@@ -59,7 +57,7 @@ export default class WebRTC extends Events {
    */
   setup(){
 		return navigator.mediaDevices.getUserMedia(
-			this.options.constraints
+			this.options
 		)
     .then(
       (stream) => {
@@ -70,7 +68,7 @@ export default class WebRTC extends Events {
     )
     .catch((err) => {
       this.trigger(this._EVENTS.ERROR, err);
-      utils.log(err.name + ": " + err.message);
+      console.log(err.name + ": " + err.message);
     });
   }
 

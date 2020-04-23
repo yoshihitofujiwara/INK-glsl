@@ -14195,25 +14195,23 @@ function (_Events) {
       DONE: "done",
       ERROR: "error",
       LOAD: "load"
-    }; /// FIXME: offscreenレンダリング可能か？
-
+    };
     /**
      * 表示用video
      * @property video
      * @type {DOM}
      */
 
-    _this.video = video;
+    _this.video = video || document.createElement("video");
+    _this.video.autoplay = true;
     /**
      * options
      * @type {object}
      */
 
     _this.options = _utils__WEBPACK_IMPORTED_MODULE_1__["mixin"](true, {
-      constraints: {
-        video: true,
-        audio: false
-      }
+      video: true,
+      audio: false
     }, options);
     return _this;
   }
@@ -14228,7 +14226,7 @@ function (_Events) {
     value: function setup() {
       var _this2 = this;
 
-      return navigator.mediaDevices.getUserMedia(this.options.constraints).then(function (stream) {
+      return navigator.mediaDevices.getUserMedia(this.options).then(function (stream) {
         _this2.trigger(_this2._EVENTS.DONE, stream);
 
         _this2.video.srcObject = stream;
@@ -14237,7 +14235,7 @@ function (_Events) {
       }).catch(function (err) {
         _this2.trigger(_this2._EVENTS.ERROR, err);
 
-        _utils__WEBPACK_IMPORTED_MODULE_1__["log"](err.name + ": " + err.message);
+        console.log(err.name + ": " + err.message);
       });
     }
     /**
@@ -16532,95 +16530,6 @@ function log() {
 
 /***/ }),
 
-/***/ "./src/assets/js/scripts/days/Day000.js":
-/*!**********************************************!*\
-  !*** ./src/assets/js/scripts/days/Day000.js ***!
-  \**********************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Day; });
-/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! three */ "./node_modules/three/build/three.module.js");
-/* harmony import */ var gsap__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! gsap */ "./node_modules/gsap/index.js");
-/* harmony import */ var $utils_RenderManager__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! $utils/RenderManager */ "./src/assets/js/scripts/utils/RenderManager.js");
-/* harmony import */ var $utils_ShaderPlaneMesh__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! $utils/ShaderPlaneMesh */ "./src/assets/js/scripts/utils/ShaderPlaneMesh.js");
-/* harmony import */ var $utils_Debug__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! $utils/Debug */ "./src/assets/js/scripts/utils/Debug.js");
-/* harmony import */ var $ink_class_utils_WebRTC__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! $ink/class_utils/WebRTC */ "./src/assets/js/libs/inkjs/class_utils/WebRTC.js");
-/* harmony import */ var $shader_days_day000_frag__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! $shader/days/day000.frag */ "./src/assets/shader/days/day000.frag");
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-
-
-
-
-
-
-
-
-
-var Day =
-/*#__PURE__*/
-function () {
-  _createClass(Day, null, [{
-    key: "title",
-    value: function title() {
-      return "Mosaic";
-    }
-  }]);
-
-  function Day() {
-    _classCallCheck(this, Day);
-
-    var debug = new $utils_Debug__WEBPACK_IMPORTED_MODULE_4__["default"]();
-    var map1 = three__WEBPACK_IMPORTED_MODULE_0__["ImageUtils"].loadTexture("./assets/img/img01.jpg");
-    map1.magFilter = map1.minFilter = three__WEBPACK_IMPORTED_MODULE_0__["LinearFilter"];
-    var mesh = new $utils_ShaderPlaneMesh__WEBPACK_IMPORTED_MODULE_3__["default"](null, {
-      fragmentShader: $shader_days_day000_frag__WEBPACK_IMPORTED_MODULE_6__["default"],
-      uniforms: {
-        u_map1: {
-          type: "t",
-          value: map1
-        },
-        u_grid: {
-          type: "f",
-          value: 32
-        }
-      }
-    });
-    console.log(mesh.material.uniforms); // @debug
-
-    debug.gui.add(mesh.material.uniforms.u_grid, "value", 0, 512 / 4).name("Grid").onChange(function () {
-      mesh.material.uniformsNeedUpdate = true;
-    }); // console.log(WebRTC);
-
-    this.renderManager = new $utils_RenderManager__WEBPACK_IMPORTED_MODULE_2__["default"](document.querySelector("#canvas"));
-    this.renderManager.scene.add(mesh);
-    this.renderManager.start(); // @event
-
-    this.renderManager.addEventListener("update", function (params) {
-      mesh.material.uniformsNeedUpdate = true;
-      mesh.material.uniforms.u_time.value = params.time;
-      debug.update();
-    });
-    this.renderManager.canvas.addEventListener("mousemove", function (e) {
-      mesh.material.uniforms.u_mouse.value.x = e.offsetX / window.innerWidth;
-      mesh.material.uniforms.u_mouse.value.y = 1. - e.offsetY / window.innerHeight;
-    });
-  }
-
-  return Day;
-}();
-
-
-
-/***/ }),
-
 /***/ "./src/assets/js/scripts/days/Day001.js":
 /*!**********************************************!*\
   !*** ./src/assets/js/scripts/days/Day001.js ***!
@@ -17985,60 +17894,169 @@ function () {
 
 /***/ }),
 
-/***/ "./src/assets/js/scripts/days/index.js":
-/*!*********************************************!*\
-  !*** ./src/assets/js/scripts/days/index.js ***!
-  \*********************************************/
-/*! exports provided: Day000, Day001, Day002, Day003, Day004, Day005, Day006, Day007, Day008, Day009, Day010, Day011, Day012, Day013, Day014 */
+/***/ "./src/assets/js/scripts/days/Day015.js":
+/*!**********************************************!*\
+  !*** ./src/assets/js/scripts/days/Day015.js ***!
+  \**********************************************/
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _Day000__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Day000 */ "./src/assets/js/scripts/days/Day000.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day000", function() { return _Day000__WEBPACK_IMPORTED_MODULE_0__["default"]; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Day; });
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! three */ "./node_modules/three/build/three.module.js");
+/* harmony import */ var gsap__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! gsap */ "./node_modules/gsap/index.js");
+/* harmony import */ var $utils_RenderManager__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! $utils/RenderManager */ "./src/assets/js/scripts/utils/RenderManager.js");
+/* harmony import */ var $utils_ShaderPlaneMesh__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! $utils/ShaderPlaneMesh */ "./src/assets/js/scripts/utils/ShaderPlaneMesh.js");
+/* harmony import */ var $utils_Debug__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! $utils/Debug */ "./src/assets/js/scripts/utils/Debug.js");
+/* harmony import */ var $ink_utils_calc__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! $ink/utils/calc */ "./src/assets/js/libs/inkjs/utils/calc.js");
+/* harmony import */ var $ink_class_utils_WebRTC__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! $ink/class_utils/WebRTC */ "./src/assets/js/libs/inkjs/class_utils/WebRTC.js");
+/* harmony import */ var $shader_days_day015_frag__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! $shader/days/day015.frag */ "./src/assets/shader/days/day015.frag");
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-/* harmony import */ var _Day001__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Day001 */ "./src/assets/js/scripts/days/Day001.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day001", function() { return _Day001__WEBPACK_IMPORTED_MODULE_1__["default"]; });
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-/* harmony import */ var _Day002__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Day002 */ "./src/assets/js/scripts/days/Day002.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day002", function() { return _Day002__WEBPACK_IMPORTED_MODULE_2__["default"]; });
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-/* harmony import */ var _Day003__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Day003 */ "./src/assets/js/scripts/days/Day003.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day003", function() { return _Day003__WEBPACK_IMPORTED_MODULE_3__["default"]; });
 
-/* harmony import */ var _Day004__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Day004 */ "./src/assets/js/scripts/days/Day004.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day004", function() { return _Day004__WEBPACK_IMPORTED_MODULE_4__["default"]; });
 
-/* harmony import */ var _Day005__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Day005 */ "./src/assets/js/scripts/days/Day005.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day005", function() { return _Day005__WEBPACK_IMPORTED_MODULE_5__["default"]; });
 
-/* harmony import */ var _Day006__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Day006 */ "./src/assets/js/scripts/days/Day006.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day006", function() { return _Day006__WEBPACK_IMPORTED_MODULE_6__["default"]; });
 
-/* harmony import */ var _Day007__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Day007 */ "./src/assets/js/scripts/days/Day007.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day007", function() { return _Day007__WEBPACK_IMPORTED_MODULE_7__["default"]; });
 
-/* harmony import */ var _Day008__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./Day008 */ "./src/assets/js/scripts/days/Day008.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day008", function() { return _Day008__WEBPACK_IMPORTED_MODULE_8__["default"]; });
 
-/* harmony import */ var _Day009__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./Day009 */ "./src/assets/js/scripts/days/Day009.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day009", function() { return _Day009__WEBPACK_IMPORTED_MODULE_9__["default"]; });
 
-/* harmony import */ var _Day010__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./Day010 */ "./src/assets/js/scripts/days/Day010.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day010", function() { return _Day010__WEBPACK_IMPORTED_MODULE_10__["default"]; });
 
-/* harmony import */ var _Day011__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./Day011 */ "./src/assets/js/scripts/days/Day011.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day011", function() { return _Day011__WEBPACK_IMPORTED_MODULE_11__["default"]; });
+ // https://github.com/akella/webgl-mouseover-effects/blob/master/js/post/fragment.glsl
 
-/* harmony import */ var _Day012__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./Day012 */ "./src/assets/js/scripts/days/Day012.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day012", function() { return _Day012__WEBPACK_IMPORTED_MODULE_12__["default"]; });
+var Day =
+/*#__PURE__*/
+function () {
+  _createClass(Day, null, [{
+    key: "title",
+    value: function title() {
+      return "Sobel Filter";
+    }
+  }]);
 
-/* harmony import */ var _Day013__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./Day013 */ "./src/assets/js/scripts/days/Day013.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day013", function() { return _Day013__WEBPACK_IMPORTED_MODULE_13__["default"]; });
+  function Day() {
+    var _this = this;
 
-/* harmony import */ var _Day014__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./Day014 */ "./src/assets/js/scripts/days/Day014.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day014", function() { return _Day014__WEBPACK_IMPORTED_MODULE_14__["default"]; });
+    _classCallCheck(this, Day);
 
+    this.video = document.querySelector("#video");
+    this.webRTC = new $ink_class_utils_WebRTC__WEBPACK_IMPORTED_MODULE_6__["default"](this.video, {
+      video: {
+        width: 512,
+        height: 512
+      }
+    });
+    this.webRTC.on("load", function () {
+      _this.start();
+    });
+    this.webRTC.setup();
+  }
+
+  _createClass(Day, [{
+    key: "start",
+    value: function start() {
+      var videoTexture = new three__WEBPACK_IMPORTED_MODULE_0__["VideoTexture"](this.video);
+      videoTexture.minFilter = three__WEBPACK_IMPORTED_MODULE_0__["LinearFilter"];
+      videoTexture.magFilter = three__WEBPACK_IMPORTED_MODULE_0__["LinearFilter"];
+      videoTexture.format = three__WEBPACK_IMPORTED_MODULE_0__["RGBFormat"];
+      var debug = new $utils_Debug__WEBPACK_IMPORTED_MODULE_4__["default"]();
+      var mesh = new $utils_ShaderPlaneMesh__WEBPACK_IMPORTED_MODULE_3__["default"](null, {
+        fragmentShader: $shader_days_day015_frag__WEBPACK_IMPORTED_MODULE_7__["default"],
+        uniforms: {
+          u_map1: {
+            type: "t",
+            value: videoTexture
+          },
+          u_amount: {
+            type: "f",
+            value: 1
+          }
+        }
+      }); // @debug
+
+      debug.gui.add(mesh.material.uniforms.u_amount, "value", 0, 1, 0.01).name("Amount");
+      this.renderManager = new $utils_RenderManager__WEBPACK_IMPORTED_MODULE_2__["default"](document.querySelector("#canvas"));
+      this.renderManager.scene.add(mesh);
+      this.renderManager.start(); // @event
+
+      this.renderManager.addEventListener("update", function (_params) {
+        mesh.material.uniformsNeedUpdate = true;
+        mesh.material.uniforms.u_time.value = _params.time;
+        debug.update();
+      });
+      this.renderManager.canvas.addEventListener("mousemove", function (e) {
+        mesh.material.uniforms.u_mouse.value.x = e.offsetX / 512;
+        mesh.material.uniforms.u_mouse.value.y = 1. - e.offsetY / 512;
+      });
+    }
+  }]);
+
+  return Day;
+}();
+
+
+
+/***/ }),
+
+/***/ "./src/assets/js/scripts/days/index.js":
+/*!*********************************************!*\
+  !*** ./src/assets/js/scripts/days/index.js ***!
+  \*********************************************/
+/*! exports provided: Day001, Day002, Day003, Day004, Day005, Day006, Day007, Day008, Day009, Day010, Day011, Day012, Day013, Day014, Day015 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Day001__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Day001 */ "./src/assets/js/scripts/days/Day001.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day001", function() { return _Day001__WEBPACK_IMPORTED_MODULE_0__["default"]; });
+
+/* harmony import */ var _Day002__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Day002 */ "./src/assets/js/scripts/days/Day002.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day002", function() { return _Day002__WEBPACK_IMPORTED_MODULE_1__["default"]; });
+
+/* harmony import */ var _Day003__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Day003 */ "./src/assets/js/scripts/days/Day003.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day003", function() { return _Day003__WEBPACK_IMPORTED_MODULE_2__["default"]; });
+
+/* harmony import */ var _Day004__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Day004 */ "./src/assets/js/scripts/days/Day004.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day004", function() { return _Day004__WEBPACK_IMPORTED_MODULE_3__["default"]; });
+
+/* harmony import */ var _Day005__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Day005 */ "./src/assets/js/scripts/days/Day005.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day005", function() { return _Day005__WEBPACK_IMPORTED_MODULE_4__["default"]; });
+
+/* harmony import */ var _Day006__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Day006 */ "./src/assets/js/scripts/days/Day006.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day006", function() { return _Day006__WEBPACK_IMPORTED_MODULE_5__["default"]; });
+
+/* harmony import */ var _Day007__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Day007 */ "./src/assets/js/scripts/days/Day007.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day007", function() { return _Day007__WEBPACK_IMPORTED_MODULE_6__["default"]; });
+
+/* harmony import */ var _Day008__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Day008 */ "./src/assets/js/scripts/days/Day008.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day008", function() { return _Day008__WEBPACK_IMPORTED_MODULE_7__["default"]; });
+
+/* harmony import */ var _Day009__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./Day009 */ "./src/assets/js/scripts/days/Day009.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day009", function() { return _Day009__WEBPACK_IMPORTED_MODULE_8__["default"]; });
+
+/* harmony import */ var _Day010__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./Day010 */ "./src/assets/js/scripts/days/Day010.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day010", function() { return _Day010__WEBPACK_IMPORTED_MODULE_9__["default"]; });
+
+/* harmony import */ var _Day011__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./Day011 */ "./src/assets/js/scripts/days/Day011.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day011", function() { return _Day011__WEBPACK_IMPORTED_MODULE_10__["default"]; });
+
+/* harmony import */ var _Day012__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./Day012 */ "./src/assets/js/scripts/days/Day012.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day012", function() { return _Day012__WEBPACK_IMPORTED_MODULE_11__["default"]; });
+
+/* harmony import */ var _Day013__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./Day013 */ "./src/assets/js/scripts/days/Day013.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day013", function() { return _Day013__WEBPACK_IMPORTED_MODULE_12__["default"]; });
+
+/* harmony import */ var _Day014__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./Day014 */ "./src/assets/js/scripts/days/Day014.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day014", function() { return _Day014__WEBPACK_IMPORTED_MODULE_13__["default"]; });
+
+/* harmony import */ var _Day015__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./Day015 */ "./src/assets/js/scripts/days/Day015.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day015", function() { return _Day015__WEBPACK_IMPORTED_MODULE_14__["default"]; });
+
+// export { default as Day000 } from "./Day000";
 
 
 
@@ -18413,19 +18431,6 @@ function (_Mesh) {
 
 /***/ }),
 
-/***/ "./src/assets/shader/days/day000.frag":
-/*!********************************************!*\
-  !*** ./src/assets/shader/days/day000.frag ***!
-  \********************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("// precision highp float;\nprecision mediump float;\n#define GLSLIFY 1\n\nuniform vec2 u_resolution;\nuniform float u_time;\nuniform vec2 u_mouse;\n\nuniform sampler2D u_map1;\nuniform float u_grid;\n\nvarying vec2 vUv;\n\nfloat circle(vec2 uv, vec2 offset, float radius, float border) {\n\tuv -= offset;\n\t// uv *= u_resolution;\n\tfloat dist = sqrt(dot(uv, uv));\n\treturn smoothstep(radius + border, radius - border, dist);\n}\n\nvoid main(){\n\t// vec4 color=vec4(0.1647, 0.3843, 0.4549, 1.0);\n\t// vec2 st = gl_FragCoord.xy/u_resolution.xy;\n\n  vec2 uv = vUv;\n  float moz = 1. / u_grid;\n\n  if(u_grid != 0. && moz > 0.){\n\t\t// グリッド分割し小数点を切り捨ててモザイク化。モザイクの中心点を足す\n    uv = floor(uv / moz) * moz + (moz * .5);\n  }\n\n  gl_FragColor = texture2D(u_map1, uv);\n\n}\n");
-
-/***/ }),
-
 /***/ "./src/assets/shader/days/day001.frag":
 /*!********************************************!*\
   !*** ./src/assets/shader/days/day001.frag ***!
@@ -18604,7 +18609,20 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("// precision highp float;\nprecision mediump float;\n#define GLSLIFY 1\n\nuniform vec2 u_resolution;\nuniform float u_time;\nuniform vec2 u_mouse;\n\nuniform sampler2D u_map1;\nuniform float u_velocity;\nuniform float u_radius;\nuniform float u_zoom;\nuniform float u_colorShift;\nuniform vec2 u_followMouse;\n\nvarying vec2 vUv;\n\nfloat circleSmoothstep(vec2 position,vec2 offset,float radius,float smooth){\n\t// 内積の平方根は対角線の長さ\n\t// position -= offset;\n\t// float dist = sqrt(dot(position, position));\n\n\tfloat dist=length(position-offset);\n\treturn smoothstep(radius+smooth,radius-smooth,dist);\n}\n\nvoid main(){\n\t// vec4 color=vec4(0.1647, 0.3843, 0.4549, 1.0);\n\t// vec2 st = gl_FragCoord.xy/u_resolution.xy;\n  vec2 uv = vUv;\n\n\t// cは距離に応じてかかるエフェクトの強さを決めている（近ければエフェクト量が増える）\n\tfloat c = circleSmoothstep(uv, u_followMouse, 0., u_velocity + u_radius);\n\t// u_velocityをかけて加速・減速\n\tc *= (u_zoom * u_velocity);\n\n\tvec2 warpedUV = mix(vUv, u_followMouse, c);\n\n\tfloat r = texture2D(u_map1,warpedUV + c * (u_velocity * u_colorShift)).r;\n\tfloat g = texture2D(u_map1,warpedUV + c * (u_velocity)).g;\n\tfloat b = texture2D(u_map1,warpedUV - c * (u_velocity * u_colorShift)).b;\n\tvec4 color = vec4(r, g, b, 1.);\n\n\t// スクリーン\n\tgl_FragColor = color + color * vec4(vec3(c), 1.);\n}\n");
+/* harmony default export */ __webpack_exports__["default"] = ("// precision highp float;\nprecision mediump float;\n#define GLSLIFY 1\n\nuniform vec2 u_resolution;\nuniform float u_time;\nuniform vec2 u_mouse;\n\nuniform sampler2D u_map1;\nuniform float u_velocity;\nuniform float u_radius;\nuniform float u_zoom;\nuniform float u_colorShift;\nuniform vec2 u_followMouse;\n\nvarying vec2 vUv;\n\nfloat circleSmoothstep(vec2 position,vec2 offset,float radius,float smooth){\n\t// 内積の平方根は対角線の長さ\n\t// position -= offset;\n\t// float dist = sqrt(dot(position, position));\n\n\tfloat dist=length(position-offset);\n\treturn smoothstep(radius+smooth,radius-smooth,dist);\n}\n\n// vec4 splitColor(sampler2D tex, vec2 position, float shift){\n// \tvec4 color = texture2D(tex, position);\n// \tfloat r = texture2D(tex, position+shift).r;\n// \tfloat b = texture2D(tex, position-shift).b;\n// \treturn vec4(r, color.g, b, color.a);\n// }\n\nvoid main(){\n\t// vec4 color=vec4(0.1647, 0.3843, 0.4549, 1.0);\n\t// vec2 st = gl_FragCoord.xy/u_resolution.xy;\n  vec2 uv = vUv;\n\n\t// cは距離に応じてかかるエフェクトの強さを決めている（近ければエフェクト量が増える）\n\tfloat c = circleSmoothstep(uv, u_followMouse, 0., u_velocity + u_radius);\n\t// u_velocityをかけて加速・減速\n\tc *= (u_zoom * u_velocity);\n\n\tvec2 warpedUV = mix(vUv, u_followMouse, c);\n\n\t// color shift\n\tfloat r = texture2D(u_map1,warpedUV + c * (u_velocity * u_colorShift)).r;\n\tfloat g = texture2D(u_map1,warpedUV + c * (u_velocity)).g;\n\tfloat b = texture2D(u_map1,warpedUV - c * (u_velocity * u_colorShift)).b;\n\tvec4 color = vec4(r, g, b, 1.);\n\n\t// スクリーン\n\tgl_FragColor = color + color * vec4(vec3(c), 1.);\n}\n");
+
+/***/ }),
+
+/***/ "./src/assets/shader/days/day015.frag":
+/*!********************************************!*\
+  !*** ./src/assets/shader/days/day015.frag ***!
+  \********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ("// precision highp float;\nprecision mediump float;\n#define GLSLIFY 1\n\nuniform vec2 u_resolution;\nuniform float u_time;\nuniform vec2 u_mouse;\n\nuniform sampler2D u_map1;\nuniform float u_amount;\n\nvarying vec2 vUv;\n\n//--------------------------------------------------------------------------\n// sobel: エッジ検出\n//--------------------------------------------------------------------------\nvec4 sobel_0(vec2 uv, sampler2D texture, vec2 resolution){\n\tmat3 Gx = mat3(-1, -2, -1, 0, 0, 0, 1, 2, 1);\n\tmat3 Gy = mat3(-1, 0, 1, -2, 0, 2, -1, 0, 1);\n\tvec2 texel = vec2(1.0/resolution.x, 1.0/resolution.y);\n\n\tvec3 tx0y0 = texture2D(texture, uv+texel*vec2(-1, -1)).rgb;\n\tvec3 tx0y1 = texture2D(texture, uv+texel*vec2(-1,  0)).rgb;\n\tvec3 tx0y2 = texture2D(texture, uv+texel*vec2(-1,  1)).rgb;\n\tvec3 tx1y0 = texture2D(texture, uv+texel*vec2( 0, -1)).rgb;\n\tvec3 tx1y1 = texture2D(texture, uv+texel*vec2( 0,  0)).rgb;\n\tvec3 tx1y2 = texture2D(texture, uv+texel*vec2( 0,  1)).rgb;\n\tvec3 tx2y0 = texture2D(texture, uv+texel*vec2( 1, -1)).rgb;\n\tvec3 tx2y1 = texture2D(texture, uv+texel*vec2( 1,  0)).rgb;\n\tvec3 tx2y2 = texture2D(texture, uv+texel*vec2( 1,  1)).rgb;\n\n\tvec3 valueGx = Gx[0][0]*tx0y0 + Gx[1][0]*tx1y0 + Gx[2][0]*tx2y0 +\tGx[0][1]*tx0y1 + Gx[1][1]*tx1y1 + Gx[2][1]*tx2y1 + Gx[0][2]*tx0y2 + Gx[1][2]*tx1y2 + Gx[2][2]*tx2y2;\n\n\tvec3 valueGy = Gy[0][0]*tx0y0 + Gy[1][0]*tx1y0 + Gy[2][0]*tx2y0 +\tGy[0][1]*tx0y1 + Gy[1][1]*tx1y1 + Gy[2][1]*tx2y1 + Gy[0][2]*tx0y2 + Gy[1][2]*tx1y2 + Gy[2][2]*tx2y2;\n\n\tvec3 destColor = sqrt(valueGx*valueGx + valueGy*valueGy);\n\treturn vec4(destColor, 1.0);\n}\n\nvoid main(){\n\t// vec4 color=vec4(0.1647, 0.3843, 0.4549, 1.0);\n\t// vec2 st = gl_FragCoord.xy/u_resolution.xy;\n  vec2 uv = vUv;\n\n\tvec4 color = texture2D(u_map1, uv);\n\tvec4 sobel = sobel_0(uv, u_map1, u_resolution);\n\n\tgl_FragColor = mix(color, sobel, u_amount);\n}\n");
 
 /***/ })
 

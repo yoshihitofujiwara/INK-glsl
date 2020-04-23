@@ -277,11 +277,12 @@ canvas {
 }
 
 video {
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 512px;
   height: 512px;
-  visibility: hidden;
-  -webkit-backface-visibility: hidden;
-          backface-visibility: hidden;
+  display: none;
 }
 
 #pager {

@@ -33,10 +33,13 @@ canvas{
 }
 
 video{
+	// z-index: -1;
+	position: fixed;
+	top: 0;
+	left: 0;
 	width: 512px;
 	height: 512px;
-	visibility: hidden;
-	backface-visibility: hidden;
+	display: none;
 }
 
 #pager{

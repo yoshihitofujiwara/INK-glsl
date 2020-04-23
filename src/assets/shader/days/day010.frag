@@ -27,6 +27,5 @@ void main(){
   float g = texture2D( u_map1, vUv ).g;
   float b = texture2D( u_map1, vUv - vec2(rotate(delta) * u_distance)).b;
 
-
 	gl_FragColor= vec4(r, g, b, 1.0);
 }

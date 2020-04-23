@@ -17,6 +17,13 @@ varying vec2 vUv;
 
 #pragma glslify:circleSmoothstep=require("../circleSmoothstep.frag")
 
+// vec4 splitColor(sampler2D tex, vec2 position, float shift){
+// 	vec4 color = texture2D(tex, position);
+// 	float r = texture2D(tex, position+shift).r;
+// 	float b = texture2D(tex, position-shift).b;
+// 	return vec4(r, color.g, b, color.a);
+// }
+
 
 void main(){
 	// vec4 color=vec4(0.1647, 0.3843, 0.4549, 1.0);
@@ -30,6 +37,7 @@ void main(){
 
 	vec2 warpedUV = mix(vUv, u_followMouse, c);
 
+	// color shift
 	float r = texture2D(u_map1,warpedUV + c * (u_velocity * u_colorShift)).r;
 	float g = texture2D(u_map1,warpedUV + c * (u_velocity)).g;
 	float b = texture2D(u_map1,warpedUV - c * (u_velocity * u_colorShift)).b;

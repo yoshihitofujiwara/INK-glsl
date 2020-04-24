@@ -38,7 +38,6 @@ export default class WebRTC extends Events {
      * @type {DOM}
      */
     this.video = video || document.createElement("video");
-    this.video.autoplay = true;
 
     /**
      * options

@@ -14203,7 +14203,6 @@ function (_Events) {
      */
 
     _this.video = video || document.createElement("video");
-    _this.video.autoplay = true;
     /**
      * options
      * @type {object}
@@ -17909,15 +17908,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var $utils_RenderManager__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! $utils/RenderManager */ "./src/assets/js/scripts/utils/RenderManager.js");
 /* harmony import */ var $utils_ShaderPlaneMesh__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! $utils/ShaderPlaneMesh */ "./src/assets/js/scripts/utils/ShaderPlaneMesh.js");
 /* harmony import */ var $utils_Debug__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! $utils/Debug */ "./src/assets/js/scripts/utils/Debug.js");
-/* harmony import */ var $ink_utils_calc__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! $ink/utils/calc */ "./src/assets/js/libs/inkjs/utils/calc.js");
-/* harmony import */ var $ink_class_utils_WebRTC__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! $ink/class_utils/WebRTC */ "./src/assets/js/libs/inkjs/class_utils/WebRTC.js");
-/* harmony import */ var $shader_days_day015_frag__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! $shader/days/day015.frag */ "./src/assets/shader/days/day015.frag");
+/* harmony import */ var $ink_class_utils_WebRTC__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! $ink/class_utils/WebRTC */ "./src/assets/js/libs/inkjs/class_utils/WebRTC.js");
+/* harmony import */ var $shader_days_day015_frag__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! $shader/days/day015.frag */ "./src/assets/shader/days/day015.frag");
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
 
 
 
@@ -17944,7 +17941,7 @@ function () {
     _classCallCheck(this, Day);
 
     this.video = document.querySelector("#video");
-    this.webRTC = new $ink_class_utils_WebRTC__WEBPACK_IMPORTED_MODULE_6__["default"](this.video, {
+    this.webRTC = new $ink_class_utils_WebRTC__WEBPACK_IMPORTED_MODULE_5__["default"](this.video, {
       video: {
         width: 512,
         height: 512
@@ -17965,7 +17962,7 @@ function () {
       videoTexture.format = three__WEBPACK_IMPORTED_MODULE_0__["RGBFormat"];
       var debug = new $utils_Debug__WEBPACK_IMPORTED_MODULE_4__["default"]();
       var mesh = new $utils_ShaderPlaneMesh__WEBPACK_IMPORTED_MODULE_3__["default"](null, {
-        fragmentShader: $shader_days_day015_frag__WEBPACK_IMPORTED_MODULE_7__["default"],
+        fragmentShader: $shader_days_day015_frag__WEBPACK_IMPORTED_MODULE_6__["default"],
         uniforms: {
           u_map1: {
             type: "t",
@@ -18002,11 +17999,99 @@ function () {
 
 /***/ }),
 
+/***/ "./src/assets/js/scripts/days/Day016.js":
+/*!**********************************************!*\
+  !*** ./src/assets/js/scripts/days/Day016.js ***!
+  \**********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Day; });
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! three */ "./node_modules/three/build/three.module.js");
+/* harmony import */ var gsap__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! gsap */ "./node_modules/gsap/index.js");
+/* harmony import */ var $utils_RenderManager__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! $utils/RenderManager */ "./src/assets/js/scripts/utils/RenderManager.js");
+/* harmony import */ var $utils_ShaderPlaneMesh__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! $utils/ShaderPlaneMesh */ "./src/assets/js/scripts/utils/ShaderPlaneMesh.js");
+/* harmony import */ var $utils_Debug__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! $utils/Debug */ "./src/assets/js/scripts/utils/Debug.js");
+/* harmony import */ var $shader_days_day016_frag__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! $shader/days/day016.frag */ "./src/assets/shader/days/day016.frag");
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+
+
+
+
+
+
+
+
+var Day =
+/*#__PURE__*/
+function () {
+  _createClass(Day, null, [{
+    key: "title",
+    value: function title() {
+      return "Split Screen";
+    }
+  }]);
+
+  function Day() {
+    _classCallCheck(this, Day);
+
+    var debug = new $utils_Debug__WEBPACK_IMPORTED_MODULE_4__["default"]();
+    var map1 = three__WEBPACK_IMPORTED_MODULE_0__["ImageUtils"].loadTexture("./assets/img/img03.jpg");
+    map1.magFilter = map1.minFilter = three__WEBPACK_IMPORTED_MODULE_0__["LinearFilter"];
+    var mesh = new $utils_ShaderPlaneMesh__WEBPACK_IMPORTED_MODULE_3__["default"](null, {
+      fragmentShader: $shader_days_day016_frag__WEBPACK_IMPORTED_MODULE_5__["default"],
+      uniforms: {
+        u_map1: {
+          type: "t",
+          value: map1
+        },
+        u_split: {
+          type: "f",
+          value: 4
+        },
+        u_offset: {
+          type: "f",
+          value: .5
+        }
+      }
+    }); // @debug
+
+    debug.gui.add(mesh.material.uniforms.u_split, "value", 1, 32, 1).name("Split");
+    debug.gui.add(mesh.material.uniforms.u_offset, "value", 0, 1, 0.1).name("Offset");
+    this.renderManager = new $utils_RenderManager__WEBPACK_IMPORTED_MODULE_2__["default"](document.querySelector("#canvas"));
+    this.renderManager.scene.add(mesh);
+    this.renderManager.start(); // @event
+
+    this.renderManager.addEventListener("update", function (params) {
+      mesh.material.uniformsNeedUpdate = true;
+      mesh.material.uniforms.u_time.value = params.time;
+      debug.update();
+    });
+    this.renderManager.canvas.addEventListener("mousemove", function (e) {
+      mesh.material.uniforms.u_mouse.value.x = e.offsetX;
+      mesh.material.uniforms.u_mouse.value.y = e.offsetY;
+    });
+  }
+
+  return Day;
+}();
+
+
+
+/***/ }),
+
 /***/ "./src/assets/js/scripts/days/index.js":
 /*!*********************************************!*\
   !*** ./src/assets/js/scripts/days/index.js ***!
   \*********************************************/
-/*! exports provided: Day001, Day002, Day003, Day004, Day005, Day006, Day007, Day008, Day009, Day010, Day011, Day012, Day013, Day014, Day015 */
+/*! exports provided: Day001, Day002, Day003, Day004, Day005, Day006, Day007, Day008, Day009, Day010, Day011, Day012, Day013, Day014, Day015, Day016 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -18056,7 +18141,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Day015__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./Day015 */ "./src/assets/js/scripts/days/Day015.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day015", function() { return _Day015__WEBPACK_IMPORTED_MODULE_14__["default"]; });
 
-// export { default as Day000 } from "./Day000";
+/* harmony import */ var _Day016__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./Day016 */ "./src/assets/js/scripts/days/Day016.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day016", function() { return _Day016__WEBPACK_IMPORTED_MODULE_15__["default"]; });
+
+
 
 
 
@@ -18623,6 +18711,19 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ("// precision highp float;\nprecision mediump float;\n#define GLSLIFY 1\n\nuniform vec2 u_resolution;\nuniform float u_time;\nuniform vec2 u_mouse;\n\nuniform sampler2D u_map1;\nuniform float u_amount;\n\nvarying vec2 vUv;\n\n//--------------------------------------------------------------------------\n// sobel: エッジ検出\n//--------------------------------------------------------------------------\nvec4 sobel_0(vec2 uv, sampler2D texture, vec2 resolution){\n\tmat3 Gx = mat3(-1, -2, -1, 0, 0, 0, 1, 2, 1);\n\tmat3 Gy = mat3(-1, 0, 1, -2, 0, 2, -1, 0, 1);\n\tvec2 texel = vec2(1.0/resolution.x, 1.0/resolution.y);\n\n\tvec3 tx0y0 = texture2D(texture, uv+texel*vec2(-1, -1)).rgb;\n\tvec3 tx0y1 = texture2D(texture, uv+texel*vec2(-1,  0)).rgb;\n\tvec3 tx0y2 = texture2D(texture, uv+texel*vec2(-1,  1)).rgb;\n\tvec3 tx1y0 = texture2D(texture, uv+texel*vec2( 0, -1)).rgb;\n\tvec3 tx1y1 = texture2D(texture, uv+texel*vec2( 0,  0)).rgb;\n\tvec3 tx1y2 = texture2D(texture, uv+texel*vec2( 0,  1)).rgb;\n\tvec3 tx2y0 = texture2D(texture, uv+texel*vec2( 1, -1)).rgb;\n\tvec3 tx2y1 = texture2D(texture, uv+texel*vec2( 1,  0)).rgb;\n\tvec3 tx2y2 = texture2D(texture, uv+texel*vec2( 1,  1)).rgb;\n\n\tvec3 valueGx = Gx[0][0]*tx0y0 + Gx[1][0]*tx1y0 + Gx[2][0]*tx2y0 +\tGx[0][1]*tx0y1 + Gx[1][1]*tx1y1 + Gx[2][1]*tx2y1 + Gx[0][2]*tx0y2 + Gx[1][2]*tx1y2 + Gx[2][2]*tx2y2;\n\n\tvec3 valueGy = Gy[0][0]*tx0y0 + Gy[1][0]*tx1y0 + Gy[2][0]*tx2y0 +\tGy[0][1]*tx0y1 + Gy[1][1]*tx1y1 + Gy[2][1]*tx2y1 + Gy[0][2]*tx0y2 + Gy[1][2]*tx1y2 + Gy[2][2]*tx2y2;\n\n\tvec3 destColor = sqrt(valueGx*valueGx + valueGy*valueGy);\n\treturn vec4(destColor, 1.0);\n}\n\nvoid main(){\n\t// vec4 color=vec4(0.1647, 0.3843, 0.4549, 1.0);\n\t// vec2 st = gl_FragCoord.xy/u_resolution.xy;\n  vec2 uv = vUv;\n\n\tvec4 color = texture2D(u_map1, uv);\n\tvec4 sobel = sobel_0(uv, u_map1, u_resolution);\n\n\tgl_FragColor = mix(color, sobel, u_amount);\n}\n");
+
+/***/ }),
+
+/***/ "./src/assets/shader/days/day016.frag":
+/*!********************************************!*\
+  !*** ./src/assets/shader/days/day016.frag ***!
+  \********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ("// precision highp float;\nprecision mediump float;\n#define GLSLIFY 1\n\nuniform vec2 u_resolution;\nuniform float u_time;\nuniform vec2 u_mouse;\n\nuniform sampler2D u_map1;\nuniform float u_split;\nuniform float u_offset;\n\nvarying vec2 vUv;\n\nvec2 splitScreen(vec2 position, vec2 offset, float split){\n\tvec2 p = position;\n\tp += vec2(offset);\n\tp *= split;\n\tp -= vec2(offset);\n\tp = fract(p);\n\treturn p;\n}\n\nvoid main(){\n\t// vec4 color=vec4(0.1647, 0.3843, 0.4549, 1.0);\n\t// vec2 st = gl_FragCoord.xy/u_resolution.xy;\n\n\tvec2 uv = vUv;\n\n\tuv = splitScreen(uv, vec2(u_offset), u_split);\n\n\tgl_FragColor= texture2D( u_map1, uv);\n}\n");
 
 /***/ })
 

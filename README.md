@@ -1,3 +1,5 @@
+https://experiments.withgoogle.com/sand-ghost
+
 
 transiton
 https://qiita.com/watabo_shi/items/2fc671f2147e799787f9
@@ -8,9 +10,12 @@ shape:＋,★
 湾曲
 ripple
 skew
-
-
+https://docs.google.com/presentation/d/12RrqyAkFanKmfL96ZHvhDCozE-_rKFPlU1YVwej4_bc/edit#slide=id.g3ff612b37b_1_203
+https://github.com/Blackhart/GLSL-Shaders/blob/master/glsl/Chromakey/chromakey.frag
 effects: glow
+
+https://docs.google.com/presentation/d/14J6kMfSSFcKuJPXT8of9MUQPnCPRhqNjGviLcWDIjco/mobilepresent?slide=id.g5e1d6a0216_0_94
+https://codepen.io/zadvorsky/pen/PNXbGo
 
 
 ---

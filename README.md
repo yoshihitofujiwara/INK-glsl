@@ -1,8 +1,8 @@
 https://experiments.withgoogle.com/sand-ghost
 
+https://docs.google.com/presentation/d/1NMhx4HWuNZsjNRRlaFOu2ysjo04NgcpFlEhzodE8Rlg/edit#slide=id.g423da70889_217_0
 
 transiton
-https://qiita.com/watabo_shi/items/2fc671f2147e799787f9
 slice transition
 
 grids

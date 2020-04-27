@@ -18087,11 +18087,93 @@ function () {
 
 /***/ }),
 
+/***/ "./src/assets/js/scripts/days/Day017.js":
+/*!**********************************************!*\
+  !*** ./src/assets/js/scripts/days/Day017.js ***!
+  \**********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Day; });
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! three */ "./node_modules/three/build/three.module.js");
+/* harmony import */ var gsap__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! gsap */ "./node_modules/gsap/index.js");
+/* harmony import */ var $utils_RenderManager__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! $utils/RenderManager */ "./src/assets/js/scripts/utils/RenderManager.js");
+/* harmony import */ var $utils_ShaderPlaneMesh__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! $utils/ShaderPlaneMesh */ "./src/assets/js/scripts/utils/ShaderPlaneMesh.js");
+/* harmony import */ var $utils_Debug__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! $utils/Debug */ "./src/assets/js/scripts/utils/Debug.js");
+/* harmony import */ var $shader_days_day017_frag__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! $shader/days/day017.frag */ "./src/assets/shader/days/day017.frag");
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+
+
+
+
+
+
+ // https://docs.google.com/presentation/d/1NMhx4HWuNZsjNRRlaFOu2ysjo04NgcpFlEhzodE8Rlg/edit#slide=id.g370aabb90c_0_868
+
+var Day =
+/*#__PURE__*/
+function () {
+  _createClass(Day, null, [{
+    key: "title",
+    value: function title() {
+      return "Circle Gradient";
+    }
+  }]);
+
+  function Day() {
+    _classCallCheck(this, Day);
+
+    var debug = new $utils_Debug__WEBPACK_IMPORTED_MODULE_4__["default"]();
+    var map1 = three__WEBPACK_IMPORTED_MODULE_0__["ImageUtils"].loadTexture("./assets/img/img03.jpg");
+    map1.magFilter = map1.minFilter = three__WEBPACK_IMPORTED_MODULE_0__["LinearFilter"];
+    var mesh = new $utils_ShaderPlaneMesh__WEBPACK_IMPORTED_MODULE_3__["default"](null, {
+      fragmentShader: $shader_days_day017_frag__WEBPACK_IMPORTED_MODULE_5__["default"],
+      uniforms: {
+        u_map1: {
+          type: "t",
+          value: map1
+        } // u_split: { type: "f", value: 4},
+        // u_offset: { type: "f", value: .5},
+
+      }
+    }); // @debug
+    // debug.gui.add(mesh.material.uniforms.u_split, "value", 1, 32, 1).name("Split");
+    // debug.gui.add(mesh.material.uniforms.u_offset, "value", 0, 1, 0.1).name("Offset");
+
+    this.renderManager = new $utils_RenderManager__WEBPACK_IMPORTED_MODULE_2__["default"](document.querySelector("#canvas"));
+    this.renderManager.scene.add(mesh);
+    this.renderManager.start(); // @event
+
+    this.renderManager.addEventListener("update", function (params) {
+      mesh.material.uniformsNeedUpdate = true;
+      mesh.material.uniforms.u_time.value = params.time;
+      debug.update();
+    });
+    this.renderManager.canvas.addEventListener("mousemove", function (e) {
+      mesh.material.uniforms.u_mouse.value.x = e.offsetX;
+      mesh.material.uniforms.u_mouse.value.y = e.offsetY;
+    });
+  }
+
+  return Day;
+}();
+
+
+
+/***/ }),
+
 /***/ "./src/assets/js/scripts/days/index.js":
 /*!*********************************************!*\
   !*** ./src/assets/js/scripts/days/index.js ***!
   \*********************************************/
-/*! exports provided: Day001, Day002, Day003, Day004, Day005, Day006, Day007, Day008, Day009, Day010, Day011, Day012, Day013, Day014, Day015, Day016 */
+/*! exports provided: Day001, Day002, Day003, Day004, Day005, Day006, Day007, Day008, Day009, Day010, Day011, Day012, Day013, Day014, Day015, Day016, Day017 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -18143,6 +18225,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony import */ var _Day016__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./Day016 */ "./src/assets/js/scripts/days/Day016.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day016", function() { return _Day016__WEBPACK_IMPORTED_MODULE_15__["default"]; });
+
+/* harmony import */ var _Day017__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./Day017 */ "./src/assets/js/scripts/days/Day017.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day017", function() { return _Day017__WEBPACK_IMPORTED_MODULE_16__["default"]; });
+
 
 
 
@@ -18541,7 +18627,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("// precision highp float;\nprecision mediump float;\n#define GLSLIFY 1\n\nuniform vec2 u_resolution;\nuniform float u_time;\nuniform vec2 u_mouse;\n\nvarying vec2 vUv;\n\nfloat PI2_0 = 6.283185307179586;\nfloat antialias_0 = .005;\n\nvec4 polygon(vec2 position, vec2 offset, int vert, float radius, vec4 color){\n\tvec2 p = offset-position;\n\tfloat a=atan(p.x, p.y);\n\tfloat b=PI2_0/float(vert);\n\n\tfloat amount = smoothstep(\n\t\tradius,\n\t\tradius + antialias_0,\n\t\tcos(floor(.5 + a/b) * b - a) * length(p.xy)\n\t);\n\n\treturn color * vec4(1.0 - amount);\n}\n\nfloat PI2_1 = 6.283185307179586;\nfloat antialias_1 = .005;\n\nbool inPolygon(vec2 position, vec2 offset, int vert, float radius){\n\tvec2 p = offset-position;\n\tfloat a=atan(p.x, p.y);\n\tfloat b=PI2_1/float(vert);\n\n\tfloat amount = smoothstep(\n\t\tradius,\n\t\tradius + antialias_1,\n\t\tcos(floor(.5 + a/b) * b - a) * length(p.xy)\n\t);\n\n\tif(amount == 0.0){\n\t\treturn true;\n\t}\n\treturn false;\n}\n\n// SEE: https://thndl.com/square-shaped-shaders.html\n\nvoid main(){\n\tvec2 st=gl_FragCoord.xy/u_resolution.xy;\n\tvec2 c = (vec2(0.5) - st) * 2.0;\n\n\t// polygon\n\t// gl_FragColor = polygon(st, vec2(0.5), 6, 0.3, vec4(0.3804, 0.7647, 0.8784, 1.0));\n\n\t// inPolygon\n\tif(inPolygon(st, vec2(0.5), 6, 0.3)){\n\t\tgl_FragColor = vec4(0.3804, 0.7647, 0.8784, 1.0);\n\t}\n}\n");
+/* harmony default export */ __webpack_exports__["default"] = ("// precision highp float;\nprecision mediump float;\n#define GLSLIFY 1\n\nuniform vec2 u_resolution;\nuniform float u_time;\nuniform vec2 u_mouse;\n\nvarying vec2 vUv;\n\nfloat PI2_1 = 6.283185307179586;\nfloat antialias_1 = .005;\n\nvec4 polygon(vec2 position, vec2 offset, int vert, float radius, vec4 color){\n\tvec2 p = offset-position;\n\tfloat a=atan(p.x, p.y);\n\tfloat b=PI2_1/float(vert);\n\n\tfloat amount = smoothstep(\n\t\tradius,\n\t\tradius + antialias_1,\n\t\tcos(floor(.5 + a/b) * b - a) * length(p.xy)\n\t);\n\n\treturn color * vec4(1.0 - amount);\n}\n\nfloat PI2_0 = 6.283185307179586;\nfloat antialias_0 = .005;\n\nbool inPolygon(vec2 position, vec2 offset, int vert, float radius){\n\tvec2 p = offset-position;\n\tfloat a=atan(p.x, p.y);\n\tfloat b=PI2_0/float(vert);\n\n\tfloat amount = smoothstep(\n\t\tradius,\n\t\tradius + antialias_0,\n\t\tcos(floor(.5 + a/b) * b - a) * length(p.xy)\n\t);\n\n\tif(amount == 0.0){\n\t\treturn true;\n\t}\n\treturn false;\n}\n\n// SEE: https://thndl.com/square-shaped-shaders.html\n\nvoid main(){\n\tvec2 st=gl_FragCoord.xy/u_resolution.xy;\n\tvec2 c = (vec2(0.5) - st) * 2.0;\n\n\t// polygon\n\t// gl_FragColor = polygon(st, vec2(0.5), 6, 0.3, vec4(0.3804, 0.7647, 0.8784, 1.0));\n\n\t// inPolygon\n\tif(inPolygon(st, vec2(0.5), 6, 0.3)){\n\t\tgl_FragColor = vec4(0.3804, 0.7647, 0.8784, 1.0);\n\t}\n}\n");
 
 /***/ }),
 
@@ -18724,6 +18810,19 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ("// precision highp float;\nprecision mediump float;\n#define GLSLIFY 1\n\nuniform vec2 u_resolution;\nuniform float u_time;\nuniform vec2 u_mouse;\n\nuniform sampler2D u_map1;\nuniform float u_split;\nuniform float u_offset;\n\nvarying vec2 vUv;\n\nvec2 splitScreen(vec2 position, vec2 offset, float split){\n\tvec2 p = position;\n\tp += vec2(offset);\n\tp *= split;\n\tp -= vec2(offset);\n\tp = fract(p);\n\treturn p;\n}\n\nvoid main(){\n\t// vec4 color=vec4(0.1647, 0.3843, 0.4549, 1.0);\n\t// vec2 st = gl_FragCoord.xy/u_resolution.xy;\n\n\tvec2 uv = vUv;\n\n\tuv = splitScreen(uv, vec2(u_offset), u_split);\n\n\tgl_FragColor= texture2D( u_map1, uv);\n}\n");
+
+/***/ }),
+
+/***/ "./src/assets/shader/days/day017.frag":
+/*!********************************************!*\
+  !*** ./src/assets/shader/days/day017.frag ***!
+  \********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ("// precision highp float;\nprecision mediump float;\n#define GLSLIFY 1\n\nuniform vec2 u_resolution;\nuniform float u_time;\nuniform vec2 u_mouse;\n\nuniform sampler2D u_map1;\nuniform float u_split;\nuniform float u_offset;\n\nvarying vec2 vUv;\n\n#define PI 3.14159265359\n\nvoid main(){\n\t// vec4 color=vec4(0.1647, 0.3843, 0.4549, 1.0);\n\t// vec2 st = gl_FragCoord.xy/u_resolution.xy;\n\n\tvec2 uv = vUv;\n\n\t// DEMO4: Circle Gradient2\n\t// vec2 st = vec2(.5) - uv;\n\t// float a = atan(st.y, st.x);\n\t// float c = abs(sin (a * 5.));\n\t// gl_FragColor= vec4(c, c, c, 1.0);\n\n\t// DEMO3: Circle Gradient\n\tvec2 st = vec2(.5) - uv;\n\tfloat a = atan(st.y, st.x);\n\tfloat c = (a + PI) / (PI * 2.);\n\tgl_FragColor= vec4(c, c, c, 1.0);\n\n\t// DEMO2: ring\n\t// float d = distance(vUv, vec2(0.5));\n\t// d *= 30.;\n\t// d = abs(sin(d-u_time * 2.0));\n\t// d = step(0.7, d);\n\t// float c = d;\n\t// gl_FragColor= vec4(c, c, c, 1.0);\n\n\t// DEMO1: circle\n\t// float d = distance(vUv, vec2(0.5));\n\t// float a = abs(sin(u_time)) * 0.5;\n\t// float c = step(d, a);\n\t// gl_FragColor= vec4(c, c, c, 1.0);\n}\n");
 
 /***/ })
 

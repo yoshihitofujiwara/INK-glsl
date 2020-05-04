@@ -6,13 +6,14 @@ uniform float u_time;
 uniform vec2 u_mouse;
 
 uniform sampler2D u_map1;
-uniform float u_split;
-uniform float u_offset;
+uniform float u_angle;
 
 varying vec2 vUv;
 
 
 #define PI 3.14159265359
+
+#pragma glslify:rotate=require("../rotate.glsl")
 
 
 void main(){
@@ -21,19 +22,20 @@ void main(){
 
 	vec2 uv = vUv;
 
-
-	// DEMO4: Circle Gradient2
-	// vec2 st = vec2(.5) - uv;
-	// float a = atan(st.y, st.x);
-	// float c = abs(sin (a * 5.));
-	// gl_FragColor= vec4(c, c, c, 1.0);
-
-
 	// DEMO3: Circle Gradient
 	vec2 st = vec2(.5) - uv;
+	st *= rotate(u_angle);
 	float a = atan(st.y, st.x);
+	// a  abs(sin(u_time))
 	float c = (a + PI) / (PI * 2.);
 	gl_FragColor= vec4(c, c, c, 1.0);
+
+
+	// DEMO4: Circle Gradient Repetition
+	// vec2 st=vec2(.5)-uv;
+	// float a=atan(st.y,st.x);
+	// float c=abs(sin(a*5.*.5));
+	// gl_FragColor=vec4(c,c,c,1.);
 
 
 	// DEMO2: ring

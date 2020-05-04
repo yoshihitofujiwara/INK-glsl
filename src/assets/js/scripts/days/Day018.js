@@ -3,15 +3,18 @@ import gsap from "gsap";
 import RenderManager from "$utils/RenderManager";
 import ShaderPlaneMesh from "$utils/ShaderPlaneMesh";
 import Debug from '$utils/Debug';
-import dayFrag from "$shader/days/day017.frag";
+import dayFrag from "$shader/days/day018.frag";
 
 import { LinearFilter, Vector2 } from "three";
 
 
 // https://docs.google.com/presentation/d/1NMhx4HWuNZsjNRRlaFOu2ysjo04NgcpFlEhzodE8Rlg/edit#slide=id.g370aabb90c_0_868
+
+// http://prntscr.com/s6ph1p
+
 export default class Day{
   static title(){
-    return "Circle Gradient";
+    return "Box Animation";
   }
 
   constructor(){
@@ -28,13 +31,13 @@ export default class Day{
           type: "t",
           value: map1
         },
-        u_angle: { type: "f", value: 0},
+        // u_split: { type: "f", value: 4},
         // u_offset: { type: "f", value: .5},
       }
     });
 
     // @debug
-    debug.gui.add(mesh.material.uniforms.u_angle, "value", 0, Math.PI*2, 0.001).name("Angle");
+    // debug.gui.add(mesh.material.uniforms.u_split, "value", 1, 32, 1).name("Split");
     // debug.gui.add(mesh.material.uniforms.u_offset, "value", 0, 1, 0.1).name("Offset");
 
     this.renderManager = new RenderManager(document.querySelector("#canvas"));

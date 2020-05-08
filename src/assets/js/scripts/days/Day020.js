@@ -3,24 +3,22 @@ import gsap from "gsap";
 import RenderManager from "$utils/RenderManager";
 import ShaderPlaneMesh from "$utils/ShaderPlaneMesh";
 import Debug from '$utils/Debug';
-import dayFrag from "$shader/days/day019.frag";
+import dayFrag from "$shader/days/day020.frag";
 
 import { LinearFilter, Vector2 } from "three";
 
 
-// https://docs.google.com/presentation/d/1NMhx4HWuNZsjNRRlaFOu2ysjo04NgcpFlEhzodE8Rlg/edit#slide=id.g370aabb90c_0_868
-
-// http://prntscr.com/s6ph1p
+// https://www.shadertoy.com/view/MtXBDs
 
 export default class Day{
   static title(){
-    return "Box Random Animation";
+    return "Glitch Noise1";
   }
 
   constructor(){
     let debug = new Debug();
 
-    let map1 = ImageUtils.loadTexture("./assets/img/img03.jpg");
+    let map1 = ImageUtils.loadTexture("./assets/img/img06.jpg");
 
     map1.magFilter = map1.minFilter = LinearFilter;
 
@@ -31,14 +29,17 @@ export default class Day{
           type: "t",
           value: map1
         },
-        // u_split: { type: "f", value: 4},
-        // u_offset: { type: "f", value: .5},
+        u_amount: { type: "f", value: 0.2},
+        u_speed: { type: "f", value: 0.2},
+        u_rgbSlice: { type: "b", value: true},
       }
     });
 
     // @debug
-    // debug.gui.add(mesh.material.uniforms.u_split, "value", 1, 32, 1).name("Split");
-    // debug.gui.add(mesh.material.uniforms.u_offset, "value", 0, 1, 0.1).name("Offset");
+    debug.gui.add(mesh.material.uniforms.u_amount, "value", 0, 1, 0.01).name("Amount");
+    debug.gui.add(mesh.material.uniforms.u_speed, "value", 0, 1, 0.01).name("Speed");
+    debug.gui.add(mesh.material.uniforms.u_rgbSlice, "value").name("Rgb Slice");
+
 
     this.renderManager = new RenderManager(document.querySelector("#canvas"));
     this.renderManager.scene.add(mesh);

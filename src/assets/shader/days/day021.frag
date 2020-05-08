@@ -37,6 +37,8 @@ void main(){
 	//randomly offset slices horizontally
 	float maxOffset = u_amount/2.0;
 	float max = 10.0 * u_amount;
+	vec2 guv = vec2(0.0);
+
 
 	for (float i = 0.0; i < 10.0; i += 1.0) {
 		float sliceY = random2d(vec2(time, 2345.0 + float(i)));
@@ -50,27 +52,34 @@ void main(){
 		uvOff.x += hOffset;
 
 		if (insideRange(uv.y, sliceY, fract(sliceY+sliceH)) == 1.0 ){
-			color = texture2D(u_map1, fract(uvOff) );
+			color = texture2D(u_map1, fract(uvOff));
+			guv = uvOff;
 			// color = texture2D(u_map1, uvOff);
 		}
 	}
 
-	// gl_FragColor = vec4(vec3(g), 1.0);
 
 	// rgb slice
-	// if(u_rgbSlice){
-	// 	float maxColOffset = u_amount/6.0;
-	// 	float rnd = random2d(vec2(time , 9545.0));
-	// 	vec2 colOffset = vec2(inRandomRange(vec2(time , 9545.0),-maxColOffset,maxColOffset), inRandomRange(vec2(time , 7205.0),-maxColOffset,maxColOffset));
+	if(u_rgbSlice){
+		float maxColOffset = u_amount/6.0;
 
-	// 	if (rnd < 0.33){
-	// 		color.r = texture2D(u_map1, uv + colOffset).r;
-	// 	}else if (rnd < 0.66){
-	// 		color.g = texture2D(u_map1, uv + colOffset).g;
-	// 	} else{
-	// 		color.b = texture2D(u_map1, uv + colOffset).b;
-	// 	}
-	// }
+		vec2 colOffset = vec2(
+			inRandomRange(vec2(time, 9545.0), -maxColOffset, maxColOffset), inRandomRange(vec2(time, 7205.0), -maxColOffset, maxColOffset)
+		);
+
+		// colOffset = vec2(0.01);
+		vec2 gUv = fract(uv + colOffset);
+
+		float rnd = random2d(vec2(time , 9545.0));
+
+		if (rnd < 0.33){
+			color.r = texture2D(u_map1, gUv).r;
+		}else if (rnd < 0.66){
+			color.g = texture2D(u_map1, gUv).g;
+		} else{
+			color.b = texture2D(u_map1, gUv).b;
+		}
+	}
 
 	gl_FragColor = color;
 }

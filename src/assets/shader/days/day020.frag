@@ -8,7 +8,6 @@ uniform vec2 u_mouse;
 uniform sampler2D u_map1;
 uniform float u_amount;
 uniform float u_speed;
-uniform bool u_rgbSlice;
 
 varying vec2 vUv;
 

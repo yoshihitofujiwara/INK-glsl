@@ -3,7 +3,7 @@ import gsap from "gsap";
 import RenderManager from "$utils/RenderManager";
 import ShaderPlaneMesh from "$utils/ShaderPlaneMesh";
 import Debug from '$utils/Debug';
-import dayFrag from "$shader/days/day020.frag";
+import dayFrag from "$shader/days/day021.frag";
 
 import { LinearFilter, Vector2 } from "three";
 
@@ -18,7 +18,7 @@ export default class Day{
   constructor(){
     let debug = new Debug();
 
-    let map1 = ImageUtils.loadTexture("./assets/img/img06.jpg");
+    let map1 = ImageUtils.loadTexture("./assets/img/img04.jpg");
 
     map1.magFilter = map1.minFilter = LinearFilter;
 

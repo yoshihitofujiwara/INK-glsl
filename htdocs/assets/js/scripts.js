@@ -18398,17 +18398,12 @@ function () {
         u_speed: {
           type: "f",
           value: 0.2
-        },
-        u_rgbSlice: {
-          type: "b",
-          value: true
         }
       }
     }); // @debug
 
     debug.gui.add(mesh.material.uniforms.u_amount, "value", 0, 1, 0.01).name("Amount");
     debug.gui.add(mesh.material.uniforms.u_speed, "value", 0, 1, 0.01).name("Speed");
-    debug.gui.add(mesh.material.uniforms.u_rgbSlice, "value").name("Rgb Slice");
     this.renderManager = new $utils_RenderManager__WEBPACK_IMPORTED_MODULE_2__["default"](document.querySelector("#canvas"));
     this.renderManager.scene.add(mesh);
     this.renderManager.start(); // @event
@@ -18446,7 +18441,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var $utils_RenderManager__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! $utils/RenderManager */ "./src/assets/js/scripts/utils/RenderManager.js");
 /* harmony import */ var $utils_ShaderPlaneMesh__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! $utils/ShaderPlaneMesh */ "./src/assets/js/scripts/utils/ShaderPlaneMesh.js");
 /* harmony import */ var $utils_Debug__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! $utils/Debug */ "./src/assets/js/scripts/utils/Debug.js");
-/* harmony import */ var $shader_days_day020_frag__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! $shader/days/day020.frag */ "./src/assets/shader/days/day020.frag");
+/* harmony import */ var $shader_days_day021_frag__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! $shader/days/day021.frag */ "./src/assets/shader/days/day021.frag");
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -18475,10 +18470,10 @@ function () {
     _classCallCheck(this, Day);
 
     var debug = new $utils_Debug__WEBPACK_IMPORTED_MODULE_4__["default"]();
-    var map1 = three__WEBPACK_IMPORTED_MODULE_0__["ImageUtils"].loadTexture("./assets/img/img06.jpg");
+    var map1 = three__WEBPACK_IMPORTED_MODULE_0__["ImageUtils"].loadTexture("./assets/img/img04.jpg");
     map1.magFilter = map1.minFilter = three__WEBPACK_IMPORTED_MODULE_0__["LinearFilter"];
     var mesh = new $utils_ShaderPlaneMesh__WEBPACK_IMPORTED_MODULE_3__["default"](null, {
-      fragmentShader: $shader_days_day020_frag__WEBPACK_IMPORTED_MODULE_5__["default"],
+      fragmentShader: $shader_days_day021_frag__WEBPACK_IMPORTED_MODULE_5__["default"],
       uniforms: {
         u_map1: {
           type: "t",
@@ -19232,7 +19227,20 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("// precision highp float;\nprecision mediump float;\n#define GLSLIFY 1\n\nuniform vec2 u_resolution;\nuniform float u_time;\nuniform vec2 u_mouse;\n\nuniform sampler2D u_map1;\nuniform float u_amount;\nuniform float u_speed;\nuniform bool u_rgbSlice;\n\nvarying vec2 vUv;\n\n//2D (returns 0 - 1)\nfloat random2d(vec2 v2) {\n\treturn fract(sin(dot(v2, vec2(12.9898, 4.1414))) * 43758.5453);\n}\n\nfloat inRandomRange (in vec2 seed, in float min, in float max) {\n\treturn min + random2d(seed) * (max - min);\n}\n\n// return 1 if v inside 1d range\nfloat insideRange(float v, float bottom, float top) {\n\treturn step(bottom, v) - step(top, v);\n}\n\nvoid main(){\n\t// vec4 color=vec4(0.1647, 0.3843, 0.4549, 1.0);\n\t// vec2 st = gl_FragCoord.xy/u_resolution.xy;\n\tvec2 uv = vUv;\n\n\tfloat time = floor(u_time * u_speed * 60.0);\n\tvec4 color = texture2D(u_map1, uv);\n\n\t//randomly offset slices horizontally\n\tfloat maxOffset = u_amount/2.0;\n\tfloat max = 10.0 * u_amount;\n\n\tfor (float i = 0.0; i < 10.0; i += 1.0) {\n\t\tfloat sliceY = random2d(vec2(time, 2345.0 + float(i)));\n\t\tfloat sliceH = random2d(vec2(time, 9035.0 + float(i))) * 0.25;\n\n\t\tfloat hOffset = inRandomRange(\n\t\t\tvec2(time, 9625.0 + float(i)), -maxOffset, maxOffset\n\t\t);\n\n\t\tvec2 uvOff = uv;\n\t\tuvOff.x += hOffset;\n\n\t\tif (insideRange(uv.y, sliceY, fract(sliceY+sliceH)) == 1.0 ){\n\t\t\tcolor = texture2D(u_map1, fract(uvOff));\n\t\t\t// color = texture2D(u_map1, uvOff);\n\t\t}\n\t}\n\n\tgl_FragColor = color;\n}\n");
+/* harmony default export */ __webpack_exports__["default"] = ("// precision highp float;\nprecision mediump float;\n#define GLSLIFY 1\n\nuniform vec2 u_resolution;\nuniform float u_time;\nuniform vec2 u_mouse;\n\nuniform sampler2D u_map1;\nuniform float u_amount;\nuniform float u_speed;\n\nvarying vec2 vUv;\n\n//2D (returns 0 - 1)\nfloat random2d(vec2 v2) {\n\treturn fract(sin(dot(v2, vec2(12.9898, 4.1414))) * 43758.5453);\n}\n\nfloat inRandomRange (in vec2 seed, in float min, in float max) {\n\treturn min + random2d(seed) * (max - min);\n}\n\n// return 1 if v inside 1d range\nfloat insideRange(float v, float bottom, float top) {\n\treturn step(bottom, v) - step(top, v);\n}\n\nvoid main(){\n\t// vec4 color=vec4(0.1647, 0.3843, 0.4549, 1.0);\n\t// vec2 st = gl_FragCoord.xy/u_resolution.xy;\n\tvec2 uv = vUv;\n\n\tfloat time = floor(u_time * u_speed * 60.0);\n\tvec4 color = texture2D(u_map1, uv);\n\n\t//randomly offset slices horizontally\n\tfloat maxOffset = u_amount/2.0;\n\tfloat max = 10.0 * u_amount;\n\n\tfor (float i = 0.0; i < 10.0; i += 1.0) {\n\t\tfloat sliceY = random2d(vec2(time, 2345.0 + float(i)));\n\t\tfloat sliceH = random2d(vec2(time, 9035.0 + float(i))) * 0.25;\n\n\t\tfloat hOffset = inRandomRange(\n\t\t\tvec2(time, 9625.0 + float(i)), -maxOffset, maxOffset\n\t\t);\n\n\t\tvec2 uvOff = uv;\n\t\tuvOff.x += hOffset;\n\n\t\tif (insideRange(uv.y, sliceY, fract(sliceY+sliceH)) == 1.0 ){\n\t\t\tcolor = texture2D(u_map1, fract(uvOff));\n\t\t\t// color = texture2D(u_map1, uvOff);\n\t\t}\n\t}\n\n\tgl_FragColor = color;\n}\n");
+
+/***/ }),
+
+/***/ "./src/assets/shader/days/day021.frag":
+/*!********************************************!*\
+  !*** ./src/assets/shader/days/day021.frag ***!
+  \********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ("// precision highp float;\nprecision mediump float;\n#define GLSLIFY 1\n\nuniform vec2 u_resolution;\nuniform float u_time;\nuniform vec2 u_mouse;\n\nuniform sampler2D u_map1;\nuniform float u_amount;\nuniform float u_speed;\nuniform bool u_rgbSlice;\n\nvarying vec2 vUv;\n\n//2D (returns 0 - 1)\nfloat random2d(vec2 v2) {\n\treturn fract(sin(dot(v2, vec2(12.9898, 4.1414))) * 43758.5453);\n}\n\nfloat inRandomRange (in vec2 seed, in float min, in float max) {\n\treturn min + random2d(seed) * (max - min);\n}\n\n// return 1 if v inside 1d range\nfloat insideRange(float v, float bottom, float top) {\n\treturn step(bottom, v) - step(top, v);\n}\n\nvoid main(){\n\t// vec4 color=vec4(0.1647, 0.3843, 0.4549, 1.0);\n\t// vec2 st = gl_FragCoord.xy/u_resolution.xy;\n\tvec2 uv = vUv;\n\n\tfloat time = floor(u_time * u_speed * 60.0);\n\tvec4 color = texture2D(u_map1, uv);\n\n\t//randomly offset slices horizontally\n\tfloat maxOffset = u_amount/2.0;\n\tfloat max = 10.0 * u_amount;\n\tvec2 guv = vec2(0.0);\n\n\tfor (float i = 0.0; i < 10.0; i += 1.0) {\n\t\tfloat sliceY = random2d(vec2(time, 2345.0 + float(i)));\n\t\tfloat sliceH = random2d(vec2(time, 9035.0 + float(i))) * 0.25;\n\n\t\tfloat hOffset = inRandomRange(\n\t\t\tvec2(time, 9625.0 + float(i)), -maxOffset, maxOffset\n\t\t);\n\n\t\tvec2 uvOff = uv;\n\t\tuvOff.x += hOffset;\n\n\t\tif (insideRange(uv.y, sliceY, fract(sliceY+sliceH)) == 1.0 ){\n\t\t\tcolor = texture2D(u_map1, fract(uvOff));\n\t\t\tguv = uvOff;\n\t\t\t// color = texture2D(u_map1, uvOff);\n\t\t}\n\t}\n\n\t// rgb slice\n\tif(u_rgbSlice){\n\t\tfloat maxColOffset = u_amount/6.0;\n\n\t\tvec2 colOffset = vec2(\n\t\t\tinRandomRange(vec2(time, 9545.0), -maxColOffset, maxColOffset), inRandomRange(vec2(time, 7205.0), -maxColOffset, maxColOffset)\n\t\t);\n\n\t\t// colOffset = vec2(0.01);\n\t\tvec2 gUv = fract(uv + colOffset);\n\n\t\tfloat rnd = random2d(vec2(time , 9545.0));\n\n\t\tif (rnd < 0.33){\n\t\t\tcolor.r = texture2D(u_map1, gUv).r;\n\t\t}else if (rnd < 0.66){\n\t\t\tcolor.g = texture2D(u_map1, gUv).g;\n\t\t} else{\n\t\t\tcolor.b = texture2D(u_map1, gUv).b;\n\t\t}\n\t}\n\n\tgl_FragColor = color;\n}\n");
 
 /***/ })
 

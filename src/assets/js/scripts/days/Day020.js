@@ -31,14 +31,13 @@ export default class Day{
         },
         u_amount: { type: "f", value: 0.2},
         u_speed: { type: "f", value: 0.2},
-        u_rgbSlice: { type: "b", value: true},
       }
     });
 
     // @debug
     debug.gui.add(mesh.material.uniforms.u_amount, "value", 0, 1, 0.01).name("Amount");
     debug.gui.add(mesh.material.uniforms.u_speed, "value", 0, 1, 0.01).name("Speed");
-    debug.gui.add(mesh.material.uniforms.u_rgbSlice, "value").name("Rgb Slice");
+
 
 
     this.renderManager = new RenderManager(document.querySelector("#canvas"));

@@ -245,9 +245,17 @@ q:after {
 /*--------------------------------------------------------------------------
 	styles
 --------------------------------------------------------------------------*/
-html, body {
-  overflow: hidden;
+html,
+body {
   height: 100%;
+}
+
+body {
+  overflow: hidden;
+}
+
+body#top {
+  overflow: auto;
 }
 
 #wrapper {

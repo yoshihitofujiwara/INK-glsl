@@ -12,7 +12,7 @@ import { LinearFilter, Vector2 } from "three";
 
 export default class Day{
   static title(){
-    return "Mouse Tracking RGB Split Effect";
+    return "RGB Split Effect";
   }
 
   constructor(){

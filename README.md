@@ -2,7 +2,7 @@ https://docs.google.com/presentation/d/12RrqyAkFanKmfL96ZHvhDCozE-_rKFPlU1YVwej4
 
 
 
-
+https://goworkship.com/magazine/particle-animation/
 
 https://experiments.withgoogle.com/sand-ghost
 

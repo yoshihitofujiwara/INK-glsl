@@ -7,11 +7,18 @@
 /*--------------------------------------------------------------------------
 	styles
 --------------------------------------------------------------------------*/
-html,body{
-	overflow: hidden;
+html,
+body{
 	height: 100%;
-
 }
+body{
+	overflow: hidden;
+
+	&#top{
+		overflow: auto;
+	}
+}
+
 #wrapper{
 	height: 100%;
   display: flex;

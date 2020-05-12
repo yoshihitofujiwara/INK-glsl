@@ -12,7 +12,7 @@ import { LinearFilter, Vector2 } from "three";
 
 export default class Day{
   static title(){
-    return "Mouse Tracking Zoom Effect";
+    return "Zoom Effect";
   }
 
   constructor(){

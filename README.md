@@ -1,5 +1,6 @@
 https://docs.google.com/presentation/d/12RrqyAkFanKmfL96ZHvhDCozE-_rKFPlU1YVwej4_bc/edit#slide=id.g3ff612b37b_1_203
 
+https://www.slideshare.net/shohosoda9/threejs-58238484
 
 
 https://goworkship.com/magazine/particle-animation/

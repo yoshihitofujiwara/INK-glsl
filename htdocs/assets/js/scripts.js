@@ -18672,6 +18672,85 @@ function () {
     var debug = new $utils_Debug__WEBPACK_IMPORTED_MODULE_4__["default"]();
     var map1 = three__WEBPACK_IMPORTED_MODULE_0__["ImageUtils"].loadTexture("./assets/img/img04.jpg");
     map1.magFilter = map1.minFilter = three__WEBPACK_IMPORTED_MODULE_0__["LinearFilter"];
+    var mesh = new $utils_ShaderPlaneMesh__WEBPACK_IMPORTED_MODULE_3__["default"](null, {
+      fragmentShader: $shader_days_day023_frag__WEBPACK_IMPORTED_MODULE_5__["default"],
+      uniforms: {
+        u_map1: {
+          type: "t",
+          value: map1
+        }
+      }
+    }); // @debug
+    // debug.gui.add(mesh.material.uniforms.u_amount, "value", 0, 1, 0.01).name("Amount");
+
+    this.renderManager = new $utils_RenderManager__WEBPACK_IMPORTED_MODULE_2__["default"](document.querySelector("#canvas"));
+    this.renderManager.scene.add(mesh);
+    this.renderManager.start(); // @event
+
+    this.renderManager.addEventListener("update", function (params) {
+      mesh.material.uniformsNeedUpdate = true;
+      mesh.material.uniforms.u_time.value = params.time;
+      debug.update();
+    });
+    this.renderManager.canvas.addEventListener("mousemove", function (e) {
+      mesh.material.uniforms.u_mouse.value.x = e.offsetX;
+      mesh.material.uniforms.u_mouse.value.y = e.offsetY;
+    });
+  }
+
+  return Day;
+}();
+
+
+
+/***/ }),
+
+/***/ "./src/assets/js/scripts/days/Day024.js":
+/*!**********************************************!*\
+  !*** ./src/assets/js/scripts/days/Day024.js ***!
+  \**********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Day; });
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! three */ "./node_modules/three/build/three.module.js");
+/* harmony import */ var gsap__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! gsap */ "./node_modules/gsap/index.js");
+/* harmony import */ var $utils_RenderManager__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! $utils/RenderManager */ "./src/assets/js/scripts/utils/RenderManager.js");
+/* harmony import */ var $utils_ShaderPlaneMesh__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! $utils/ShaderPlaneMesh */ "./src/assets/js/scripts/utils/ShaderPlaneMesh.js");
+/* harmony import */ var $utils_Debug__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! $utils/Debug */ "./src/assets/js/scripts/utils/Debug.js");
+/* harmony import */ var $shader_days_day024_frag__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! $shader/days/day024.frag */ "./src/assets/shader/days/day024.frag");
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+
+
+
+
+
+
+
+
+var Day =
+/*#__PURE__*/
+function () {
+  _createClass(Day, null, [{
+    key: "title",
+    value: function title() {
+      return "Morphing2";
+    }
+  }]);
+
+  function Day() {
+    _classCallCheck(this, Day);
+
+    var debug = new $utils_Debug__WEBPACK_IMPORTED_MODULE_4__["default"]();
+    var map1 = three__WEBPACK_IMPORTED_MODULE_0__["ImageUtils"].loadTexture("./assets/img/img04.jpg");
+    map1.magFilter = map1.minFilter = three__WEBPACK_IMPORTED_MODULE_0__["LinearFilter"];
     var params = {
       color1: [244, 41, 136],
       color2: [251, 240, 122]
@@ -18682,7 +18761,107 @@ function () {
     }
 
     var mesh = new $utils_ShaderPlaneMesh__WEBPACK_IMPORTED_MODULE_3__["default"](null, {
-      fragmentShader: $shader_days_day023_frag__WEBPACK_IMPORTED_MODULE_5__["default"],
+      fragmentShader: $shader_days_day024_frag__WEBPACK_IMPORTED_MODULE_5__["default"],
+      uniforms: {
+        u_map1: {
+          type: "t",
+          value: map1
+        },
+        u_amount: {
+          type: "f",
+          value: 1
+        },
+        u_color1: {
+          type: "v3",
+          value: normColor(params.color1)
+        },
+        u_color2: {
+          type: "v3",
+          value: normColor(params.color2)
+        }
+      }
+    }); // @debug
+
+    debug.gui.add(mesh.material.uniforms.u_amount, "value", 0, 1, 0.01).name("Amount");
+    this.renderManager = new $utils_RenderManager__WEBPACK_IMPORTED_MODULE_2__["default"](document.querySelector("#canvas"));
+    this.renderManager.scene.add(mesh);
+    this.renderManager.start(); // @event
+
+    this.renderManager.addEventListener("update", function (params) {
+      mesh.material.uniformsNeedUpdate = true;
+      mesh.material.uniforms.u_time.value = params.time;
+      debug.update();
+    });
+    this.renderManager.canvas.addEventListener("mousemove", function (e) {
+      mesh.material.uniforms.u_mouse.value.x = e.offsetX;
+      mesh.material.uniforms.u_mouse.value.y = e.offsetY;
+    });
+  }
+
+  return Day;
+}();
+
+
+
+/***/ }),
+
+/***/ "./src/assets/js/scripts/days/Day025.js":
+/*!**********************************************!*\
+  !*** ./src/assets/js/scripts/days/Day025.js ***!
+  \**********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Day; });
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! three */ "./node_modules/three/build/three.module.js");
+/* harmony import */ var gsap__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! gsap */ "./node_modules/gsap/index.js");
+/* harmony import */ var $utils_RenderManager__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! $utils/RenderManager */ "./src/assets/js/scripts/utils/RenderManager.js");
+/* harmony import */ var $utils_ShaderPlaneMesh__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! $utils/ShaderPlaneMesh */ "./src/assets/js/scripts/utils/ShaderPlaneMesh.js");
+/* harmony import */ var $utils_Debug__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! $utils/Debug */ "./src/assets/js/scripts/utils/Debug.js");
+/* harmony import */ var $shader_days_day025_frag__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! $shader/days/day025.frag */ "./src/assets/shader/days/day025.frag");
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+
+
+
+
+
+
+
+
+var Day =
+/*#__PURE__*/
+function () {
+  _createClass(Day, null, [{
+    key: "title",
+    value: function title() {
+      return "Morphing2";
+    }
+  }]);
+
+  function Day() {
+    _classCallCheck(this, Day);
+
+    var debug = new $utils_Debug__WEBPACK_IMPORTED_MODULE_4__["default"]();
+    var map1 = three__WEBPACK_IMPORTED_MODULE_0__["ImageUtils"].loadTexture("./assets/img/img04.jpg");
+    map1.magFilter = map1.minFilter = three__WEBPACK_IMPORTED_MODULE_0__["LinearFilter"];
+    var params = {
+      color1: [244, 41, 136],
+      color2: [251, 240, 122]
+    };
+
+    function normColor(color) {
+      return new three__WEBPACK_IMPORTED_MODULE_0__["Vector3"](color[0] / 255, color[1] / 255, color[2] / 255);
+    }
+
+    var mesh = new $utils_ShaderPlaneMesh__WEBPACK_IMPORTED_MODULE_3__["default"](null, {
+      fragmentShader: $shader_days_day025_frag__WEBPACK_IMPORTED_MODULE_5__["default"],
       uniforms: {
         u_map1: {
           type: "t",
@@ -18730,79 +18909,87 @@ function () {
 /*!*********************************************!*\
   !*** ./src/assets/js/scripts/days/index.js ***!
   \*********************************************/
-/*! exports provided: Day023, Day022, Day021, Day020, Day019, Day018, Day017, Day016, Day015, Day014, Day013, Day012, Day011, Day010, Day009, Day008, Day007, Day006, Day005, Day004, Day003, Day002, Day001 */
+/*! exports provided: Day025, Day024, Day023, Day022, Day021, Day020, Day019, Day018, Day017, Day016, Day015, Day014, Day013, Day012, Day011, Day010, Day009, Day008, Day007, Day006, Day005, Day004, Day003, Day002, Day001 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _Day023__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Day023 */ "./src/assets/js/scripts/days/Day023.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day023", function() { return _Day023__WEBPACK_IMPORTED_MODULE_0__["default"]; });
+/* harmony import */ var _Day025__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Day025 */ "./src/assets/js/scripts/days/Day025.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day025", function() { return _Day025__WEBPACK_IMPORTED_MODULE_0__["default"]; });
 
-/* harmony import */ var _Day022__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Day022 */ "./src/assets/js/scripts/days/Day022.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day022", function() { return _Day022__WEBPACK_IMPORTED_MODULE_1__["default"]; });
+/* harmony import */ var _Day024__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Day024 */ "./src/assets/js/scripts/days/Day024.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day024", function() { return _Day024__WEBPACK_IMPORTED_MODULE_1__["default"]; });
 
-/* harmony import */ var _Day021__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Day021 */ "./src/assets/js/scripts/days/Day021.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day021", function() { return _Day021__WEBPACK_IMPORTED_MODULE_2__["default"]; });
+/* harmony import */ var _Day023__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Day023 */ "./src/assets/js/scripts/days/Day023.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day023", function() { return _Day023__WEBPACK_IMPORTED_MODULE_2__["default"]; });
 
-/* harmony import */ var _Day020__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Day020 */ "./src/assets/js/scripts/days/Day020.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day020", function() { return _Day020__WEBPACK_IMPORTED_MODULE_3__["default"]; });
+/* harmony import */ var _Day022__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Day022 */ "./src/assets/js/scripts/days/Day022.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day022", function() { return _Day022__WEBPACK_IMPORTED_MODULE_3__["default"]; });
 
-/* harmony import */ var _Day019__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Day019 */ "./src/assets/js/scripts/days/Day019.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day019", function() { return _Day019__WEBPACK_IMPORTED_MODULE_4__["default"]; });
+/* harmony import */ var _Day021__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Day021 */ "./src/assets/js/scripts/days/Day021.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day021", function() { return _Day021__WEBPACK_IMPORTED_MODULE_4__["default"]; });
 
-/* harmony import */ var _Day018__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Day018 */ "./src/assets/js/scripts/days/Day018.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day018", function() { return _Day018__WEBPACK_IMPORTED_MODULE_5__["default"]; });
+/* harmony import */ var _Day020__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Day020 */ "./src/assets/js/scripts/days/Day020.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day020", function() { return _Day020__WEBPACK_IMPORTED_MODULE_5__["default"]; });
 
-/* harmony import */ var _Day017__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Day017 */ "./src/assets/js/scripts/days/Day017.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day017", function() { return _Day017__WEBPACK_IMPORTED_MODULE_6__["default"]; });
+/* harmony import */ var _Day019__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Day019 */ "./src/assets/js/scripts/days/Day019.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day019", function() { return _Day019__WEBPACK_IMPORTED_MODULE_6__["default"]; });
 
-/* harmony import */ var _Day016__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Day016 */ "./src/assets/js/scripts/days/Day016.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day016", function() { return _Day016__WEBPACK_IMPORTED_MODULE_7__["default"]; });
+/* harmony import */ var _Day018__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Day018 */ "./src/assets/js/scripts/days/Day018.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day018", function() { return _Day018__WEBPACK_IMPORTED_MODULE_7__["default"]; });
 
-/* harmony import */ var _Day015__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./Day015 */ "./src/assets/js/scripts/days/Day015.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day015", function() { return _Day015__WEBPACK_IMPORTED_MODULE_8__["default"]; });
+/* harmony import */ var _Day017__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./Day017 */ "./src/assets/js/scripts/days/Day017.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day017", function() { return _Day017__WEBPACK_IMPORTED_MODULE_8__["default"]; });
 
-/* harmony import */ var _Day014__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./Day014 */ "./src/assets/js/scripts/days/Day014.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day014", function() { return _Day014__WEBPACK_IMPORTED_MODULE_9__["default"]; });
+/* harmony import */ var _Day016__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./Day016 */ "./src/assets/js/scripts/days/Day016.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day016", function() { return _Day016__WEBPACK_IMPORTED_MODULE_9__["default"]; });
 
-/* harmony import */ var _Day013__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./Day013 */ "./src/assets/js/scripts/days/Day013.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day013", function() { return _Day013__WEBPACK_IMPORTED_MODULE_10__["default"]; });
+/* harmony import */ var _Day015__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./Day015 */ "./src/assets/js/scripts/days/Day015.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day015", function() { return _Day015__WEBPACK_IMPORTED_MODULE_10__["default"]; });
 
-/* harmony import */ var _Day012__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./Day012 */ "./src/assets/js/scripts/days/Day012.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day012", function() { return _Day012__WEBPACK_IMPORTED_MODULE_11__["default"]; });
+/* harmony import */ var _Day014__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./Day014 */ "./src/assets/js/scripts/days/Day014.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day014", function() { return _Day014__WEBPACK_IMPORTED_MODULE_11__["default"]; });
 
-/* harmony import */ var _Day011__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./Day011 */ "./src/assets/js/scripts/days/Day011.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day011", function() { return _Day011__WEBPACK_IMPORTED_MODULE_12__["default"]; });
+/* harmony import */ var _Day013__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./Day013 */ "./src/assets/js/scripts/days/Day013.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day013", function() { return _Day013__WEBPACK_IMPORTED_MODULE_12__["default"]; });
 
-/* harmony import */ var _Day010__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./Day010 */ "./src/assets/js/scripts/days/Day010.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day010", function() { return _Day010__WEBPACK_IMPORTED_MODULE_13__["default"]; });
+/* harmony import */ var _Day012__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./Day012 */ "./src/assets/js/scripts/days/Day012.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day012", function() { return _Day012__WEBPACK_IMPORTED_MODULE_13__["default"]; });
 
-/* harmony import */ var _Day009__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./Day009 */ "./src/assets/js/scripts/days/Day009.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day009", function() { return _Day009__WEBPACK_IMPORTED_MODULE_14__["default"]; });
+/* harmony import */ var _Day011__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./Day011 */ "./src/assets/js/scripts/days/Day011.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day011", function() { return _Day011__WEBPACK_IMPORTED_MODULE_14__["default"]; });
 
-/* harmony import */ var _Day008__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./Day008 */ "./src/assets/js/scripts/days/Day008.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day008", function() { return _Day008__WEBPACK_IMPORTED_MODULE_15__["default"]; });
+/* harmony import */ var _Day010__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./Day010 */ "./src/assets/js/scripts/days/Day010.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day010", function() { return _Day010__WEBPACK_IMPORTED_MODULE_15__["default"]; });
 
-/* harmony import */ var _Day007__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./Day007 */ "./src/assets/js/scripts/days/Day007.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day007", function() { return _Day007__WEBPACK_IMPORTED_MODULE_16__["default"]; });
+/* harmony import */ var _Day009__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./Day009 */ "./src/assets/js/scripts/days/Day009.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day009", function() { return _Day009__WEBPACK_IMPORTED_MODULE_16__["default"]; });
 
-/* harmony import */ var _Day006__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./Day006 */ "./src/assets/js/scripts/days/Day006.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day006", function() { return _Day006__WEBPACK_IMPORTED_MODULE_17__["default"]; });
+/* harmony import */ var _Day008__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./Day008 */ "./src/assets/js/scripts/days/Day008.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day008", function() { return _Day008__WEBPACK_IMPORTED_MODULE_17__["default"]; });
 
-/* harmony import */ var _Day005__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./Day005 */ "./src/assets/js/scripts/days/Day005.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day005", function() { return _Day005__WEBPACK_IMPORTED_MODULE_18__["default"]; });
+/* harmony import */ var _Day007__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./Day007 */ "./src/assets/js/scripts/days/Day007.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day007", function() { return _Day007__WEBPACK_IMPORTED_MODULE_18__["default"]; });
 
-/* harmony import */ var _Day004__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./Day004 */ "./src/assets/js/scripts/days/Day004.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day004", function() { return _Day004__WEBPACK_IMPORTED_MODULE_19__["default"]; });
+/* harmony import */ var _Day006__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./Day006 */ "./src/assets/js/scripts/days/Day006.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day006", function() { return _Day006__WEBPACK_IMPORTED_MODULE_19__["default"]; });
 
-/* harmony import */ var _Day003__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./Day003 */ "./src/assets/js/scripts/days/Day003.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day003", function() { return _Day003__WEBPACK_IMPORTED_MODULE_20__["default"]; });
+/* harmony import */ var _Day005__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./Day005 */ "./src/assets/js/scripts/days/Day005.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day005", function() { return _Day005__WEBPACK_IMPORTED_MODULE_20__["default"]; });
 
-/* harmony import */ var _Day002__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./Day002 */ "./src/assets/js/scripts/days/Day002.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day002", function() { return _Day002__WEBPACK_IMPORTED_MODULE_21__["default"]; });
+/* harmony import */ var _Day004__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./Day004 */ "./src/assets/js/scripts/days/Day004.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day004", function() { return _Day004__WEBPACK_IMPORTED_MODULE_21__["default"]; });
 
-/* harmony import */ var _Day001__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./Day001 */ "./src/assets/js/scripts/days/Day001.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day001", function() { return _Day001__WEBPACK_IMPORTED_MODULE_22__["default"]; });
+/* harmony import */ var _Day003__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./Day003 */ "./src/assets/js/scripts/days/Day003.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day003", function() { return _Day003__WEBPACK_IMPORTED_MODULE_22__["default"]; });
+
+/* harmony import */ var _Day002__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./Day002 */ "./src/assets/js/scripts/days/Day002.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day002", function() { return _Day002__WEBPACK_IMPORTED_MODULE_23__["default"]; });
+
+/* harmony import */ var _Day001__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./Day001 */ "./src/assets/js/scripts/days/Day001.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Day001", function() { return _Day001__WEBPACK_IMPORTED_MODULE_24__["default"]; });
+
+
 
 
 
@@ -19481,7 +19668,33 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("// precision highp float;\nprecision mediump float;\n#define GLSLIFY 1\n\nuniform vec2 u_resolution;\nuniform float u_time;\nuniform vec2 u_mouse;\n\nuniform sampler2D u_map1;\nuniform float u_amount;\nuniform vec3 u_color1;\nuniform vec3 u_color2;\n\nvarying vec2 vUv;\n\n// #pragma glslify:circle=require(\"../circle.frag\")\n\nvec2 square(vec2 p){\n\treturn vec2(abs(p.x)+abs(p.y), 0.5);\n}\n\nvec2 circle(vec2 p){\n\treturn vec2(length(p), .5);\n}\n\nvoid main(){\n\t// vec4 color=vec4(0.1647, 0.3843, 0.4549, 1.0);\n\t// vec2 st = gl_FragCoord.xy/u_resolution.xy;\n\tvec2 p=(gl_FragCoord.xy*2.-u_resolution)/min(u_resolution.x,u_resolution.y);\n\n\tfloat a=sin(u_time*5.)*.5+.5;\n\tvec2 d=mix(circle(p), square(p),a);\n\n\tvec3 color=mix(vec3(1.),vec3(0.), step(d.x, d.y));\n\n\tgl_FragColor = vec4(color,1.);\n}\n");
+/* harmony default export */ __webpack_exports__["default"] = ("// precision highp float;\nprecision mediump float;\n#define GLSLIFY 1\n\nuniform vec2 u_resolution;\nuniform float u_time;\nuniform vec2 u_mouse;\n\nuniform sampler2D u_map1;\nvarying vec2 vUv;\n\n// #pragma glslify:circle=require(\"../circle.frag\")\n\nvec2 square(vec2 p){\n\treturn vec2(abs(p.x)+abs(p.y),.5);\n}\n\nvec2 circle(vec2 p){\n\treturn vec2(length(p),.5);\n}\n\nvoid main(){\n\t// vec4 color=vec4(0.1647, 0.3843, 0.4549, 1.0);\n\t// vec2 st = gl_FragCoord.xy/u_resolution.xy;\n\tvec2 p=(gl_FragCoord.xy*2.-u_resolution)/min(u_resolution.x,u_resolution.y);\n\n\tfloat a=sin(u_time*5.)*.5+.5;\n\tvec2 d=mix(circle(p),square(p),a);\n\n\tvec3 color=mix(vec3(1.),vec3(0.),step(d.x,d.y));\n\n\tgl_FragColor=vec4(color,1.);\n}\n");
+
+/***/ }),
+
+/***/ "./src/assets/shader/days/day024.frag":
+/*!********************************************!*\
+  !*** ./src/assets/shader/days/day024.frag ***!
+  \********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ("// precision highp float;\nprecision mediump float;\n#define GLSLIFY 1\n\nuniform vec2 u_resolution;\nuniform float u_time;\nuniform vec2 u_mouse;\n\nuniform sampler2D u_map1;\n\nvarying vec2 vUv;\n\nvec2 square(vec2 p){\n\treturn vec2(abs(p.x)+abs(p.y),.5);\n}\n\nvec2 circle(vec2 p){\n\treturn vec2(length(p),.5);\n}\n\nvec2 heart(vec2 st){\n\tst=(st)*vec2(2.1, 2.8);\n\treturn vec2(\n\t\tpow(st.x, 2.)+pow(st.y-sqrt(abs(st.x)),2.),\n\t\t1.\n\t);\n}\n\n// 距離関数の補間 ( x = 距離, y = 閾値 )\nvec2 morphing(vec2 p){\n\tfloat t=u_time*2.5;\n\n\t// 距離関数のペア// loop[0, 1, 2]\n\tint pair=int(floor(mod(t,3.)));\n\n\t// 補間値\n\tfloat a=smoothstep(.2,.8,mod(t,1.));\n\n\tif(pair==0)return mix(heart(p),circle(p),a);\n\tif(pair==1)return mix(circle(p),square(p),a);\n\telse return mix(square(p),heart(p),a);\n}\n\nvoid main(){\n\t// vec4 color=vec4(0.1647, 0.3843, 0.4549, 1.0);\n\t// vec2 st = gl_FragCoord.xy/u_resolution.xy;\n\tvec2 p=(gl_FragCoord.xy*2.-u_resolution)/min(u_resolution.x,u_resolution.y);\n\n\tvec2 d=morphing(p);\n\tvec3 color=mix(vec3(1.),vec3(0.),step(d.x,d.y));\n\n\tgl_FragColor=vec4(color,1.);\n}\n");
+
+/***/ }),
+
+/***/ "./src/assets/shader/days/day025.frag":
+/*!********************************************!*\
+  !*** ./src/assets/shader/days/day025.frag ***!
+  \********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ("// precision highp float;\nprecision mediump float;\n#define GLSLIFY 1\n\nuniform vec2 u_resolution;\nuniform float u_time;\nuniform vec2 u_mouse;\n\nuniform sampler2D u_map1;\n\nvarying vec2 vUv;\n\nvoid main(){\n\t// vec4 color=vec4(0.1647, 0.3843, 0.4549, 1.0);\n\t// vec2 st = gl_FragCoord.xy/u_resolution.xy;\n\tvec2 p=(gl_FragCoord.xy*2.-u_resolution)/min(u_resolution.x,u_resolution.y);\n\n\tvec2 axis=1.-smoothstep(.01,.02,abs(p));\n\tvec2 color=mix(p,vec2(1.),axis.x+axis.y);\n\tgl_FragColor=vec4(color,1.,1.);\n}\n");
 
 /***/ })
 

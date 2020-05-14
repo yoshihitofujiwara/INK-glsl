@@ -7,10 +7,10 @@ import dayFrag from "$shader/days/day025.frag";
 
 import { LinearFilter, Vector3 } from "three";
 
-
+// https://docs.google.com/presentation/d/12RrqyAkFanKmfL96ZHvhDCozE-_rKFPlU1YVwej4_bc/edit#slide=id.g40face9ee1_4_153
 export default class Day{
   static title(){
-    return "Morphing2";
+    return "Folding";
   }
 
   constructor(){

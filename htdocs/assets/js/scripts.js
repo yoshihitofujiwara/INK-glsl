@@ -18833,7 +18833,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 
 
-
+ // https://docs.google.com/presentation/d/12RrqyAkFanKmfL96ZHvhDCozE-_rKFPlU1YVwej4_bc/edit#slide=id.g40face9ee1_4_153
 
 var Day =
 /*#__PURE__*/
@@ -18841,7 +18841,7 @@ function () {
   _createClass(Day, null, [{
     key: "title",
     value: function title() {
-      return "Morphing2";
+      return "Folding";
     }
   }]);
 
@@ -19421,7 +19421,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("// precision highp float;\nprecision mediump float;\n#define GLSLIFY 1\n\nuniform vec2 u_resolution;\nuniform float u_time;\nuniform vec2 u_mouse;\nuniform float u_tile;\n\nvarying vec2 vUv;\n\nfloat PI2_1 = 6.283185307179586;\nfloat antialias_1 = .005;\n\nvec4 polygon(vec2 position, vec2 offset, int vert, float radius, vec4 color){\n\tvec2 p = offset-position;\n\tfloat a=atan(p.x, p.y);\n\tfloat b=PI2_1/float(vert);\n\n\tfloat amount = smoothstep(\n\t\tradius,\n\t\tradius + antialias_1,\n\t\tcos(floor(.5 + a/b) * b - a) * length(p.xy)\n\t);\n\n\treturn color * vec4(1.0 - amount);\n}\n\nfloat PI2_0 = 6.283185307179586;\nfloat antialias_0 = .005;\n\nbool inPolygon(vec2 position, vec2 offset, int vert, float radius){\n\tvec2 p = offset-position;\n\tfloat a=atan(p.x, p.y);\n\tfloat b=PI2_0/float(vert);\n\n\tfloat amount = smoothstep(\n\t\tradius,\n\t\tradius + antialias_0,\n\t\tcos(floor(.5 + a/b) * b - a) * length(p.xy)\n\t);\n\n\tif(amount == 0.0){\n\t\treturn true;\n\t}\n\treturn false;\n}\n\n// SEE: https://thndl.com/square-shaped-shaders.html\n\nvoid main(){\n\tvec4 color=vec4(.3804,.7647,.8784,1.);\n\tvec2 st=gl_FragCoord.xy/u_resolution.xy;\n\tst *= vec2(u_tile);\n\tst = fract(st);\n\n\tvec2 offset = vec2(.5);\n\n\t// polygon\n\tgl_FragColor = polygon(st, offset, 6, 0.3, color);\n}\n");
+/* harmony default export */ __webpack_exports__["default"] = ("// precision highp float;\nprecision mediump float;\n#define GLSLIFY 1\n\nuniform vec2 u_resolution;\nuniform float u_time;\nuniform vec2 u_mouse;\nuniform float u_tile;\n\nvarying vec2 vUv;\n\nfloat PI2_0 = 6.283185307179586;\nfloat antialias_0 = .005;\n\nvec4 polygon(vec2 position, vec2 offset, int vert, float radius, vec4 color){\n\tvec2 p = offset-position;\n\tfloat a=atan(p.x, p.y);\n\tfloat b=PI2_0/float(vert);\n\n\tfloat amount = smoothstep(\n\t\tradius,\n\t\tradius + antialias_0,\n\t\tcos(floor(.5 + a/b) * b - a) * length(p.xy)\n\t);\n\n\treturn color * vec4(1.0 - amount);\n}\n\nfloat PI2_1 = 6.283185307179586;\nfloat antialias_1 = .005;\n\nbool inPolygon(vec2 position, vec2 offset, int vert, float radius){\n\tvec2 p = offset-position;\n\tfloat a=atan(p.x, p.y);\n\tfloat b=PI2_1/float(vert);\n\n\tfloat amount = smoothstep(\n\t\tradius,\n\t\tradius + antialias_1,\n\t\tcos(floor(.5 + a/b) * b - a) * length(p.xy)\n\t);\n\n\tif(amount == 0.0){\n\t\treturn true;\n\t}\n\treturn false;\n}\n\n// SEE: https://thndl.com/square-shaped-shaders.html\n\nvoid main(){\n\tvec4 color=vec4(.3804,.7647,.8784,1.);\n\tvec2 st=gl_FragCoord.xy/u_resolution.xy;\n\tst *= vec2(u_tile);\n\tst = fract(st);\n\n\tvec2 offset = vec2(.5);\n\n\t// polygon\n\tgl_FragColor = polygon(st, offset, 6, 0.3, color);\n}\n");
 
 /***/ }),
 
@@ -19694,7 +19694,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("// precision highp float;\nprecision mediump float;\n#define GLSLIFY 1\n\nuniform vec2 u_resolution;\nuniform float u_time;\nuniform vec2 u_mouse;\n\nuniform sampler2D u_map1;\n\nvarying vec2 vUv;\n\nvoid main(){\n\t// vec4 color=vec4(0.1647, 0.3843, 0.4549, 1.0);\n\t// vec2 st = gl_FragCoord.xy/u_resolution.xy;\n\tvec2 p=(gl_FragCoord.xy*2.-u_resolution)/min(u_resolution.x,u_resolution.y);\n\n\tvec2 axis=1.-smoothstep(.01,.02,abs(p));\n\tvec2 color=mix(p,vec2(1.),axis.x+axis.y);\n\tgl_FragColor=vec4(color,1.,1.);\n}\n");
+/* harmony default export */ __webpack_exports__["default"] = ("// precision highp float;\nprecision mediump float;\n#define GLSLIFY 1\n\nuniform vec2 u_resolution;\nuniform float u_time;\nuniform vec2 u_mouse;\n\nuniform sampler2D u_map1;\n\nvarying vec2 vUv;\n\nvoid main(){\n\t// vec4 color=vec4(0.1647, 0.3843, 0.4549, 1.0);\n\t// vec2 st = gl_FragCoord.xy/u_resolution.xy;\n\tvec2 p=(gl_FragCoord.xy*2.-u_resolution)/min(u_resolution.x,u_resolution.y);\n\n\t// p = abs(p);\n\n\tp = abs(p * 2.) - 1.0;\n\tfloat c = cos(u_time), s = sin(u_time);\n\tp *= mat2(c, s, -s, c);\n\n   vec2 axis = 1.0 - smoothstep(0.01, 0.02, abs(p));\n   vec2 color = mix(p, vec2(1), axis.x + axis.y);\n\n\t// vec2 color=p;\n\n\t// vec2 axis = 1.-smoothstep(.01,.02,abs(p));\n\t// vec2 color= mix(p, vec2(1.), axis.x+axis.y);\n\n\tgl_FragColor = vec4(color, 1.0, 1.0);\n}\n");
 
 /***/ })
 

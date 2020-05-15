@@ -1,3 +1,4 @@
+export { default as Day026 } from "./Day026";
 export { default as Day025 } from "./Day025";
 export { default as Day024 } from "./Day024";
 export { default as Day023 } from "./Day023";
